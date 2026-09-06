@@ -20,6 +20,14 @@ Sin backend, sin dependencias, sin persistencia. Todos los datos están escritos
 
 Triple toque sobre la barra de estado (la hora "9:41") reinicia el prototipo a la pantalla 1.
 
+## Sistema visual
+
+Adaptado del sitio corporativo de Pacífico Seguros (pacifico.com.pe):
+
+- Tipografía: Pacífico usa "Foco" (licenciada). Aquí se usa Nunito (Google Fonts), la más cercana por sus formas redondeadas, con Foco y Roboto de respaldo. Si no hay internet, el prototipo sigue funcionando con la fuente del sistema.
+- Colores: celeste `#0099CC`, azul `#0075B0`, teal de títulos `#005C7A`, texto `#2F373C` / `#727C81`, fondos `#F2F3F3` y `#E8F9FF`, bordes `#DEE2E6`, verde `#00AF3F`, ámbar `#E09A2B`.
+- Formas: botones píldora con degradado azul-celeste, tarjetas de 16 px con sombra teñida de celeste, íconos de trazo fino en celeste.
+
 ## Marco
 
 Teléfono de 390 × 844 px (barra de estado 47 px · contenido 763 px · indicador de inicio 34 px).
