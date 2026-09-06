@@ -63,6 +63,8 @@
   /* Barra superior: marca · título · avatar */
   .topbar{display:flex;align-items:center;justify-content:space-between;height:40px;margin-bottom:14px;}
   .brandmark{width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+  .navback{width:40px;height:40px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+  .navback:active{background:#F7FAFD;}
   .apptitle{font-size:17px;font-weight:800;color:var(--teal);letter-spacing:1.5px;}
   .avatar{width:40px;height:40px;border-radius:50%;background:var(--p-cyan-bg);color:var(--p-cyan-fg);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;letter-spacing:.3px;}
 
@@ -97,13 +99,13 @@
   .check svg{width:28px;height:28px;}
 
   /* ---------- Pantalla 1 ---------- */
-  .hero{display:flex;gap:12px;margin-top:16px;}
-  .ringcard{width:174px;height:182px;flex:none;background:var(--surface);border-radius:24px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;position:relative;}
-  .ring{width:150px;height:150px;position:relative;}
-  .ring svg{width:150px;height:150px;transform:rotate(-90deg);}
+  .hero{display:flex;gap:12px;margin-top:18px;}
+  .ringcard{width:180px;height:204px;flex:none;background:var(--surface);border-radius:24px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;position:relative;}
+  .ring{width:160px;height:160px;position:relative;}
+  .ring svg{width:160px;height:160px;transform:rotate(-90deg);}
   .ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
   .ring .in .l{font-size:13px;line-height:15px;color:var(--muted);font-weight:700;}
-  .ring .in .v{font-size:22px;line-height:26px;font-weight:800;color:var(--amber);letter-spacing:-.4px;margin:2px 0;}
+  .ring .in .v{font-size:24px;line-height:28px;font-weight:800;color:var(--amber);letter-spacing:-.4px;margin:2px 0;}
   .ring .badge{position:absolute;top:8px;right:-6px;background:var(--p-amber-bg);color:var(--p-amber-fg);font-size:13px;font-weight:800;padding:4px 9px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);}
   .pills{display:flex;flex-direction:column;gap:7px;flex:1;}
   .pill{flex:1;border-radius:20px;padding:8px 12px 8px 10px;display:flex;align-items:center;gap:10px;}
@@ -115,17 +117,17 @@
   .p-cyan{background:var(--p-cyan-bg);color:var(--p-cyan-fg);}
   .p-green{background:var(--p-green-bg);color:var(--p-green-fg);}
 
-  .week{margin-top:12px;padding:16px 18px 14px;}
+  .week{margin-top:14px;padding:18px 18px 16px;}
   .week .hd{display:flex;align-items:center;justify-content:space-between;}
   .week .hd .tot{font-size:15px;font-weight:800;color:var(--teal);}
-  .bars{display:flex;justify-content:space-between;align-items:flex-end;height:74px;margin-top:14px;padding:0 2px;}
+  .bars{display:flex;justify-content:space-between;align-items:flex-end;height:96px;margin-top:16px;padding:0 2px;}
   .bar{width:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
   .bar i{display:block;width:100%;border-radius:8px;background:var(--p-cyan-bg);position:relative;overflow:hidden;height:100%;}
   .bar i b{position:absolute;left:0;right:0;bottom:0;background:var(--cyan);border-radius:8px;}
   .bar.late i::after{content:'';position:absolute;left:50%;top:6px;width:8px;height:8px;border-radius:50%;background:var(--amber);transform:translateX(-50%);}
   .days7{display:flex;justify-content:space-between;margin-top:8px;padding:0 2px;}
   .days7 span{width:26px;text-align:center;font-size:13px;font-weight:700;color:var(--muted);}
-  .legend{display:flex;gap:14px;margin-top:10px;}
+  .legend{display:flex;gap:14px;margin-top:12px;}
   .legend span{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;}
   .legend i{width:10px;height:10px;border-radius:3px;display:block;flex:none;}
 
@@ -228,9 +230,9 @@
       <div class="hero">
         <div class="ringcard">
           <div class="ring">
-            <svg viewBox="0 0 150 150">
-              <circle cx="75" cy="75" r="64" fill="none" stroke="#EEF2F7" stroke-width="14"/>
-              <circle cx="75" cy="75" r="64" fill="none" stroke="#E09A2B" stroke-width="14" stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="112"/>
+            <svg viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="68" fill="none" stroke="#EEF2F7" stroke-width="15"/>
+              <circle cx="80" cy="80" r="68" fill="none" stroke="#E09A2B" stroke-width="15" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="119"/>
             </svg>
             <div class="in">
               <div class="l">Tu ritmo</div>
@@ -274,7 +276,7 @@
         <div class="legend"><span><i style="background:#0099CC"></i>Horas por día</span><span><i style="background:#E09A2B;border-radius:50%"></i>Actividad después de las 11 pm</span></div>
       </div>
 
-      <p class="small" style="margin:14px 4px 0;text-align:center">Medimos tu patrón de trabajo, no tu salud.</p>
+      <p class="small" style="margin:18px 4px 0;text-align:center">Medimos tu patrón de trabajo, no tu salud.</p>
 
       <button class="btn btn-fixed" data-go="s3">Pedir ayuda</button>
 
@@ -294,7 +296,7 @@
     <!-- PANTALLA 3 · Pedir ayuda -->
     <section class="screen" id="s3">
       <div class="topbar">
-        <div class="brandmark"><svg width="24" height="16" viewBox="0 0 26 18" fill="none"><path d="M1 12c4-8 8-8 12 0s8 8 12 0" stroke="#0099CC" stroke-width="3" stroke-linecap="round"/><path d="M1 17c4-8 8-8 12 0s8 8 12 0" stroke="#0075B0" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg></div>
+        <button class="navback" data-back aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#005C7A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
         <div class="apptitle">PAUSA</div>
         <div class="avatar">CR</div>
       </div>
@@ -322,7 +324,7 @@
     <!-- PANTALLA 3B · Confirmación de sesión -->
     <section class="screen center" id="s3b">
       <div class="topbar" style="width:100%">
-        <div class="brandmark"><svg width="24" height="16" viewBox="0 0 26 18" fill="none"><path d="M1 12c4-8 8-8 12 0s8 8 12 0" stroke="#0099CC" stroke-width="3" stroke-linecap="round"/><path d="M1 17c4-8 8-8 12 0s8 8 12 0" stroke="#0075B0" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg></div>
+        <button class="navback" data-back aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#005C7A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
         <div class="apptitle">PAUSA</div>
         <div class="avatar">CR</div>
       </div>
@@ -356,7 +358,7 @@
       <div id="assigned" class="assigned">
         <div class="fade-in center" id="assignedInner" style="width:100%;display:flex">
           <div class="topbar" style="width:100%">
-            <div class="brandmark"><svg width="24" height="16" viewBox="0 0 26 18" fill="none"><path d="M1 12c4-8 8-8 12 0s8 8 12 0" stroke="#0099CC" stroke-width="3" stroke-linecap="round"/><path d="M1 17c4-8 8-8 12 0s8 8 12 0" stroke="#0075B0" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg></div>
+            <button class="navback" data-back aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#005C7A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
             <div class="apptitle">PAUSA</div>
             <div class="avatar">CR</div>
           </div>
@@ -384,7 +386,7 @@
     <!-- PANTALLA 5 · Tu certificado -->
     <section class="screen" id="s5">
       <div class="topbar">
-        <div class="brandmark"><svg width="24" height="16" viewBox="0 0 26 18" fill="none"><path d="M1 12c4-8 8-8 12 0s8 8 12 0" stroke="#0099CC" stroke-width="3" stroke-linecap="round"/><path d="M1 17c4-8 8-8 12 0s8 8 12 0" stroke="#0075B0" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg></div>
+        <button class="navback" data-back aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#005C7A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
         <div class="apptitle">PAUSA</div>
         <div class="avatar">CR</div>
       </div>
@@ -436,7 +438,7 @@
       <!-- Fase B -->
       <div class="phase hidden gone" id="phaseB">
         <div class="topbar">
-          <div class="brandmark"><svg width="24" height="16" viewBox="0 0 26 18" fill="none"><path d="M1 12c4-8 8-8 12 0s8 8 12 0" stroke="#0099CC" stroke-width="3" stroke-linecap="round"/><path d="M1 17c4-8 8-8 12 0s8 8 12 0" stroke="#0075B0" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg></div>
+          <button class="navback" data-back aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#005C7A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
           <div class="apptitle">PAUSA</div>
           <div class="avatar">CR</div>
         </div>
@@ -501,22 +503,40 @@
   fit();
 
   /* ---------- Estado en memoria ---------- */
-  var state = { days: 5, alertNever: false };
+  var state = { days: 5, alertNever: false, alertSeen: false, assigned: false };
+  var navStack = ['s1'];
   var timers = [];
   function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
   function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
 
   /* ---------- Navegación ---------- */
-  function show(id){
+  function show(id, opts){
+    opts = opts || {};
     clearTimers();
     $$('.screen').forEach(function(s){ s.classList.remove('on'); });
     $('#' + id).classList.add('on');
     if (id === 's1')  enterS1();
-    if (id === 's4')  enterS4();
+    if (id === 's4')  enterS4(opts.back);
     if (id === 's6')  enterS6();
+    if (!opts.back){
+      navStack.push(id);
+      try { history.pushState({ id: id }, ''); } catch(e){}
+    }
   }
+  function goBack(){
+    if (navStack.length < 2) return;
+    navStack.pop();
+    show(navStack[navStack.length - 1], { back: true });
+  }
+  // Gesto o botón "atrás" del navegador del celular
+  window.addEventListener('popstate', function(){
+    if (navStack.length < 2){ try { history.pushState({ id: navStack[0] }, ''); } catch(e){} return; }
+    goBack();
+  });
 
   document.addEventListener('click', function(e){
+    if (e.target.closest('[data-back]')){ goBack(); return; }
+
     var go = e.target.closest('[data-go]');
     if (go){ show(go.getAttribute('data-go')); return; }
 
@@ -540,11 +560,12 @@
   var alertEl = $('#alert');
   function enterS1(){
     hideAlert(true);
-    if (!state.alertNever){
+    if (!state.alertNever && !state.alertSeen){
       later(showAlert, 3000);
     }
   }
   function showAlert(){
+    state.alertSeen = true;
     alertEl.classList.add('on');
     setTimeout(function(){ alertEl.classList.add('show'); }, 30);
   }
@@ -556,11 +577,17 @@
 
   /* ---------- Pantalla 4 ---------- */
   var searching = $('#searching'), assigned = $('#assigned'), assignedInner = $('#assignedInner');
-  function enterS4(){
+  function enterS4(back){
+    assignedInner.classList.remove('fade-in');
+    if (back && state.assigned){            // al volver desde la 5 no se repite la búsqueda
+      searching.classList.add('hide');
+      assigned.classList.add('on');
+      return;
+    }
     searching.classList.remove('hide');
     assigned.classList.remove('on');
-    assignedInner.classList.remove('fade-in');
     later(function(){
+      state.assigned = true;
       searching.classList.add('hide');
       assigned.classList.add('on');
       void assignedInner.offsetWidth;
@@ -606,13 +633,15 @@
   });
   function reset(){
     clearTimers();
-    state.days = 5; state.alertNever = false;
+    state.days = 5; state.alertNever = false; state.alertSeen = false; state.assigned = false;
     $$('.day').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-days') === '5'); });
-    show('s1');
+    navStack = ['s1'];
+    show('s1', { back: true });
   }
 
   /* ---------- Arranque ---------- */
-  show('s1');
+  try { history.replaceState({ id: 's1' }, ''); } catch(e){}
+  show('s1', { back: true });
 })();
 </script>
 </body>

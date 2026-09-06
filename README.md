@@ -16,6 +16,11 @@ Sin backend, sin dependencias, sin persistencia. Todos los datos están escritos
 4. **Certificado** → selector de días (3 / 5 / 7, con 5 preseleccionado).
 5. **El trámite** → cuatro pasos que aparecen uno a uno, la frase final y el estado de la pausa.
 
+## Navegación
+
+Cada subpantalla tiene un botón "atrás" en la barra superior (3 → 1, 3B → 3, 4 → 3, 5 → 4 sin repetir la búsqueda, 6 → 5).
+El gesto o botón "atrás" del navegador del celular hace lo mismo. La alerta de la pantalla 1 se muestra una sola vez por sesión.
+
 ## Reset oculto
 
 Triple toque sobre la barra de estado (la hora "9:41") reinicia el prototipo a la pantalla 1.
