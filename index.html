@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#E8E8E6">
+<title>PAUSA</title>
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --card:#F7F7F5;
+    --blue:#1B2A4A;
+    --text:#1A1A1A;
+    --muted:#6B6B6B;
+    --green:#2E7D5B;
+    --amber:#C08A2E;
+    --border:#E3E3E0;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0;height:100%;
+    background:#E8E8E6;
+    font-family:-apple-system,"Segoe UI",Roboto,sans-serif;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+    touch-action:manipulation;
+    user-select:none;-webkit-user-select:none;
+  }
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;}
+
+  /* ---------- Marco del teléfono ---------- */
+  .stage{position:relative;width:390px;height:844px;flex:none;}
+  .phone{
+    position:absolute;left:0;top:0;
+    width:390px;height:844px;
+    border-radius:44px;
+    background:var(--bg);
+    box-shadow:0 34px 70px rgba(0,0,0,.20),0 6px 18px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.05);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    transform-origin:0 0;
+  }
+  .statusbar{
+    height:47px;flex:none;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 30px 0 34px;
+    font-size:15px;font-weight:600;letter-spacing:-.2px;
+    cursor:default;
+  }
+  .statusbar .icons{display:flex;align-items:center;gap:6px;}
+  .content{
+    height:763px;flex:none;position:relative;overflow:hidden;background:var(--bg);
+  }
+  .home{height:34px;flex:none;display:flex;align-items:center;justify-content:center;}
+  .home i{display:block;width:140px;height:5px;border-radius:3px;background:#1A1A1A;}
+
+  /* ---------- Pantallas ---------- */
+  .screen{
+    position:absolute;inset:0;
+    padding:28px 20px 0;
+    display:none;flex-direction:column;
+    overflow:hidden;
+  }
+  .screen.on{display:flex;}
+
+  h1{font-size:28px;line-height:34px;font-weight:700;margin:0;letter-spacing:-.4px;}
+  h2{font-size:24px;line-height:30px;font-weight:700;margin:0;letter-spacing:-.3px;}
+  .brand{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--blue);margin-bottom:8px;}
+  .muted{color:var(--muted);}
+  .small{font-size:13px;line-height:18px;color:var(--muted);}
+  .card{background:var(--card);border-radius:14px;padding:18px 20px;}
+  .divider{height:1px;background:var(--border);margin:20px 0;}
+
+  .btn{
+    display:flex;align-items:center;justify-content:center;
+    height:52px;border-radius:12px;border:0;
+    font:inherit;font-size:17px;font-weight:600;
+    background:var(--blue);color:#fff;
+    cursor:pointer;width:100%;
+    transition:opacity .12s;
+  }
+  .btn:active{opacity:.85;}
+  .btn.secondary{background:var(--card);color:var(--text);}
+  .btn.ghost{background:transparent;color:var(--muted);font-weight:500;}
+  .btn-fixed{position:absolute;left:20px;bottom:24px;width:350px;height:52px;}
+
+  /* Check verde circular */
+  .check{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--green);display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .check svg{width:28px;height:28px;}
+
+  /* ---------- Pantalla 1 ---------- */
+  .ritmo{display:flex;align-items:center;gap:18px;padding:18px 20px;}
+  .ring{width:104px;height:104px;flex:none;position:relative;}
+  .ring svg{width:104px;height:104px;transform:rotate(-90deg);}
+  .ring .dot{
+    position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:50%;
+    background:var(--amber);transform:translate(-50%,-50%);
+  }
+  .ritmo .label{font-size:14px;color:var(--muted);line-height:18px;}
+  .ritmo .estado{font-size:22px;line-height:28px;font-weight:700;color:var(--amber);margin-top:4px;}
+  .ritmo .sub{font-size:14px;line-height:19px;color:var(--muted);margin-top:6px;}
+  .metrics{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .metric{display:flex;align-items:center;gap:16px;padding:14px 20px;}
+  .metric b{font-size:30px;line-height:34px;font-weight:700;width:52px;flex:none;color:var(--blue);letter-spacing:-.5px;}
+  .metric span{font-size:15px;line-height:20px;}
+
+  /* ---------- Pantalla 2 · alerta ---------- */
+  .overlay{
+    position:absolute;inset:0;background:rgba(26,26,26,.45);
+    display:none;align-items:flex-end;padding:0 12px 16px;
+    opacity:0;transition:opacity .3s;z-index:20;
+  }
+  .overlay.on{display:flex;}
+  .overlay.show{opacity:1;}
+  .sheet{
+    background:#fff;border-radius:22px;padding:26px 22px 18px;width:100%;
+    transform:translateY(16px);transition:transform .3s;
+  }
+  .overlay.show .sheet{transform:translateY(0);}
+  .sheet .main{font-size:19px;line-height:26px;font-weight:600;}
+  .sheet .sec{font-size:16px;line-height:22px;color:var(--muted);margin:10px 0 22px;}
+  .sheet .btn + .btn{margin-top:8px;}
+
+  /* ---------- Pantalla 3 ---------- */
+  .routes{display:flex;flex-direction:column;gap:14px;flex:1;margin-top:22px;margin-bottom:68px;}
+  .route{
+    flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding:24px;border-radius:14px;background:var(--card);
+    border:1.5px solid var(--border);cursor:pointer;
+  }
+  .route:active{background:#F0F0ED;}
+  .route .ico{width:44px;height:44px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+  .route .t{font-size:21px;line-height:27px;font-weight:700;letter-spacing:-.2px;}
+  .route .s{font-size:15px;line-height:21px;color:var(--muted);margin-top:6px;}
+  .foot{position:absolute;left:20px;right:20px;bottom:28px;text-align:center;}
+
+  /* ---------- Pantallas 3B / 4 / 5 ---------- */
+  .center{flex-direction:column;align-items:center;text-align:center;}
+  .center h2{margin-top:18px;}
+  .info{width:100%;margin-top:24px;text-align:left;}
+  .info .name{font-size:20px;line-height:26px;font-weight:700;}
+  .info .line{font-size:15px;line-height:21px;color:var(--muted);margin-top:4px;}
+  .row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:15px;line-height:20px;}
+  .row svg{flex:none;}
+  .chip{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--blue);color:#fff;font-size:13px;font-weight:600;line-height:16px;margin-left:8px;vertical-align:middle;}
+
+  .spinner{
+    width:52px;height:52px;border-radius:50%;
+    border:4px solid var(--border);border-top-color:var(--blue);
+    animation:spin .9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .assigned{position:absolute;inset:0;padding:28px 20px 0;display:none;flex-direction:column;align-items:center;text-align:center;}
+  .assigned.on{display:flex;}
+  .searching{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#fff;z-index:2;transition:opacity .35s;}
+  .searching.hide{opacity:0;pointer-events:none;}
+  .searching p{margin:0;font-size:17px;color:var(--muted);}
+  .fade-in{animation:fadein .45s ease-out both;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .kv{display:flex;flex-direction:column;gap:12px;}
+  .kv .k{font-size:13px;line-height:17px;color:var(--muted);}
+  .kv .v{font-size:16px;line-height:22px;font-weight:600;margin-top:2px;}
+  .question{font-size:20px;line-height:26px;font-weight:700;letter-spacing:-.2px;}
+  .days{display:flex;gap:16px;margin-top:16px;}
+  .day{
+    flex:1;height:60px;border-radius:12px;border:1.5px solid var(--border);background:#fff;
+    font:inherit;font-size:22px;font-weight:700;color:var(--text);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:2px;
+  }
+  .day small{font-size:13px;font-weight:500;color:var(--muted);margin-left:4px;}
+  .day.sel{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .day.sel small{color:rgba(255,255,255,.75);}
+  .hint{font-size:14px;line-height:20px;color:var(--muted);text-align:center;margin-top:16px;}
+
+  /* ---------- Pantalla 6 ---------- */
+  .phase{position:absolute;left:20px;right:20px;top:28px;bottom:0;display:flex;flex-direction:column;transition:opacity .5s;}
+  .phase.hidden{opacity:0;pointer-events:none;}
+  .phase.hidden.gone{display:none;}
+  #phaseA{justify-content:center;padding-bottom:96px;}
+  .steps{margin-top:34px;display:flex;flex-direction:column;gap:22px;}
+  .step{display:flex;align-items:center;gap:16px;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;}
+  .step.on{opacity:1;transform:none;}
+  .step .ck{width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex:none;}
+  .step .ck svg{width:16px;height:16px;}
+  .step span{font-size:17px;line-height:23px;font-weight:500;}
+  .step em{font-style:normal;color:var(--muted);font-weight:400;}
+  .closing{font-size:20px;line-height:28px;font-weight:700;color:var(--blue);opacity:0;transition:opacity .6s;letter-spacing:-.2px;}
+  .closing.on{opacity:1;}
+  .big{font-size:36px;line-height:42px;font-weight:700;color:var(--blue);letter-spacing:-.6px;margin-top:4px;}
+  .range{font-size:17px;line-height:24px;margin-top:4px;}
+  .stat{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .stat .n{font-size:30px;font-weight:700;color:var(--blue);line-height:34px;}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+<div class="phone" id="phone">
+
+  <!-- Barra de estado -->
+  <div class="statusbar" id="statusbar">
+    <span>9:41</span>
+    <span class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="#1A1A1A"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#1A1A1A"><path d="M8 9.6a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zm0-3.4c1.6 0 3 .6 4.1 1.6l-1.3 1.3A4.3 4.3 0 0 0 8 8a4.3 4.3 0 0 0-2.8 1.1L3.9 7.8A5.9 5.9 0 0 1 8 6.2zm0-3.2c2.5 0 4.8.9 6.6 2.5l-1.3 1.3A7.7 7.7 0 0 0 8 4.8a7.7 7.7 0 0 0-5.3 2L1.4 5.5A9.2 9.2 0 0 1 8 3zM8 0c3.3 0 6.3 1.2 8.6 3.3l-1.3 1.3A10.8 10.8 0 0 0 8 1.8c-2.8 0-5.4 1-7.3 2.8L-.6 3.3C1.7 1.2 4.7 0 8 0z" transform="translate(0 -1)"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="22" height="12" rx="3.5" fill="none" stroke="#1A1A1A" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#1A1A1A"/><path d="M24.5 4.5v4a2 2 0 0 0 0-4z" fill="#1A1A1A" fill-opacity=".4"/></svg>
+    </span>
+  </div>
+
+  <!-- Área de contenido 390 × 763 -->
+  <div class="content" id="content">
+
+    <!-- PANTALLA 1 · Tu estado -->
+    <section class="screen on" id="s1">
+      <div class="brand">PAUSA</div>
+      <h1>Hola, Camila</h1>
+
+      <div class="card ritmo" style="margin-top:22px">
+        <div class="ring">
+          <svg viewBox="0 0 104 104">
+            <circle cx="52" cy="52" r="44" fill="none" stroke="#E3E3E0" stroke-width="10"/>
+            <circle cx="52" cy="52" r="44" fill="none" stroke="#C08A2E" stroke-width="10" stroke-linecap="round"
+                    stroke-dasharray="276.5" stroke-dashoffset="83"/>
+          </svg>
+          <span class="dot"></span>
+        </div>
+        <div>
+          <div class="label">Tu ritmo esta semana</div>
+          <div class="estado">Elevado</div>
+          <div class="sub">Sostenido desde hace 11 días</div>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="card metric"><b>11</b><span>días sin desconectar más de 12 horas</span></div>
+        <div class="card metric"><b>4</b><span>noches con actividad después de las 11 pm</span></div>
+        <div class="card metric"><b>62</b><span>horas conectada esta semana</span></div>
+      </div>
+
+      <p class="small" style="margin:18px 4px 0">Medimos tu patrón de trabajo, no tu salud.</p>
+
+      <button class="btn btn-fixed" data-go="s3">Pedir ayuda</button>
+
+      <!-- PANTALLA 2 · La alerta (modal sobre la 1) -->
+      <div class="overlay" id="alert">
+        <div class="sheet">
+          <div class="main">Llevas 11 días sin desconectar más de 12 horas seguidas.</div>
+          <div class="sec">¿Quieres hablar con alguien?</div>
+          <button class="btn" data-alert="go">Agendar</button>
+          <button class="btn secondary" data-alert="later">Ahora no</button>
+          <button class="btn ghost" data-alert="never">No mostrar más</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANTALLA 3 · Pedir ayuda -->
+    <section class="screen" id="s3">
+      <h1>¿Qué necesitas?</h1>
+      <div class="routes">
+        <div class="route" data-go="s3b">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div>
+          <div class="t">Quiero hablar con alguien</div>
+          <div class="s">Sesión con un psicólogo de la red</div>
+        </div>
+        <div class="route" data-go="s4">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg></div>
+          <div class="t">Necesito parar unos días</div>
+          <div class="s">Consulta con un médico que puede darte descanso</div>
+        </div>
+      </div>
+      <p class="small foot">Ninguna de las dos avisa a tu empresa todavía.</p>
+    </section>
+
+    <!-- PANTALLA 3B · Confirmación de sesión -->
+    <section class="screen center" id="s3b">
+      <div style="height:64px"></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2>Sesión agendada</h2>
+      <div class="card info">
+        <div class="name">Lic. Andrea Torres</div>
+        <div class="line">Psicóloga · jueves 10, 6:00 pm</div>
+        <div class="row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>
+          Videollamada desde esta app
+        </div>
+      </div>
+      <button class="btn secondary btn-fixed" data-go="s3">Volver</button>
+    </section>
+
+    <!-- PANTALLA 4 · Teleconsulta -->
+    <section class="screen center" id="s4">
+      <div class="searching" id="searching">
+        <div class="spinner"></div>
+        <p>Buscando un médico disponible…</p>
+      </div>
+      <div id="assigned" class="assigned">
+        <div class="fade-in center" id="assignedInner" style="width:100%;display:flex">
+          <div style="height:64px"></div>
+          <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h2>Médico asignado</h2>
+          <div class="card info">
+            <div class="name">Dra. Elena Quispe Vargas</div>
+            <div class="line">Medicina general · CMP 042817</div>
+            <div class="row" style="display:block">
+              <span style="font-size:18px;font-weight:700">Hoy, 4:30 pm</span><span class="chip">En 3 horas</span>
+            </div>
+            <div class="row">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>
+              Videollamada desde esta app
+            </div>
+          </div>
+          <p class="small" style="margin:18px 0 0">Asignamos al médico disponible de nuestra red.</p>
+        </div>
+        <button class="btn btn-fixed" data-go="s5">Confirmar cita</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA 5 · Tu certificado -->
+    <section class="screen" id="s5">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="check" style="width:44px;height:44px"><svg style="width:22px;height:22px" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2>Certificado emitido</h2>
+      </div>
+      <div class="card kv" style="margin-top:22px">
+        <div><div class="k">Médico</div><div class="v">Dra. Elena Quispe Vargas · CMP 042817</div></div>
+        <div><div class="k">Diagnóstico</div><div class="v">F43.2 — Trastorno de adaptación</div></div>
+        <div><div class="k">Autorizado hasta</div><div class="v">7 días</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="question">¿Cuántos días necesitas?</div>
+      <div class="days" id="days">
+        <button class="day" data-days="3">3<small>días</small></button>
+        <button class="day sel" data-days="5">5<small>días</small></button>
+        <button class="day" data-days="7">7<small>días</small></button>
+      </div>
+      <p class="hint">Tomas solo los días que necesitas.<br>Nadie te pide que uses el máximo.</p>
+      <button class="btn btn-fixed" data-go="s6">Continuar</button>
+    </section>
+
+    <!-- PANTALLA 6 · El trámite -->
+    <section class="screen" id="s6" style="padding:0">
+      <!-- Fase A -->
+      <div class="phase" id="phaseA">
+        <h2>Estamos gestionando todo</h2>
+        <div class="steps">
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Certificado recibido</span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Colegiatura verificada <em>— CMP 042817</em></span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Canje iniciado ante EsSalud</span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Comunicación a tu empleador generada</span></div>
+        </div>
+        <div class="divider" style="margin:30px 0 26px"></div>
+        <div class="closing" id="closing">Tú no hiciste ninguno de estos pasos.</div>
+      </div>
+
+      <!-- Fase B -->
+      <div class="phase hidden gone" id="phaseB">
+        <div class="small" style="font-size:14px">Tu pausa</div>
+        <div class="big" id="pausaDias">5 días</div>
+        <div class="range" id="pausaRango">Del 8 al 12 de septiembre</div>
+
+        <div class="card" style="margin-top:28px">
+          <div class="k small" style="font-size:14px">Próxima sesión</div>
+          <div style="font-size:18px;line-height:24px;font-weight:700;margin-top:6px">Lic. Andrea Torres</div>
+          <div class="line muted" style="font-size:15px;line-height:20px;margin-top:2px">jueves 10, 6:00 pm</div>
+        </div>
+
+        <div class="card stat" style="margin-top:12px">
+          <div style="font-size:16px;line-height:22px;font-weight:500">Sesiones disponibles<br>este año</div>
+          <div class="n">6</div>
+        </div>
+
+        <p class="small foot">Datos simulados. Profesionales y colegiaturas son ficticios.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Indicador de inicio -->
+  <div class="home"><i></i></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+
+  /* ---------- Escalado para caber en cualquier pantalla ---------- */
+  var stage = $('#stage'), phone = $('#phone');
+  function fit(){
+    var s = Math.min(1, (window.innerWidth - 16) / 390, (window.innerHeight - 16) / 844);
+    stage.style.width  = (390 * s) + 'px';
+    stage.style.height = (844 * s) + 'px';
+    phone.style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  /* ---------- Estado en memoria ---------- */
+  var state = { days: 5, alertNever: false };
+  var timers = [];
+  function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+  /* ---------- Navegación ---------- */
+  function show(id){
+    clearTimers();
+    $$('.screen').forEach(function(s){ s.classList.remove('on'); });
+    $('#' + id).classList.add('on');
+    if (id === 's1')  enterS1();
+    if (id === 's4')  enterS4();
+    if (id === 's6')  enterS6();
+  }
+
+  document.addEventListener('click', function(e){
+    var go = e.target.closest('[data-go]');
+    if (go){ show(go.getAttribute('data-go')); return; }
+
+    var a = e.target.closest('[data-alert]');
+    if (a){
+      var k = a.getAttribute('data-alert');
+      hideAlert();
+      if (k === 'go') show('s3');
+      if (k === 'never') state.alertNever = true;
+      return;
+    }
+
+    var d = e.target.closest('[data-days]');
+    if (d){
+      state.days = parseInt(d.getAttribute('data-days'), 10);
+      $$('.day').forEach(function(b){ b.classList.toggle('sel', b === d); });
+    }
+  });
+
+  /* ---------- Pantalla 1 / 2 ---------- */
+  var alertEl = $('#alert');
+  function enterS1(){
+    hideAlert(true);
+    if (!state.alertNever){
+      later(showAlert, 3000);
+    }
+  }
+  function showAlert(){
+    alertEl.classList.add('on');
+    setTimeout(function(){ alertEl.classList.add('show'); }, 30);
+  }
+  function hideAlert(now){
+    alertEl.classList.remove('show');
+    if (now){ alertEl.classList.remove('on'); return; }
+    setTimeout(function(){ if (!alertEl.classList.contains('show')) alertEl.classList.remove('on'); }, 300);
+  }
+
+  /* ---------- Pantalla 4 ---------- */
+  var searching = $('#searching'), assigned = $('#assigned'), assignedInner = $('#assignedInner');
+  function enterS4(){
+    searching.classList.remove('hide');
+    assigned.classList.remove('on');
+    assignedInner.classList.remove('fade-in');
+    later(function(){
+      searching.classList.add('hide');
+      assigned.classList.add('on');
+      void assignedInner.offsetWidth;
+      assignedInner.classList.add('fade-in');
+    }, 2000);
+  }
+
+  /* ---------- Pantalla 6 ---------- */
+  var phaseA = $('#phaseA'), phaseB = $('#phaseB'), closing = $('#closing');
+  var steps = $$('.step');
+  function enterS6(){
+    steps.forEach(function(s){ s.classList.remove('on'); });
+    closing.classList.remove('on');
+    phaseA.classList.remove('hidden', 'gone');
+    phaseB.classList.add('hidden', 'gone');
+
+    var n = state.days;
+    $('#pausaDias').textContent = n + ' días';
+    $('#pausaRango').textContent = 'Del 8 al ' + (8 + n - 1) + ' de septiembre';
+
+    // Fase A
+    later(function(){ steps[0].classList.add('on'); }, 400);
+    later(function(){ steps[1].classList.add('on'); }, 1200);
+    later(function(){ steps[2].classList.add('on'); }, 2000);
+    later(function(){ steps[3].classList.add('on'); }, 2800);
+    later(function(){ closing.classList.add('on'); }, 4300);       // pausa 1,5 s · fundido 600 ms
+    // Transición a fase B (pausa 2,5 s tras el fundido)
+    later(function(){ phaseA.classList.add('hidden'); }, 7400);     // desvanece 500 ms
+    later(function(){
+      phaseA.classList.add('gone');
+      phaseB.classList.remove('gone');
+      setTimeout(function(){ phaseB.classList.remove('hidden'); }, 30);
+    }, 7900);                                                        // entra 500 ms → ~8,4 s
+  }
+
+  /* ---------- Reset oculto: triple toque en la barra de estado ---------- */
+  var taps = 0, tapTimer = null;
+  $('#statusbar').addEventListener('pointerdown', function(){
+    taps++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(function(){ taps = 0; }, 700);
+    if (taps >= 3){ taps = 0; reset(); }
+  });
+  function reset(){
+    clearTimers();
+    state.days = 5; state.alertNever = false;
+    $$('.day').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-days') === '5'); });
+    show('s1');
+  }
+
+  /* ---------- Arranque ---------- */
+  show('s1');
+})();
+</script>
+</body>
+</html>
