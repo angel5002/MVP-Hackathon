@@ -187,8 +187,6 @@
   .step .ck svg{width:16px;height:16px;}
   .step span{font-size:16px;line-height:21px;font-weight:700;color:var(--text);}
   .step em{font-style:normal;color:var(--muted);font-weight:600;font-size:13px;display:block;margin-top:1px;}
-  .closing{font-size:20px;line-height:28px;font-weight:800;color:var(--teal);opacity:0;transition:opacity .6s;letter-spacing:-.4px;margin-top:22px;text-align:center;}
-  .closing.on{opacity:1;}
   .herob{background:var(--grad);border-radius:24px;padding:22px 22px 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 26px -10px rgba(0,117,176,.55);}
   .herob .wave{position:absolute;right:-30px;bottom:-36px;opacity:.18;}
   .herob .lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:12px;}
@@ -433,7 +431,6 @@
             <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Comunicación a tu empleador generada</span></div>
           </div>
         </div>
-        <div class="closing" id="closing">Tú no hiciste ninguno de estos pasos.</div>
       </div>
 
       <!-- Fase B -->
@@ -597,11 +594,10 @@
   }
 
   /* ---------- Pantalla 6 ---------- */
-  var phaseA = $('#phaseA'), phaseB = $('#phaseB'), closing = $('#closing');
+  var phaseA = $('#phaseA'), phaseB = $('#phaseB');
   var steps = $$('.step');
   function enterS6(){
     steps.forEach(function(s){ s.classList.remove('on'); });
-    closing.classList.remove('on');
     phaseA.classList.remove('hidden', 'gone');
     phaseB.classList.add('hidden', 'gone');
 
@@ -614,14 +610,13 @@
     later(function(){ steps[1].classList.add('on'); }, 1200);
     later(function(){ steps[2].classList.add('on'); }, 2000);
     later(function(){ steps[3].classList.add('on'); }, 2800);
-    later(function(){ closing.classList.add('on'); }, 4300);       // pausa 1,5 s · fundido 600 ms
-    // Transición a fase B (pausa 2,5 s tras el fundido)
-    later(function(){ phaseA.classList.add('hidden'); }, 7400);     // desvanece 500 ms
+    // Transición a fase B (pausa 2,5 s tras el cuarto check)
+    later(function(){ phaseA.classList.add('hidden'); }, 5300);     // desvanece 500 ms
     later(function(){
       phaseA.classList.add('gone');
       phaseB.classList.remove('gone');
       setTimeout(function(){ phaseB.classList.remove('hidden'); }, 30);
-    }, 7900);                                                        // entra 500 ms → ~8,4 s
+    }, 5800);                                                        // entra 500 ms → ~6,3 s
   }
 
   /* ---------- Reset oculto: triple toque en la barra de estado ---------- */

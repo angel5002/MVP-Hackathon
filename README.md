@@ -14,7 +14,7 @@ Sin backend, sin dependencias, sin persistencia. Todos los datos están escritos
 2. **Pedir ayuda** → dos rutas: psicólogo (pantalla 3B) o médico (pantalla 4).
 3. **Teleconsulta** → busca 2 s y asigna al médico automáticamente.
 4. **Certificado** → selector de días (3 / 5 / 7, con 5 preseleccionado).
-5. **El trámite** → cuatro pasos que aparecen uno a uno, la frase final y el estado de la pausa.
+5. **El trámite** → cuatro pasos que aparecen uno a uno y luego el estado de la pausa.
 
 ## Navegación
 
