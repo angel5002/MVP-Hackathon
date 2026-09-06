@@ -117,10 +117,11 @@
   .p-cyan{background:var(--p-cyan-bg);color:var(--p-cyan-fg);}
   .p-green{background:var(--p-green-bg);color:var(--p-green-fg);}
 
-  .week{margin-top:14px;padding:18px 18px 16px;}
+  #s1{padding-bottom:92px;}
+  .week{margin-top:14px;padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;min-height:0;}
   .week .hd{display:flex;align-items:center;justify-content:space-between;}
   .week .hd .tot{font-size:15px;font-weight:800;color:var(--teal);}
-  .bars{display:flex;justify-content:space-between;align-items:flex-end;height:96px;margin-top:16px;padding:0 2px;}
+  .bars{display:flex;justify-content:space-between;align-items:flex-end;flex:1;min-height:80px;margin-top:16px;padding:0 2px;}
   .bar{width:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
   .bar i{display:block;width:100%;border-radius:8px;background:var(--p-cyan-bg);position:relative;overflow:hidden;height:100%;}
   .bar i b{position:absolute;left:0;right:0;bottom:0;background:var(--cyan);border-radius:8px;}
@@ -276,7 +277,7 @@
         <div class="legend"><span><i style="background:#0099CC"></i>Horas por día</span><span><i style="background:#E09A2B;border-radius:50%"></i>Actividad después de las 11 pm</span></div>
       </div>
 
-      <p class="small" style="margin:18px 4px 0;text-align:center">Medimos tu patrón de trabajo, no tu salud.</p>
+      <p class="small" style="margin:14px 4px 0;text-align:center;flex:none">Medimos tu patrón de trabajo, no tu salud.</p>
 
       <button class="btn btn-fixed" data-go="s3">Pedir ayuda</button>
 
