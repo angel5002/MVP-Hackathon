@@ -552,15 +552,15 @@
       <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
       <div style="display:flex;align-items:center;gap:12px">
         <div class="check" style="width:44px;height:44px"><svg style="width:22px;height:22px" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-        <div><h2>Certificado emitido</h2><div class="sub" style="margin-top:0" id="certSub">Tras tu teleconsulta de hoy, 4:30 pm</div></div>
+        <div><h2>Certificado emitido</h2><div class="sub" style="margin-top:0" id="certSub">Emitido tras tu teleconsulta de hoy, 4:30 pm</div></div>
       </div>
       <div class="card" style="margin-top:14px;padding:12px">
         <div class="tile" style="min-height:52px"><div class="ic" style="background:var(--p-orange-bg);color:var(--p-orange-fg)" id="certAv">EQ</div><div><div class="tt" id="certDoc">Dra. Elena Quispe Vargas</div><div class="tm" id="certCmp">CMP 042817 · Medicina general</div></div></div>
         <div class="tile" style="min-height:52px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div><div class="tt">F43.2 — Trastorno de adaptación</div><div class="tm">Diagnóstico · CIE-10 · autorizado hasta 7 días</div></div></div>
         <div class="doc" style="margin-top:8px">
           <div class="thumb"><i></i><i></i><i></i><i></i><i></i></div>
-          <div><div class="tt" style="font-size:15px;font-weight:800">Certificado de descanso</div><div class="tm small">Se actualiza con los días que elijas</div></div>
-          <div class="acts"><button class="iconbtn" data-view="cert" aria-label="Ver"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="iconbtn" data-download="cert" aria-label="Descargar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg></button></div>
+          <div><div class="tt" style="font-size:15px;font-weight:800">Vista previa del certificado</div><div class="tm small">Se descarga al terminar el trámite</div></div>
+          <div class="acts"><button class="iconbtn" data-view="cert" aria-label="Ver"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
       </div>
       <div class="sect" style="margin-top:14px">¿Cuántos días necesitas?</div>
@@ -707,8 +707,8 @@
   var state, navStack, timers = [];
   function initialState(){
     return { logged:false, watch:false, alertNever:false, alertSeen:false, days:5,
-             psico:null, psicoSlot:null, psicoDone:false,
-             med:'eq', medSlot:0, medDone:false, medOthers:false,
+             psico:null, psicoSlot:null, sessions:[],
+             med:'eq', medSlot:0, medDone:false, medConfirmed:false, medOthers:false,
              cert:false, proceso:false, tab:'home' };
   }
   function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
@@ -750,7 +750,14 @@
     if (id === 'docs')   renderDocs();
     if (id === 'perfil') renderPerfil();
     if (!back){
-      if (TABS.indexOf(id) >= 0){ navStack = [id]; } else navStack.push(id);
+      if (id === 'psicoOk'){
+        var pp = PSICO.filter(function(x){ return x.id===state.psico; })[0] || PSICO[0];
+        state.sessions.push({ p:pp, slot:pp.slots[state.psicoSlot||0] });
+        state.psico = null; state.psicoSlot = null;
+      }
+      if (TABS.indexOf(id) >= 0){ navStack = [id]; }
+      else if (id === 'psicoOk' || id === 'proceso'){ navStack = ['home', id]; }   // recibos: atrás vuelve al inicio
+      else navStack.push(id);
       try { history.pushState({ id:id }, ''); } catch(e){}
     }
   }
@@ -800,7 +807,7 @@
     var v = t.closest('[data-view]');
     if (v){ openViewer(v.getAttribute('data-view')); return; }
     var dl = t.closest('[data-download]');
-    if (dl){ download(dl.getAttribute('data-download')); return; }
+    if (dl){ if (!state.proceso){ toast('Se habilita al terminar el trámite'); return; } download(dl.getAttribute('data-download')); return; }
     var vw = t.closest('[data-viewer]');
     if (vw){ if (vw.getAttribute('data-viewer')==='close') closeViewer(); else download(viewerDoc); return; }
     var sd = t.closest('[data-send]');
@@ -815,7 +822,7 @@
     $('#watchrow').classList.toggle('on', state.watch);
     var arc = $('#arc'), ring = $('#ring');
     arc.style.strokeDashoffset = 415;
-    if (state.cert){
+    if (state.proceso){
       ring.classList.add('calm'); arc.style.stroke = '#2FA84F'; $('#ringV').textContent = 'En pausa';
       $('#ringBadge').textContent = state.days + ' días'; $('#homeSub').textContent = 'Tu pausa está activa. Descansa.';
     } else {
@@ -824,11 +831,11 @@
     }
     $$('#bars b').forEach(function(b){ b.style.height = '0%'; });
     later(function(){
-      arc.style.strokeDashoffset = state.cert ? 415*0.2 : 415*0.28;
+      arc.style.strokeDashoffset = state.proceso ? 415*0.2 : 415*0.28;
       $$('#bars b').forEach(function(b,i){ b.style.transitionDelay = (i*60)+'ms'; b.style.height = b.getAttribute('data-h')+'%'; });
     }, 60);
     replay($('#pills')); if (state.watch) replay($('#watchrow'));
-    if (!state.alertNever && !state.alertSeen && !state.cert) later(showAlert, 3000);
+    if (!state.alertNever && !state.alertSeen && !state.proceso) later(showAlert, 3000);
   }
   function showAlert(){ state.alertSeen = true; alertEl.classList.add('on'); setTimeout(function(){ alertEl.classList.add('show'); }, 30); }
   function hideAlert(now){ alertEl.classList.remove('show'); if (now){ alertEl.classList.remove('on'); return; } setTimeout(function(){ if(!alertEl.classList.contains('show')) alertEl.classList.remove('on'); }, 320); }
@@ -855,9 +862,9 @@
     $('#psicoBtn').disabled = !(chosen && state.psicoSlot !== null);
   }
   function renderPsicoOk(){
-    state.psicoDone = true;
-    var p = PSICO.filter(function(x){ return x.id===state.psico; })[0] || PSICO[0];
-    var s = slotLabel(p.slots[state.psicoSlot || 0]);
+    var last = state.sessions[state.sessions.length-1] || { p:PSICO[0], slot:PSICO[0].slots[0] };
+    var p = last.p;
+    var s = slotLabel(last.slot);
     var c = avColor(p.color);
     $('#psicoOkCard').innerHTML = '<span class="chip c-blue">Psicología</span>'+
       '<div class="tile" style="margin-top:10px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+p.ini+'</div><div><div class="tt">'+p.name+'</div><div class="tm">'+p.role+'</div></div></div>'+
@@ -889,9 +896,10 @@
   /* ---------- Certificado ---------- */
   function enterCert(){
     var m = medSel();
-    state.cert = true;
+    if (!state.medConfirmed) toast('Cita confirmada · teleconsulta realizada');
+    state.cert = true; state.medConfirmed = true;
     $('#certAv').textContent = m.ini; $('#certDoc').textContent = m.name; $('#certCmp').textContent = m.cmp+' · '+m.role;
-    $('#certSub').textContent = 'Tras tu teleconsulta de '+slotLabel(m.slots[state.medSlot]).replace(' · ',', ').toLowerCase();
+    $('#certSub').textContent = 'Emitido tras tu teleconsulta de '+slotLabel(m.slots[state.medSlot]).replace(' · ',', ').toLowerCase();
     $('#tramiteCmp').textContent = m.cmp+' · registro del CMP';
     $$('.day').forEach(function(b){ b.classList.toggle('sel', parseInt(b.getAttribute('data-days'),10)===state.days); });
   }
@@ -918,30 +926,37 @@
     var f = fechas();
     $('#pausaDias').textContent = f.n+' días'; $('#pausaRango').textContent = f.rango;
     $('#guardados').textContent = 7 - f.n;
-    var used = state.psicoDone ? 1 : 0; $('#sesiones').innerHTML = (6-used)+' <small>de 6</small>';
+    $('#sesiones').innerHTML = (6-state.sessions.length)+' <small>de 6</small>';
     replay($('#procStats'));
-    var p = state.psicoDone ? PSICO.filter(function(x){ return x.id===state.psico; })[0] : PSICO[0];
-    var s = state.psicoDone ? slotLabel(p.slots[state.psicoSlot||0]) : 'Martes 10 · 6:00 pm';
-    var c = avColor(p.color);
-    $('#procNext').innerHTML = '<span class="chip c-blue">Próxima sesión</span><div class="tile" style="margin-top:8px;min-height:52px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+p.ini+'</div><div><div class="tt" style="font-size:15px">'+p.name+'</div><div class="tm">'+s+' · videollamada</div></div></div>';
+    var nx = nextSession(), c = avColor(nx.p.color);
+    $('#procNext').innerHTML = '<span class="chip c-blue">Próxima sesión</span>'+(nx.included?'<span class="chip c-green" style="margin-left:6px">Incluida en tu pausa</span>':'')+
+      '<div class="tile" style="margin-top:8px;min-height:52px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+nx.p.ini+'</div><div><div class="tt" style="font-size:15px">'+nx.p.name+'</div><div class="tm">'+nx.label+' · videollamada'+(nx.included?' · sin usar tus sesiones':'')+'</div></div></div>';
+  }
+
+  // Sesión que sigue: la que agendó la persona; si no hay, la de acompañamiento que incluye la pausa
+  function nextSession(){
+    if (state.sessions.length){ var s0 = state.sessions[0]; return { p:s0.p, label:slotLabel(s0.slot), included:false }; }
+    return { p:PSICO[0], label:'Martes 10 · 6:00 pm', included:true };
   }
 
   /* ---------- Citas / Documentos / Perfil ---------- */
   function renderCitas(){
     var html = '<div class="sect" style="margin-top:0">Próximas</div>';
     var m = medSel();
-    if (state.medDone) html += '<div class="card" style="padding:12px;margin-bottom:10px">'+tile(m.ini, m.name, slotLabel(m.slots[state.medSlot])+' · teleconsulta', avColor(m.color), state.cert?'<span class="chip c-green right">Realizada</span>':'<span class="chip c-orange right">Hoy</span>')+'</div>';
-    var p = state.psicoDone ? PSICO.filter(function(x){ return x.id===state.psico; })[0] : PSICO[0];
-    var s = state.psicoDone ? slotLabel(p.slots[state.psicoSlot||0]) : 'Martes 10 · 6:00 pm';
-    html += '<div class="card" style="padding:12px">'+tile(p.ini, p.name, s+' · videollamada', avColor(p.color), '<span class="chip c-blue right">Sesión</span>')+'</div>';
+    var items = [];
+    if (state.medConfirmed) items.push(tile(m.ini, m.name, slotLabel(m.slots[state.medSlot])+' · teleconsulta', avColor(m.color), state.proceso?'<span class="chip c-green right">Realizada</span>':'<span class="chip c-orange right">Confirmada</span>'));
+    state.sessions.forEach(function(x){ items.push(tile(x.p.ini, x.p.name, slotLabel(x.slot)+' · videollamada', avColor(x.p.color), '<span class="chip c-blue right">Sesión</span>')); });
+    if (state.proceso && !state.sessions.length) items.push(tile(PSICO[0].ini, PSICO[0].name, 'Martes 10 · 6:00 pm · acompañamiento', avColor(PSICO[0].color), '<span class="chip c-green right">Incluida</span>'));
+    if (items.length) html += '<div class="card" style="padding:12px">'+items.join('<div style="height:8px"></div>')+'</div>';
+    else html += '<div class="card" style="padding:16px"><div class="tm" style="text-align:center">Aún no tienes citas. Agenda una sesión o pide una consulta médica.</div></div>';
     html += '<div class="sect">Anteriores</div><div class="card" style="padding:12px">'+tile('AT','Lic. Andrea Torres','19 de agosto · sesión completada', avColor('blue'), '<span class="chip c-line right">Hace 3 sem.</span>')+'</div>';
     $('#citasList').innerHTML = html;
   }
   function tile(ini, tt, tm, c, right){ return '<div class="tile" style="min-height:52px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+ini+'</div><div style="min-width:0"><div class="tt" style="font-size:15px">'+tt+'</div><div class="tm">'+tm+'</div></div>'+(right||'')+'</div>'; }
   function renderDocs(){
     var el = $('#docsList');
-    if (!state.cert){
-      el.innerHTML = '<div class="card center" style="display:flex;flex-direction:column;padding:34px 20px"><div class="ic" style="width:64px;height:64px;border-radius:50%;background:var(--p-blue-bg);display:flex;align-items:center;justify-content:center">'+icoDoc()+'</div><h2 style="margin-top:14px;font-size:19px">Aún no hay documentos</h2><p class="small" style="margin:8px 0 0">Cuando un médico de la red emita tu certificado, aparecerá aquí listo para descargar y enviar.</p></div>';
+    if (!state.proceso){
+      el.innerHTML = '<div class="card center" style="display:flex;flex-direction:column;padding:34px 20px"><div class="ic" style="width:64px;height:64px;border-radius:50%;background:var(--p-blue-bg);display:flex;align-items:center;justify-content:center">'+icoDoc()+'</div><h2 style="margin-top:14px;font-size:19px">Aún no hay documentos</h2><p class="small" style="margin:8px 0 0">Cuando termine el trámite de tu certificado, aparecerá aquí listo para descargar y enviar.</p></div>';
       return;
     }
     var f = fechas();
@@ -955,7 +970,7 @@
   function eye(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>'; }
   function dlIco(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>'; }
   function renderPerfil(){ $('[data-toggle="watch"]').classList.toggle('on', state.watch); }
-  function refreshDocsBadge(){ var t = $('#tabDocs'); var dot = t.querySelector('.dot'); if (state.cert && !dot){ var d = document.createElement('i'); d.className='dot'; t.appendChild(d); } if (!state.cert && dot) dot.remove(); }
+  function refreshDocsBadge(){ var t = $('#tabDocs'); var dot = t.querySelector('.dot'); if (state.proceso && !dot){ var d = document.createElement('i'); d.className='dot'; t.appendChild(d); } if (!state.proceso && dot) dot.remove(); }
 
   /* ---------- Correo ---------- */
   function mailData(){
@@ -1088,7 +1103,14 @@
   }
   var viewerDoc = 'cert';
   function docSVG(k){ return k==='aviso' ? avisoSVG() : certSVG(); }
-  function openViewer(k){ viewerDoc = k; $('#paper').innerHTML = docSVG(k); var v = $('#viewer'); v.classList.add('on'); setTimeout(function(){ v.classList.add('show'); }, 30); }
+  function openViewer(k){
+    viewerDoc = k; $('#paper').innerHTML = docSVG(k);
+    var b = $('[data-viewer="download"]');
+    if (state.proceso){ b.disabled = false; b.innerHTML = dlIcoW()+'Descargar'; }
+    else { b.disabled = true; b.innerHTML = 'Disponible al terminar el trámite'; }
+    var v = $('#viewer'); v.classList.add('on'); setTimeout(function(){ v.classList.add('show'); }, 30);
+  }
+  function dlIcoW(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>'; }
   function closeViewer(){ var v = $('#viewer'); v.classList.remove('show'); setTimeout(function(){ v.classList.remove('on'); }, 300); }
   function download(k){
     var svg = docSVG(k), name = (k==='aviso' ? 'Aviso-de-ausencia' : 'Certificado-medico')+'-PAUSA-Camila-Reyes.png';

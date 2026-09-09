@@ -25,6 +25,8 @@ Pestañas: Inicio · Citas · Documentos · Perfil. Botones del sistema (atrás,
 ## Documentos
 
 - Certificado de descanso médico y aviso de ausencia se generan como SVG y se descargan en PNG (sin librerías).
+- En la pantalla del certificado solo hay vista previa; la descarga y el correo se habilitan cuando el trámite termina (check "Documento listo para tu empleador") y viven en Tu proceso y en Documentos.
+- El flujo se puede repetir sin recargar: una nueva consulta reemplaza el certificado; cada sesión agendada descuenta una de las 6. Si no agendaste ninguna, la pausa incluye una sesión de acompañamiento que no descuenta.
 - La firma dice **CASO FICTICIO** y el pie indica que es un prototipo sin validez legal.
 - El correo para el empleador es una plantilla con campos que se reemplazan (jefe, días, fechas, médico) y se abre en Gmail, Outlook u otro cliente con el texto listo.
 
