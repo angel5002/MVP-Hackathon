@@ -1,6 +1,6 @@
 # PAUSA · MVP navegable
 
-Prototipo de app móvil en un solo archivo (`index.html`) para grabar el video de demo.
+Prototipo de app móvil en un solo archivo (`index.html`) para la hackathon de Pacífico Seguros.
 Sin backend, sin dependencias, sin persistencia. Todos los datos están escritos en el código.
 
 ## Cómo abrir
@@ -10,32 +10,31 @@ Sin backend, sin dependencias, sin persistencia. Todos los datos están escritos
 
 ## Flujo
 
-1. **Tu estado** → a los 3 s aparece la alerta (Agendar / Ahora no / No mostrar más).
-2. **Pedir ayuda** → dos rutas: psicólogo (pantalla 3B) o médico (pantalla 4).
-3. **Teleconsulta** → busca 2 s y asigna al médico automáticamente.
-4. **Certificado** → selector de días (3 / 5 / 7, con 5 preseleccionado).
-5. **El trámite** → cuatro pasos que aparecen uno a uno y luego el estado de la pausa.
+1. **Ingreso** con usuario y contraseña ya escritos (siempre funciona).
+2. **Conectar reloj**: Conectar / Ahora no / No tengo. Con "Conectar", el inicio muestra dos métricas más.
+3. **Tu estado**: anillo de ritmo, tres píldoras, gráfico semanal. A los 3 s aparece la alerta (Agendar / Ahora no / No mostrar más).
+4. **Pedir ayuda**: psicólogo o médico.
+   - **Psicólogo**: lista con etiquetas (te atendió antes, más cercano, disponible hoy), horarios y confirmación.
+   - **Médico**: búsqueda de 2 s, médico asignado con horarios, lista opcional de otros médicos disponibles.
+5. **Certificado**: datos del médico, CIE-10, selector de días (5 preseleccionado), vista previa y descarga.
+6. **El trámite**: cuatro checks cada 800 ms, pausa de 1,2 s y frase final "Solo te queda presentarlo. Nosotros hicimos el resto."
+7. **Tu proceso**: pausa activa, días guardados, sesiones, documentos y correo para el empleador.
 
-## Navegación
+Pestañas: Inicio · Citas · Documentos · Perfil. Botones del sistema (atrás, inicio, recientes) bajo la pantalla.
 
-Cada subpantalla tiene un botón "atrás" en la barra superior (3 → 1, 3B → 3, 4 → 3, 5 → 4 sin repetir la búsqueda, 6 → 5).
-El gesto o botón "atrás" del navegador del celular hace lo mismo. La alerta de la pantalla 1 se muestra una sola vez por sesión.
+## Documentos
 
-## Reset oculto
+- Certificado de descanso médico y aviso de ausencia se generan como SVG y se descargan en PNG (sin librerías).
+- La firma dice **CASO FICTICIO** y el pie indica que es un prototipo sin validez legal.
+- El correo para el empleador es una plantilla con campos que se reemplazan (jefe, días, fechas, médico) y se abre en Gmail, Outlook u otro cliente con el texto listo.
 
-Triple toque sobre la barra de estado (la hora "9:41") reinicia el prototipo a la pantalla 1.
+## Navegación y reset
 
-## Sistema visual
+- Botón "atrás" en cada subpantalla y botón "atrás" del sistema; también funciona el gesto/botón atrás del navegador.
+- Triple toque sobre la barra de estado (la hora "9:41") reinicia el prototipo al ingreso.
 
-Adaptado del sitio corporativo de Pacífico Seguros (pacifico.com.pe):
+## Identidad visual
 
-- Tipografía: Pacífico usa "Foco" (licenciada). Aquí se usa Nunito (Google Fonts), la más cercana por sus formas redondeadas, con Foco y Roboto de respaldo. Si no hay internet, el prototipo sigue funcionando con la fuente del sistema.
-- Colores: celeste `#0099CC`, azul `#0075B0`, teal de títulos `#005C7A`, texto `#2F373C` / `#727C81`, fondos `#F2F3F3` y `#E8F9FF`, bordes `#DEE2E6`, verde `#00AF3F`, ámbar `#E09A2B`.
-- Formas: lenguaje de apps de bienestar (anillo de progreso con badge, píldoras pastel con ícono y valor, tarjetas blancas de 24 px sobre fondo gris azulado, filas tipo tile con ícono en círculo, chips de categoría) con botones píldora en degradado azul-celeste.
-
-## Marco
-
-Teléfono de 390 × 844 px (barra de estado 47 px · contenido 763 px · indicador de inicio 34 px).
-En pantallas más pequeñas el marco se escala para caber completo, sin scroll.
+Paleta de la ficha de diseño: azul Pacífico `#00A0DF`, azul profundo `#003B5C`, naranja de atención `#FF5C35`, verde `#2FA84F`, fondo crema `#FDF3E3`. Tipografía Nunito (Google Fonts) con respaldo del sistema. Esquinas de 16 a 20 px, sombras suaves.
 
 Datos simulados. Profesionales y colegiaturas son ficticios.
