@@ -24,7 +24,7 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
     const errores = [];
     p.on('pageerror', (e) => errores.push(String(e)));
     p.on('console', (m) => { if (m.type() === 'error') errores.push(m.text()); });
-    if (fontScale !== 1) await p.addInitScript((fs) => { document.documentElement.style.fontSize = `${16 * fs}px`; }, fontScale);
+    if (fontScale !== 1) await p.addInitScript((fs) => { const ap = () => { if (document.documentElement) document.documentElement.style.fontSize = `${16 * fs}px`; }; ap(); document.addEventListener('DOMContentLoaded', ap); }, fontScale);
     let n = 0;
     const shot = async (nombre) => {
       n += 1;
@@ -99,6 +99,6 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
   }
 }
 await b.close();
-writeFileSync(resolve(root, 'docs/capturas/informe.json'), JSON.stringify(informe, null, 2));
+writeFileSync(resolve(root, `docs/capturas/informe${fontScale !== 1 ? '-fs' + fontScale : ''}.json`), JSON.stringify(informe, null, 2));
 const problemas = informe.filter((x) => x.overflowX || (x.recorte && x.recorte.length) || (x.errores && x.errores.length));
 console.log(problemas.length ? 'PROBLEMAS:\n' + JSON.stringify(problemas, null, 1) : 'sin desbordes ni errores');

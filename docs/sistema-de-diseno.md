@@ -1,6 +1,6 @@
 # Sistema de diseño · PAUSA (D4) — propuesta para el punto de control
 
-Estado: **pendiente de aprobación** antes de implementarse en todas las pantallas (Fase 3). Los tokens viven en código en `docs/maquetas/tokens.css` (se moverán a `src/styles/tokens.css` al migrar). La maqueta de las pantallas clave está en `docs/maquetas/maquetas-fase2.html` y su captura en `docs/capturas/fase2-maquetas.png`.
+Estado: **aprobado el 11 de septiembre de 2026** e implementado en todas las pantallas (Fase 3). Los tokens viven en código en `src/styles/tokens.css` (copia de referencia en `docs/maquetas/tokens.css`). La maqueta de las pantallas clave está en `docs/maquetas/maquetas-fase2.html` y su captura en `docs/capturas/fase2-maquetas.png`.
 
 ---
 

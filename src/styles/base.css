@@ -109,8 +109,9 @@ img, svg { display: block; }
 .btn--outline { box-shadow: inset 0 0 0 1.5px var(--c-texto); color: var(--c-texto); }
 .btn--text { color: var(--c-texto); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-contorno); }
 .btn--alerta { background: var(--c-alerta); color: #fff; }
+.btn--surface { background: var(--c-superficie); color: var(--c-texto); box-shadow: var(--e-2); }
 .btn[disabled] { opacity: .45; pointer-events: none; }
-.btn--left { justify-content: flex-start; padding: 0; width: auto; }
+.btn--left { justify-content: flex-start; padding: 0; width: auto; text-align: left; }
 .btn + .btn { margin-top: var(--s-2); }
 .iconbtn { width: var(--tap); height: var(--tap); border-radius: var(--r-full); display: inline-flex; align-items: center; justify-content: center; color: var(--c-texto); }
 .iconbtn:active { background: var(--c-superficie-pulsada); }

@@ -136,3 +136,20 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 
 ### D-20 · iOS
 - Este equipo es Windows: no hay build nativo de iOS (requiere macOS con Xcode 26+). El iPhone usa la PWA. Limitaciones documentadas en `docs/COMO-INSTALAR.md` §B, verificadas el 10 sep: sin API de vibración en Safari (caniuse/MDN), Web Push solo en apps añadidas a la pantalla de inicio, exención del borrado de almacenamiento a los 7 días para las apps de la pantalla de inicio (WebKit). Los pasos para compilar en una Mac quedan en D6 §D.
+
+## 3. Build, QA y publicación (Fases 6 a 8, 11 sep)
+
+### D-21 · APK de depuración
+- `entregables/PAUSA-debug.apk`: **4,85 MB**; `pe.pausa.hackathon` v1.0 (1); compileSdk 36, targetSdk 36, minSdk 24; permisos: INTERNET y VIBRATE. Firmado con la clave de depuración de Android (no sirve para tiendas; fuera de alcance).
+- Compilado con `node scripts/build-apk.mjs`: Vite build → `cap sync` → `gradlew.bat assembleDebug` con `JAVA_HOME` apuntando al Temurin 21 solo en ese proceso. Gradle 8.14.3 y AGP 8.13.0 se descargaron al caché de usuario; la plataforma android-36 y las dependencias las resolvió Gradle sin instalar `cmdline-tools`.
+- Incidencia: la primera corrida quedó sin salida visible porque el registro pasaba por `tail`; se relanzó con el log en archivo y terminó en 57 s (tareas ya cacheadas). No se detectó ningún problema por el espacio en la ruta del proyecto.
+
+### D-22 · Resultados del QA visual
+- `scripts/capturas.mjs` recorrió el flujo completo (37 capturas por configuración) en 360×800 y 412×915, con y sin `prefers-reduced-motion`, y una quinta corrida a 360×800 con la fuente al 130 %. Resultado: **0 errores de consola y 0 desbordes horizontales** en las cinco corridas (`docs/capturas/informe.json` e `informe-fs1.3.json`).
+- Hallazgos corregidos durante el QA: el bottom sheet quedaba bajo el CTA (ahora se monta con un portal en la raíz de la app); el botón "Entrar" de la sala de espera era azul sobre azul (ahora superficie blanca); el rótulo de la semana se partía; "11" salía en cifra dentro de la frase del médico.
+- Verificación de la PWA sin conexión con el build de producción: service worker activo, manifest con 3 íconos y `display: standalone`, y la app navega (ingreso → reloj) con la red desconectada y la fuente Signika cargada desde caché.
+- **No verificado:** rendimiento a 60 fps en un Android de gama media (no hay medición en dispositivo todavía) y el comportamiento real de la háptica, la hoja de compartir y el botón atrás en el teléfono; queda para el QA en dispositivo cuando se autorice la instalación por adb.
+
+### D-23 · Publicación en GitHub Pages: preparada, no ejecutada
+- El flujo `.github/workflows/pages.yml` (manual, `workflow_dispatch`) construye `dist/` y lo publica con `actions/deploy-pages`. Requiere activar *Settings → Pages → Source: GitHub Actions* y un `push`. No se ha hecho ni una cosa ni la otra: la URL actual sigue sirviendo `legacy/index.html` hasta la aprobación expresa.
+- `base: './'` en Vite permite que el mismo build funcione bajo `/MVP-Hackathon/` y dentro del APK.

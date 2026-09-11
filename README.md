@@ -6,7 +6,7 @@ Prototipo navegable para la hackathon de Pacífico Seguros. Detecta patrones de 
 
 | | Qué | Dónde |
 |---|---|---|
-| D1 | APK de depuración (target Android 16 / API 36, mínimo Android 7 / API 24) | `entregables/PAUSA-debug.apk` |
+| D1 | APK de depuración, 4,85 MB (target Android 16 / API 36, mínimo Android 7 / API 24) | `entregables/PAUSA-debug.apk` |
 | D2 | PWA instalable (misma base de código) y pasos para iOS | `dist/` tras `npm run build` · `docs/COMO-INSTALAR.md` |
 | D3 | Estudio de mercado y de marca | `docs/estudio-de-mercado.md` |
 | D4 | Sistema de diseño (tokens, tipografía, movimiento) | `docs/sistema-de-diseno.md` · `src/styles/tokens.css` |

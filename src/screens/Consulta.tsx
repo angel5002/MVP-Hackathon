@@ -19,7 +19,7 @@ export function Sala() {
   const quien = m.nombre.startsWith('Dra') ? 'La doctora' : 'El doctor';
   return (
     <BreathLoader estado={`Sala de espera. ${quien} se conectará en breve`} ciclos={state.presenter.unCiclo ? 1 : 3} contador
-      salida={<Button onClick={() => replace('tele')} haptica="medium"><Icon name="video" size={20} color="#fff" />{quien} está en línea. Entrar</Button>} />
+      salida={<Button variant="surface" onClick={() => replace('tele')} haptica="medium"><Icon name="video" size={20} />{quien} está en línea. Entrar</Button>} />
   );
 }
 

@@ -1,0 +1,5 @@
+listo 360x800 no-preference · errores: 0
+listo 360x800 reduce · errores: 0
+listo 412x915 no-preference · errores: 0
+listo 412x915 reduce · errores: 0
+sin desbordes ni errores
