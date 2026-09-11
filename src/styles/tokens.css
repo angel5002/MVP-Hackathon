@@ -1,0 +1,66 @@
+/* PAUSA · tokens del sistema de diseño (propuesta Fase 2, punto de control)
+   Paleta base intacta: #00A0DF #003B5C #FF5C35 #2FA84F #FDF3E3. Todo lo demás es tono derivado. */
+:root{
+  /* --- Color: primitivos --- */
+  --azul:#00A0DF; --navy:#003B5C; --naranja:#FF5C35; --verde:#2FA84F; --crema:#FDF3E3; --blanco:#FFFFFF;
+  /* --- Color: derivados (mezcla lineal sRGB, ver scripts/contraste.mjs) --- */
+  --azul-700:#0077B6;   /* azul oscurecido · relleno primario (4,87:1 con blanco) */
+  --azul-100:#E0F4FB;   /* azul 12 % · tinte informativo */
+  --navy-600:#3F697E;   /* navy 75 % + crema 25 % · texto secundario (5,41:1 sobre crema) */
+  --navy-300:#7393A5;   /* navy 55 % + blanco · solo deshabilitado / decorativo */
+  --naranja-700:#B23A17;/* naranja oscurecido 30 % · texto e ícono de atención (5,44:1 sobre crema) */
+  --naranja-100:#FFE9E1;/* naranja 12 % · tinte de atención */
+  --verde-700:#1E7A3A;  /* verde oscurecido 30 % · texto e ícono de éxito (4,90:1 sobre crema) */
+  --verde-100:#E3F5E8;  /* verde 12 % · tinte de éxito */
+  --crema-050:#FEF9F1;  /* crema 50 % + blanco · fila/estado pulsado */
+  --crema-200:#F0EADC;  /* crema + navy 5 % · pista de gráficos, separadores suaves */
+  --crema-300:#D7D7CF;  /* crema + navy 15 % · contorno hairline */
+
+  /* --- Color: roles semánticos --- */
+  --c-fondo:var(--crema);
+  --c-superficie:var(--blanco);
+  --c-superficie-pulsada:var(--crema-050);
+  --c-contorno:var(--crema-300);
+  --c-primario:var(--azul-700);          --c-sobre-primario:var(--blanco);
+  --c-primario-tinte:var(--azul-100);
+  --c-acento:var(--azul);                 /* NO textual: logo, indicadores, anillo */
+  --c-texto:var(--navy);
+  --c-texto-2:var(--navy-600);
+  --c-texto-deshab:var(--navy-300);
+  --c-alerta:var(--naranja-700);          --c-alerta-acento:var(--naranja);  --c-alerta-tinte:var(--naranja-100);
+  --c-exito:var(--verde-700);             --c-exito-acento:var(--verde);     --c-exito-tinte:var(--verde-100);
+  --c-scrim:rgba(0,59,92,.45);
+
+  /* --- Tipografía: 6 pasos, 3 pesos (400 / 600 / 700) --- */
+  --font:"Signika","Segoe UI",Roboto,system-ui,sans-serif;
+  --t-display:700 2rem/2.5rem var(--font);       /* 32/40 · cifras y "Inhala" */
+  --t-headline:700 1.5rem/2rem var(--font);      /* 24/32 · título de pantalla */
+  --t-title:600 1.125rem/1.5rem var(--font);     /* 18/24 · título de grupo o tarjeta */
+  --t-body:400 1rem/1.5rem var(--font);          /* 16/24 · texto base */
+  --t-label:600 0.875rem/1.25rem var(--font);    /* 14/20 · etiquetas, chips, pestañas */
+  --t-caption:400 0.8125rem/1.125rem var(--font);/* 13/18 · notas */
+  --t-button:600 1rem/1.5rem var(--font);        /* 16/24 · botones */
+
+  /* --- Espaciado (4/8 dp) --- */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-12:48px;
+  --margen:20px;
+
+  /* --- Radios por jerarquía --- */
+  --r-sm:8px;   /* chips, campos, celdas de calendario */
+  --r-md:12px;  /* filas accionables, botones */
+  --r-lg:16px;  /* tarjetas */
+  --r-xl:24px;  /* bottom sheet, visor */
+  --r-full:999px;
+
+  /* --- Elevación (2 niveles con significado) --- */
+  --e-1:0 0 0 1px var(--c-contorno);                 /* superficie accionable: borde, sin sombra */
+  --e-2:0 12px 32px -8px rgba(0,59,92,.28);          /* flotante: sheet, toast, visor, botón fijo */
+
+  /* --- Tacto --- */
+  --tap:48px;
+
+  /* --- Movimiento --- */
+  --d-micro:120ms; --d-trans:280ms; --d-enfasis:600ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1); --ease-in-out:cubic-bezier(.4,0,.2,1);
+  --respira-inhala:4s; --respira-exhala:6s;
+}

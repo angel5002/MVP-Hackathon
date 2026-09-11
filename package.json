@@ -1,0 +1,41 @@
+{
+  "name": "pausa-app",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PAUSA · prototipo navegable para la hackathon de Pacífico Seguros (APK + PWA)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "contraste": "node scripts/contraste.mjs --legacy",
+    "qa:capturas": "node scripts/capturas.mjs",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:apk": "node scripts/build-apk.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.1",
+    "@capacitor/app": "8.1.1",
+    "@capacitor/app-launcher": "8.0.1",
+    "@capacitor/core": "8.5.1",
+    "@capacitor/filesystem": "8.1.3",
+    "@capacitor/haptics": "8.0.2",
+    "@capacitor/share": "8.0.1",
+    "@capacitor/splash-screen": "8.0.2",
+    "motion": "13.2.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.5.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "playwright-core": "1.63.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.0",
+    "vite-plugin-pwa": "1.3.0"
+  }
+}

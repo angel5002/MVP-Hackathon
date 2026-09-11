@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PAUSA</string>
+    <string name="title_activity_main">PAUSA</string>
+    <string name="package_name">pe.pausa.hackathon</string>
+    <string name="custom_url_scheme">pe.pausa.hackathon</string>
+</resources>

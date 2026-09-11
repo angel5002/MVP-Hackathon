@@ -87,3 +87,52 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - **Verificado (Zaccaro et al., 2018):** "slow breathing techniques (<10 breaths/minute)".
 - **Sin fuente verificable en línea:** la Directiva 015-GG-ESSALUD-2014 (no cargó), el texto oficial de la Ley 31572 (solo fuentes secundarias: 12 horas continuas como lapso diferenciado para ciertos teletrabajadores), la reserva del diagnóstico frente al empleador (Ley 29733, PDF escaneado) y el texto oficial CIE-10 en español (solo secundarias: F43.2 "Trastornos de adaptación", Z73.0 "Agotamiento"). En la interfaz no se afirmará nada que dependa de estos puntos.
 - **Línea de salud mental del MINSA:** 113 opción 5, gratuita, 24 horas (títulos de páginas oficiales de gob.pe y afiche del MINSA; los números de WhatsApp aparecen solo en extractos y no se mostrarán).
+
+## 2. Arquitectura y migración (Fase 3, 11 sep)
+
+### D-13 · `evaluarDescanso()`: tabla de decisión (SIMULACIÓN PARA EL PROTOTIPO)
+| Entrada | Regla | Efecto |
+|---|---|---|
+| Base | siempre | 3 días |
+| Patrón laboral | días sin desconectar > 12 h ≥ 7 | +1 |
+| Patrón laboral | días sin desconectar > 12 h ≥ 14 | +1 adicional |
+| Patrón laboral | noches con actividad después de las 11 pm ≥ 3 | +1 |
+| Pre-consulta | PHQ-4 total 6–8 | +1 |
+| Pre-consulta | PHQ-4 total 9–12 | +2 |
+| Reloj | conectado y sueño promedio < 6 h | +1 |
+| Acotación | resultado en [3, 7] | |
+| Presentador | escenario forzado 3–7 | sustituye el resultado |
+- **Salida:** días, fecha de inicio (día de la teleconsulta), fin, reincorporación, frase de fundamento en lenguaje claro y médico que indica. Con los datos de la demo: 5 días sin reloj y PHQ-4 bajo; 6 con reloj; 7 con reloj y PHQ-4 ≥ 6.
+- **Por qué:** la persona no elige los días; el prototipo necesita un criterio reproducible y explicable en la pantalla "Tu indicación de pausa". No es un criterio clínico: la tabla está marcada como simulación en el código (`src/logic/evaluarDescanso.ts`) y aquí.
+
+### D-14 · Stack: Vite 8 + React 19 + TypeScript 7 + Motion 13 + Capacitor 8.5.1
+- Un único motor de animación (Motion); no se agregó dotLottie porque ninguna animación necesitó assets vectoriales de terceros (el loader, el anillo, las barras y la tira de calendario se construyen en código).
+- Navegación con pila propia (`src/nav/store.tsx`): `history.pushState` por avance, `popstate` = atrás, y en Android `App.addListener('backButton')` cierra capas → pila → minimiza en la raíz.
+- Sin marco de teléfono en nativo ni en PWA instalada; en navegador de escritorio (≥ 768 px) se muestra un marco de 390×844 con la hora real, para proyectar.
+
+### D-15 · Loaders de respiración: dónde sí y dónde no
+- **Sí:** búsqueda de médico (1 ciclo = 10 s), sala de espera (3 ciclos = 30 s, con contador) y emisión del certificado (1 ciclo). Las cargas simuladas duran fases completas; la salida solo ocurre al terminar una exhalación.
+- **No:** el trámite (checklist de 800 ms por paso), la conexión del reloj (1,4 s) y cualquier carga dentro de una pantalla. En un pitch de pocos minutos cada ciclo completo cuesta al menos 6 s de tiempo muerto; por eso el modo presentador (mantener la marca 2 s, o `?demo=rapido`) reduce todos los loaders a un ciclo.
+- El reloj de fases usa temporizadores, no eventos de fin de animación: si el WebView deja de pintar (pantalla parcialmente tapada, pestaña en segundo plano) el ritmo no se congela y la animación se pone al día al volver.
+- Contraste verificado en las dos capas del texto (10,73:1 sobre crema y 4,87:1 sobre el relleno) y en movimiento reducido (navy sobre el tinte azul, 10,39:1).
+
+### D-16 · Empleador: dos destinatarios y confirmación explícita
+- **Qué:** la pantalla "Tu empleador verá esto" obliga a elegir entre *Jefe directo* (aviso de ausencia, sin diagnóstico ni datos clínicos, adjunto: aviso) y *Recursos Humanos* (remite el certificado; el cuerpo del correo tampoco repite el diagnóstico). Muestra el correo completo y exige marcar "Entiendo qué recibirá…" antes de continuar.
+- **Por qué:** la práctica peruana exige el diagnóstico dentro del certificado (requisitos de licencias por incapacidad en gob.pe), pero nada obliga a repetirlo en el texto del correo ni a enviárselo al jefe directo. Separar destinatarios reduce la exposición del dato sensible al mínimo necesario.
+- **Copy corregido:** "Tú eliges qué datos recoge PAUSA" (Inicio y Perfil) habla de lo que la app mide; lo que ve el empleador se decide en esta pantalla, y el Perfil lo aclara en una línea.
+
+### D-17 · Certificado: contenido y límites
+- Contiene nombres y apellidos, edad, DNI, diagnóstico CIE-10 (F43.2), período en números y letras con inicio y fin, reincorporación, fecha de emisión, médico con CMP, firma y sello (placeholders), número de verificación y el contador de días acumulados en el año.
+- Marca de agua diagonal "CASO FICTICIO · PROTOTIPO SIN VALIDEZ LEGAL" y pie de prototipo. Maquetación propia: sin logos ni estructura del CMP o del CITT.
+- El código CIE-10 se mantiene fijo en F43.2 porque no hubo fuente oficial accesible para justificar un cambio; queda como dato del médico ficticio.
+
+### D-18 · Descargas y correo en nativo
+- Descargas: se rasteriza el SVG a PNG en un canvas, se escribe en `Directory.Cache` con `@capacitor/filesystem` y se abre la hoja de compartir con `@capacitor/share`. En web se conserva la descarga del navegador.
+- Correo y teléfono: `AppLauncher.openUrl` para `mailto:`, `tel:` y las URL de Gmail/Outlook, de modo que siempre salgan del WebView. En web, `window.open`.
+
+### D-19 · QA visual con Playwright sin descargar navegadores
+- `scripts/capturas.mjs` usa `playwright-core` con `channel: 'msedge'` (Edge ya instalado). Recorre el flujo completo con `?demo=rapido`, en 360×800 y 412×915, con `reducedMotion` en `no-preference` y `reduce`, y detecta desbordes horizontales y errores de consola. `FONT_SCALE=1.3` repite la corrida con la fuente al 130 %.
+- **Por qué:** el navegador integrado de la sesión no pintaba fotogramas (0 llamadas a `requestAnimationFrame` en 500 ms), así que no servía para verificar animaciones.
+
+### D-20 · iOS
+- Este equipo es Windows: no hay build nativo de iOS (requiere macOS con Xcode 26+). El iPhone usa la PWA. Limitaciones documentadas en `docs/COMO-INSTALAR.md` §B, verificadas el 10 sep: sin API de vibración en Safari (caniuse/MDN), Web Push solo en apps añadidas a la pantalla de inicio, exención del borrado de almacenamiento a los 7 días para las apps de la pantalla de inicio (WebKit). Los pasos para compilar en una Mac quedan en D6 §D.
