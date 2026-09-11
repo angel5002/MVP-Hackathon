@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
-import { Avatar, Button, Chip, Fila, IconRound } from '../components/ui';
+import { Avatar, Button, Fila, IconRound, Lista, Seccion } from '../components/ui';
 import { Icon } from '../components/icons';
 import { BreathLoader } from '../components/BreathLoader';
 import { CalendarStrip } from '../components/Charts';
@@ -62,11 +62,14 @@ export function Tele() {
           <span className="cap" style={{ color: 'rgba(255,255,255,.7)' }}>Teleconsulta simulada</span>
         </div>
         <div className="call__body">
-          {!rm && [0, 1, 2].map((k) => (
-            <motion.span key={k} className="call__ring" aria-hidden="true" style={{ width: 116, height: 116, marginLeft: -58, marginTop: -92 }}
-              animate={{ scale: [1, 2.1], opacity: [0.5, 0] }} transition={{ duration: 4, repeat: Infinity, delay: k * 1.3, ease: 'easeOut' }} />
-          ))}
-          <motion.div className="call__avatar" style={{ marginTop: -68 }} animate={rm ? undefined : { scale: [1, 1.03, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>{m.ini}</motion.div>
+          <div className="call__avatarwrap">
+            {/* Ondas: nacen del avatar y quedan detrás de él y del texto */}
+            {!rm && [0, 1, 2].map((k) => (
+              <motion.span key={k} className="call__ring" aria-hidden="true"
+                animate={{ scale: [1, 2.2], opacity: [0.35, 0] }} transition={{ duration: 4, repeat: Infinity, delay: k * 1.3, ease: 'easeOut' }} />
+            ))}
+            <motion.div className="call__avatar" animate={rm ? undefined : { scale: [1, 1.03, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>{m.ini}</motion.div>
+          </div>
           <div className="call__name">{m.nombre}</div>
           <div className="call__wave" aria-hidden="true">
             {[0, 1, 2, 3, 4, 5, 6].map((k) => (
@@ -117,14 +120,11 @@ export function Evaluacion() {
         <p>“{capital(ev.fundamento)}”</p>
         <p className="cap mt-1">Indicación de {trato} {apellido}</p>
       </blockquote>
-      <div className="hr" />
-      <div className="row" style={{ justifyContent: 'space-between' }}>
-        <div><div className="label">Días de descanso en el año</div><div className="cap">{supera ? `Superas los ${LIMITE_DIAS_ANIO}: el certificado se valida ante EsSalud y se canjea por el CITT en 30 días hábiles` : `Hasta ${LIMITE_DIAS_ANIO} se justifican con certificado particular`}</div></div>
-        <div className="h2" style={{ whiteSpace: 'nowrap', color: supera ? 'var(--c-alerta)' : 'var(--c-texto)' }}>{acumulados} <span className="cap">de {LIMITE_DIAS_ANIO}</span></div>
-      </div>
-      <div className="card mt-4" style={{ padding: '4px 16px' }}>
+      <Lista className="mt-6">
+        <Fila icon={<IconRound name="calendar" tone={supera ? 'alerta' : 'info'} />} title="Días de descanso en el año" sub={supera ? `Superas los ${LIMITE_DIAS_ANIO}: se valida ante EsSalud y se canjea por el CITT en 30 días hábiles` : `Hasta ${LIMITE_DIAS_ANIO} se justifican con certificado particular`}
+          right={<span className="h2" style={{ whiteSpace: 'nowrap', color: supera ? 'var(--c-alerta)' : 'var(--c-texto)' }}>{acumulados} <span className="cap">de {LIMITE_DIAS_ANIO}</span></span>} />
         <Fila icon={<IconRound name="chat" tone="info" />} title="Tengo una duda sobre mi indicación" sub={`Escríbele a ${trato} ${apellido}; responde en menos de 24 horas`} right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => setSheetOpen(true)} />
-      </div>
+      </Lista>
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} label="Mensaje al médico">
         <h2 className="h2">Mensaje para {m.nombre}</h2>
         <p className="sub" style={{ margin: '8px 0 12px' }}>Responde por este canal en menos de 24 horas.</p>
@@ -157,23 +157,18 @@ export function Cert() {
         <motion.div initial={{ scale: rm ? 1 : 0.6, opacity: rm ? 1 : 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 320, damping: 22 }}><IconRound name="check" tone="ok" /></motion.div>
         <div><h1 className="h1">Certificado emitido</h1><p className="sub">Tras tu teleconsulta de hoy, {horaDe(consulta)}</p></div>
       </div>
-      <div className="card mt-4">
+      <Lista className="mt-6">
         <Fila icon={<Avatar ini={m.ini} color={m.color} />} title={m.nombre} sub={`${m.cmp}, ${m.rol}`} />
         <Fila icon={<IconRound name="doc" tone="info" />} title={`${CIE10.codigo}, ${CIE10.titulo}`} sub="Diagnóstico CIE-10 indicado por tu médico" />
         <Fila icon={<IconRound name="calendar" tone="info" />} title={`${ev.dias} días de descanso`} sub={rangoTexto(ev.inicio, ev.fin)} />
-        <Fila icon={<IconRound name="eye" tone="info" />} title="Vista previa del certificado" sub="Se descarga al terminar el trámite" right={<Icon name="chevron" color="var(--c-texto-2)" />} onClick={() => setViewerDoc('cert')} />
-      </div>
-      <h2 className="eyebrow mt-6">Días de descanso acumulados en el año</h2>
-      <div className="row" style={{ justifyContent: 'space-between' }}>
-        <div className="cap row__grow">Los primeros {LIMITE_DIAS_ANIO} días del año se justifican con certificado particular. Pasado ese umbral, el certificado debe validarse ante EsSalud y canjearse por el CITT dentro de 30 días hábiles.</div>
-        <div className="h2" style={{ whiteSpace: 'nowrap', color: supera ? 'var(--c-alerta)' : 'var(--c-texto)' }}>{acumulados} <span className="cap">de {LIMITE_DIAS_ANIO}</span></div>
-      </div>
-      {supera && (
-        <div className="card mt-3">
-          <Chip kind="warn">Superas los {LIMITE_DIAS_ANIO} días</Chip>
-          <p className="sub mt-2">PAUSA prepara el expediente de canje por el CITT y te avisa el plazo. Lo verás como un paso más del trámite.</p>
-        </div>
-      )}
+        <Fila icon={<IconRound name="eye" tone="info" />} title="Vista previa del certificado" sub="Se descarga al terminar el trámite" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => setViewerDoc('cert')} />
+      </Lista>
+      <Seccion label="Días de descanso en el año" nota={`Los primeros ${LIMITE_DIAS_ANIO} días del año se justifican con certificado particular. Pasado ese umbral, el certificado se valida ante EsSalud y se canjea por el CITT en 30 días hábiles.`}>
+        <Lista>
+          <Fila title={supera ? `Superas los ${LIMITE_DIAS_ANIO} días` : 'Dentro del límite anual'} sub={supera ? 'PAUSA prepara el expediente de canje' : 'Con este certificado'}
+            right={<span className="h2" style={{ whiteSpace: 'nowrap', color: supera ? 'var(--c-alerta)' : 'var(--c-texto)' }}>{acumulados} <span className="cap">de {LIMITE_DIAS_ANIO}</span></span>} />
+        </Lista>
+      </Seccion>
     </Screen>
   );
 }

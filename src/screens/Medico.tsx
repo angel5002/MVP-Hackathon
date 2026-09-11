@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
-import { Avatar, Button, Chip, Fila, IconRound, ProCard, Slots } from '../components/ui';
+import { Avatar, Button, Chip, Fila, IconRound, Lista, ProCard, Slots } from '../components/ui';
 import { Icon } from '../components/icons';
 import { BreathLoader } from '../components/BreathLoader';
 import { useApp } from '../nav/store';
@@ -131,12 +131,11 @@ export function Cita() {
         <IconRound name="check" tone="ok" />
         <h1 className="h1">Cita confirmada</h1>
       </div>
-      <div className="card mt-5">
-        <Chip kind="warn">Medicina</Chip>
-        <Fila icon={<Avatar ini={m.ini} color={m.color} />} title={m.nombre} sub={`${m.rol}, ${m.cmp}`} />
+      <Lista className="mt-6">
+        <Fila icon={<Avatar ini={m.ini} color={m.color} />} title={m.nombre} sub={`${m.rol}, ${m.cmp}`} right={<Chip kind="warn">Medicina</Chip>} />
         <Fila icon={<IconRound name="calendar" tone="info" />} title={slotTexto(slot)} sub="Teleconsulta de 20 minutos" />
         <Fila icon={<IconRound name="video" tone="info" />} title="Videollamada" sub="Desde esta app; te avisaremos 10 minutos antes" />
-      </div>
+      </Lista>
       {!state.preConsulta && (
         <div className="mt-4"><Button variant="outline" onClick={() => go('pre')}>Responder la pre-consulta</Button></div>
       )}

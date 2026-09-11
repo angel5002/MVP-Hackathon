@@ -181,3 +181,9 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - **Por qué:** el usuario señaló que la transición de pestañas se había quitado en lugar de arreglarse, que la app se sentía con tirones tras el ingreso, que la ilustración del ingreso debía ser bonita como el pájaro de la referencia, y entregó la maqueta del certificado (sin firma, con QR).
 - **Dependencia nueva:** `qrcode` 1.5.4 (MIT) para generar el QR de validación en el SVG del certificado y del aviso; se usa la API síncrona `QRCode.create` para no cambiar la firma de `certSVG()`.
 - **Marca de Pacífico en el documento:** se compone tipográficamente (onda + "Pacífico Seguros"); no se usa el logotipo oficial.
+
+### D-28 · Retícula de listas y pájaro fiel (11 sep, madrugada)
+- **Qué:** primitivas `Seccion` y `Lista` en `components/ui.tsx` aplicadas en todas las pantallas; iconos de fila a 40 px sin margen; textos explicativos convertidos en notas al pie; Perfil centrado; pájaro redibujado con la geometría de la referencia de stoic.; tarjeta de ingreso oscura recuperada con margen. Detalle en `docs/sistema-de-diseno.md` §10.6.
+- **Por qué:** el usuario mostró Perfil y Documentos con textos descuadrados (dos sangrías distintas según la fila estuviera o no dentro de una tarjeta) y pantallas saturadas, señaló que el pájaro no se parecía a la referencia y pidió recuperar el fondo de color de la tarjeta superior del ingreso.
+- **Color del pájaro:** en la tarjeta navy va en blanco roto (`#F5F5F2`) porque la silueta negra de la referencia no tendría contraste sobre ese fondo; la forma es la que se conserva fiel.
+- **Ajustes tras revisión:** cola corta recortada por el borde y pies iguales en el pájaro; ondas de la teleconsulta ancladas al avatar y detrás del contenido.

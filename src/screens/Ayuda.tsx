@@ -1,5 +1,5 @@
 import { Screen } from '../components/Screen';
-import { Avatar, Button, Chip, Fila, IconRound, ProCard, Slots } from '../components/ui';
+import { Avatar, Button, Chip, Fila, IconRound, Lista, ProCard, Slots } from '../components/ui';
 import { Icon } from '../components/icons';
 import { useApp } from '../nav/store';
 import { PERSONA, PSICO, byId } from '../data/red';
@@ -74,12 +74,11 @@ export function PsicoOk() {
         <IconRound name="check" tone="ok" />
         <h1 className="h1">Sesión agendada</h1>
       </div>
-      <div className="card mt-5">
-        <Chip kind="info">Psicología</Chip>
-        <Fila icon={<Avatar ini={p.ini} color={p.color} />} title={p.nombre} sub={p.rol} />
+      <Lista className="mt-6">
+        <Fila icon={<Avatar ini={p.ini} color={p.color} />} title={p.nombre} sub={p.rol} right={<Chip kind="info">Psicología</Chip>} />
         <Fila icon={<IconRound name="calendar" tone="info" />} title={slotTexto(slot)} sub="Duración estimada: 45 min" />
         <Fila icon={<IconRound name="video" tone="info" />} title="Videollamada" sub="Desde esta app" />
-      </div>
+      </Lista>
       <p className="cap center mt-4">Te avisaremos 10 minutos antes. Puedes cambiarla desde Citas.</p>
     </Screen>
   );

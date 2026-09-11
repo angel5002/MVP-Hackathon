@@ -116,12 +116,29 @@ img, svg { display: block; }
 .hero .h1, .hero .h2, .hero .display { color: var(--c-heroe-texto); }
 .hero__glow { position: absolute; width: 280px; height: 280px; border-radius: 50%; right: -90px; top: -120px; background: radial-gradient(closest-side, rgba(0,160,223,.38), rgba(0,160,223,0)); pointer-events: none; }
 .hero .btn--primary { background: #fff; color: var(--c-texto); }
-.intro { position: relative; min-height: 380px; margin: var(--s-4) calc(-1 * var(--margen)) 0; padding: 56px var(--margen) 0; display: flex; flex-direction: column; align-items: center; background: linear-gradient(180deg, #ECECE8 0%, var(--c-fondo) 100%); border-bottom: 1px solid var(--c-contorno); overflow: hidden; }
+.intro { position: relative; min-height: 400px; margin: var(--s-3) 0 0; padding: 28px var(--s-5) 0; display: flex; flex-direction: column; align-items: center; background: var(--c-heroe); color: var(--c-heroe-texto); border-radius: var(--r-xl); box-shadow: var(--e-2); overflow: hidden; transform: translateZ(0); }
+.intro .cap { color: var(--c-heroe-texto-2); }
 .intro__text { text-align: center; position: relative; z-index: 1; }
 .intro__logo { margin: 0 auto var(--s-4); }
-.intro__h { font: var(--t-headline); font-size: 1.5rem; line-height: 2rem; letter-spacing: -.02em; color: var(--c-texto); }
-.intro__bird { position: absolute; left: 18px; bottom: 0; line-height: 0; }
+.intro__h { font: var(--t-headline); font-size: 1.5rem; line-height: 2rem; letter-spacing: -.02em; color: var(--c-heroe-texto); }
+.intro__bird { position: absolute; left: -16px; bottom: -1px; line-height: 0; }
 .row { display: flex; align-items: center; gap: var(--s-3); min-height: var(--tap); }
+/* Sección: 32 px entre secciones, 12 px entre la etiqueta y su contenido, nota al pie en gris */
+.seccion { margin-top: var(--s-8); }
+.seccion > .eyebrow { margin-bottom: var(--s-3); }
+.seccion__nota { margin-top: var(--s-3); padding: 0 var(--s-1); color: var(--c-texto-3); }
+/* Lista: tarjeta de filas con una sola sangría (16 px) y separadores de 1 px */
+.list { background: var(--c-superficie); border-radius: var(--r-lg); box-shadow: var(--e-1); overflow: hidden; transform: translateZ(0); }
+.list > .row { position: relative; margin: 0; width: 100%; min-height: 64px; padding: 10px var(--s-4); border-radius: 0; }
+.list > .row + .row::before { content: ''; position: absolute; left: var(--s-4); right: var(--s-4); top: 0; height: 1px; background: var(--gris-100); }
+.list > .row > .icon-round, .list > .row > .avatar { margin: 0; }
+.row > .icon-round { margin-bottom: 0; width: 40px; height: 40px; }
+.row > .icon-round svg { width: 20px; height: 20px; }
+.acts { display: flex; margin-right: calc(-1 * var(--s-2)); }
+.card--quiet { box-shadow: none; background: var(--c-superficie-2); }
+.empty { margin-top: var(--s-12); display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 var(--s-4); }
+.perfil { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: var(--s-2); }
+.perfil__nombre { font: 700 1.375rem/1.75rem var(--font); letter-spacing: -.02em; color: var(--c-texto); margin-top: var(--s-3); }
 .row--tap { border-radius: var(--r-md); margin: 0 calc(-1 * var(--s-2)); padding: var(--s-1) var(--s-2); width: calc(100% + 2 * var(--s-2)); text-align: left; }
 .row--tap:active { background: var(--c-superficie-pulsada); }
 .row__grow { flex: 1; min-width: 0; }
@@ -233,8 +250,11 @@ img, svg { display: block; }
 .call__timer { font: var(--t-label); color: rgba(255,255,255,.75); display: inline-flex; align-items: center; gap: 6px; }
 .call__timer i { width: 8px; height: 8px; border-radius: 50%; background: var(--c-alerta-acento); display: block; }
 .call__body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-3); position: relative; padding: 0 var(--s-6); text-align: center; }
-.call__ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.22); left: 50%; top: 50%; }
-.call__avatar { width: 116px; height: 116px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font: var(--t-headline); position: relative; }
+.call__avatarwrap { position: relative; width: 116px; height: 116px; margin-top: -68px; z-index: 0; }
+.call__ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.22); pointer-events: none; z-index: 0; }
+.call__body > :not(.call__avatarwrap):not(.call__self) { position: relative; z-index: 1; }
+.call__self { z-index: 1; }
+.call__avatar { width: 116px; height: 116px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font: var(--t-headline); position: relative; z-index: 1; }
 .call__name { font: var(--t-title); }
 .call__sub { font: var(--t-caption); color: rgba(255,255,255,.7); max-width: 280px; }
 .call__wave { display: flex; gap: 4px; align-items: center; height: 22px; }

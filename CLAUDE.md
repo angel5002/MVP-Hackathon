@@ -15,8 +15,9 @@ Referencia: la app *stoic.* (Mobbin) por su sobriedad, más los toques de Pacíf
 - Acento Pacífico `#00A0DF` solo donde suma: logo, botón central de la barra, loader, brillos. Botón primario en tinta.
 - Tipografía DM Sans (OFL, empaquetada). Etiquetas de sección en mayúsculas espaciadas pequeñas (`.eyebrow`).
 - Barra inferior de 5 posiciones con botón central "Pedir ayuda", montada una sola vez en `App.tsx` (fuera de la transición de pantallas; entre pestañas solo hay fundido). La alerta del inicio es una tarjeta héroe, no un modal.
-- Loader de respiración: mar azul con ola y carita que recorre la ola en bucle (`components/BreathLoader.tsx`, `components/Face.tsx`); 4 s inhala / 6 s exhala; nunca corta una exhalación. Portada del ingreso con el pájaro de PAUSA (`components/Bird.tsx`).
+- Loader de respiración: mar azul con ola y carita que recorre la ola en bucle (`components/BreathLoader.tsx`, `components/Face.tsx`); 4 s inhala / 6 s exhala; nunca corta una exhalación. Portada del ingreso: tarjeta navy con margen y el pájaro de PAUSA en blanco (`components/Bird.tsx`, geometría de stoic.: lomo diagonal, pecho vertical, base plana, ojo en arco).
 - Certificado y aviso (`logic/docs.ts`): formato de tarjeta con cabecera de ambas marcas, banda de título, columnas de datos, CIE-10, DESDE/HASTA, observaciones y QR real (`qrcode`); sin firma ni sello.
+- Retícula: toda fila va dentro de una `Lista` (tarjeta de filas, 16 px de sangría, separadores) y cada bloque es una `Seccion` (etiqueta + contenido + nota opcional, 32 px entre secciones). Nada de filas sueltas al margen ni párrafos explicativos largos; lo secundario va como nota al pie.
 - Fluidez primero: nada de `filter` animado, sombras cortas, no desmontar tarjetas grandes para cambiarles el contenido; entre pestañas el contenido se desliza y la barra queda fija.
 - Teleconsulta a pantalla completa con avatar, ondas de audio, anillos y la carita en la cámara propia.
 - Solo se animan `transform` y `opacity`; se respeta `prefers-reduced-motion`.

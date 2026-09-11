@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
-import { Button, Fila, IconRound } from '../components/ui';
+import { Button, Fila, IconRound, Lista, Seccion } from '../components/ui';
 import { Icon } from '../components/icons';
 import { Ring, WeekBars, WeekStrip } from '../components/Charts';
 import { useApp, useTimers } from '../nav/store';
@@ -68,8 +68,8 @@ export function Home() {
         </AnimatePresence>
       </motion.section>
 
-      <p className="eyebrow mt-8">Tu semana</p>
-      <div className="stats">
+      <Seccion label="Tu semana">
+      <div className="stats" style={{ marginTop: 0 }}>
         <div className="stat"><div className="stat__n">{PATRON.diasSinDesconectar}<small>días</small></div><div className="stat__l">seguidos sin desconectar más de 12 h</div></div>
         <div className="stat"><div className="stat__n">{PATRON.nochesTarde}<small>noches</small></div><div className="stat__l">con actividad después de las 11 pm</div></div>
         {state.watch && (
@@ -80,12 +80,14 @@ export function Home() {
         )}
       </div>
 
-      <div className="card card--xl mt-4"><WeekBars /></div>
+      <div className="card card--xl mt-3"><WeekBars /></div>
+      </Seccion>
 
-      <p className="eyebrow mt-8">Privacidad</p>
-      <div className="card mt-3" style={{ padding: '4px 16px' }}>
-        <Fila icon={<IconRound name="shield" tone="info" />} title="Medimos tu patrón de trabajo, no tu salud" sub="Tú eliges qué datos recoge PAUSA" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => goTab('perfil')} />
-      </div>
+      <Seccion label="Privacidad">
+        <Lista>
+          <Fila icon={<IconRound name="shield" tone="info" />} title="Medimos tu patrón de trabajo, no tu salud" sub="Tú eliges qué datos recoge PAUSA" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => goTab('perfil')} />
+        </Lista>
+      </Seccion>
     </Screen>
   );
 }

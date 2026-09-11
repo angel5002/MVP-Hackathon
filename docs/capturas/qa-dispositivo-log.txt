@@ -1,4 +1,4 @@
-WebView: https://localhost/ · pid 23389 · 25100RA69G Android 16
+WebView: https://localhost/ · pid 31162 · 25100RA69G Android 16
 insets {"top":"39px","bottom":"47px","viewport":"384x850","dpr":2.8125,"nativo":true}
 captura 01-ingreso.png
 captura 02-reloj.png
@@ -23,7 +23,7 @@ captura 20-visor.png
 captura 21-tramite.png
 captura 22-proceso.png
 Failed to write while dumping service activity: Broken pipe
-tras Descargar: topResumedActivity=ActivityRecord{15079156 u0 com.android.intentresolver/.ChooserActivity t3518}
+tras Descargar: topResumedActivity=ActivityRecord{82315366 u0 com.android.intentresolver/.ChooserActivity t3524}
 captura 23-empleador.png
 captura 24-correo.png
 captura 25-atras-fisico-1.png
@@ -39,16 +39,16 @@ botón atrás: {"inyeccionDisponible":true,"pantallaTrasAtras1":"Tu empleador ve
   "{message: Share canceled}"
  ],
  "erroresLogcat": [
-  "09-11 03:35:23.595 E/ActivityManagerWrapper( 2698):  mainTaskId=3518   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 03:35:23.607 E/Zygote  (23389): process_name_ptr:23389 pe.pausa.hackathon\r",
-  "09-11 03:35:23.608 E/Zygote  (23389): SetMemoryProtected process_name_ptr:23389 pe.pausa.hackathon\r",
-  "09-11 03:35:23.622 E/ActivityManagerWrapper( 2698):  mainTaskId=3518   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 03:35:23.675 E/ActivityManagerWrapper( 2698):  mainTaskId=3518   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 03:35:24.650 E/MiuiPreloadClassImpl(27773): preloadPkgs is null, packageName: com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0\r",
-  "09-11 03:35:25.389 E/Capacitor/Console(23389): File:  - Line 6 - Msg: Error injecting safe area CSS: TypeError: Cannot read properties of null (reading 'style')\r",
-  "09-11 03:35:28.381 E/HyperSentinel( 2241): ->pid:23389,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 307500kb -> 389968kb\r",
-  "09-11 03:36:48.905 E/HyperSentinel( 2241): ->pid:23389,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 389968kb -> 493872kb\r",
-  "09-11 03:36:51.386 E/TransitionChain( 2241):    ChangeInfo{57bf34d container=Task{8c3fda4 #3518 type=standard A=10380:pe.pausa.hackathon} flags=0x0}\r"
+  "09-11 04:04:29.080 E/Zygote  (31162): process_name_ptr:31162 pe.pausa.hackathon\r",
+  "09-11 04:04:29.081 E/Zygote  (31162): SetMemoryProtected process_name_ptr:31162 pe.pausa.hackathon\r",
+  "09-11 04:04:29.141 E/ActivityManagerWrapper( 2698):  mainTaskId=3524   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:04:29.183 E/ActivityManagerWrapper( 2698):  mainTaskId=3524   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:04:29.212 E/ActivityManagerWrapper( 2698):  mainTaskId=3524   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:04:29.996 E/MiuiPreloadClassImpl( 4783): preloadPkgs is null, packageName: com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0\r",
+  "09-11 04:04:30.445 E/Capacitor/Console(31162): File:  - Line 6 - Msg: Error injecting safe area CSS: TypeError: Cannot read properties of null (reading 'style')\r",
+  "09-11 04:04:30.446 E/Capacitor/Console(31162): File:  - Line 6 - Msg: Error injecting safe area CSS: TypeError: Cannot read properties of null (reading 'style')\r",
+  "09-11 04:04:30.447 E/Capacitor/Console(31162): File:  - Line 6 - Msg: Error injecting safe area CSS: TypeError: Cannot read properties of null (reading 'style')\r",
+  "09-11 04:04:33.984 E/HyperSentinel( 2241): ->pid:31162,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 308552kb -> 388252kb\r"
  ],
- "actividadTrasDescargar": "topResumedActivity=ActivityRecord{15079156 u0 com.android.intentresolver/.ChooserActivity t3518}"
+ "actividadTrasDescargar": "topResumedActivity=ActivityRecord{82315366 u0 com.android.intentresolver/.ChooserActivity t3524}"
 }

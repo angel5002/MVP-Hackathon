@@ -79,6 +79,22 @@ export function Fila({ icon, title, sub, right, onClick }: { icon?: ReactNode; t
   return <div className="row">{inner}</div>;
 }
 
+/** Bloque de sección: etiqueta pequeña en mayúsculas alineada al margen, contenido debajo y una nota opcional al pie. */
+export function Seccion({ label, nota, children }: { label: string; nota?: ReactNode; children: ReactNode }) {
+  return (
+    <section className="seccion">
+      <h2 className="eyebrow">{label}</h2>
+      {children}
+      {nota && <p className="cap seccion__nota">{nota}</p>}
+    </section>
+  );
+}
+
+/** Tarjeta que solo contiene filas: todas comparten la misma sangría y van separadas por una línea fina. */
+export function Lista({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return <div className={`list ${className}`}>{children}</div>;
+}
+
 export function IconRound({ name, tone }: { name: Parameters<typeof Icon>[0]['name']; tone: 'alerta' | 'ok' | 'info' }) {
   const bg = tone === 'alerta' ? 'var(--c-alerta-tinte)' : tone === 'ok' ? 'var(--c-exito-tinte)' : 'var(--c-primario-tinte)';
   const fg = tone === 'alerta' ? 'var(--c-alerta)' : tone === 'ok' ? 'var(--c-exito)' : 'var(--c-texto)';

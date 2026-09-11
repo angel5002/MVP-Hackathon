@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
-import { Avatar, Button, Chip, Fila, IconRound } from '../components/ui';
+import { Avatar, Button, Chip, Fila, IconRound, Lista, Seccion } from '../components/ui';
 import { Icon } from '../components/icons';
 import { useApp, useTimers } from '../nav/store';
 import { LIMITE_DIAS_ANIO, MED, PERSONA, PSICO, byId } from '../data/red';
@@ -68,17 +68,21 @@ export function Proceso() {
         <div className="stat"><div className="stat__n">{acumulados}<small>de {LIMITE_DIAS_ANIO}</small></div><div className="stat__l">días de descanso este año</div></div>
         <div className="stat"><div className="stat__n">{PERSONA.sesionesAnuales - state.sesiones.length}<small>de {PERSONA.sesionesAnuales}</small></div><div className="stat__l">sesiones de psicología disponibles</div></div>
       </div>
-      <h2 className="eyebrow mt-6">Próxima sesión</h2>
-      <Fila icon={<Avatar ini={p.ini} color={p.color} />} title={p.nombre} sub={`${slotTexto(prox?.slot ?? p.slots[0])}, videollamada${prox ? '' : '. Incluida en tu pausa, no usa tus sesiones'}`} right={prox ? <Chip kind="info">Sesión</Chip> : <Chip kind="ok">Incluida</Chip>} />
-      <h2 className="eyebrow mt-6">Para tu empleador</h2>
-      <div className="card mt-2">
+      <Seccion label="Próxima sesión" nota={prox ? undefined : 'Incluida en tu pausa: no usa tus sesiones del año.'}>
+        <Lista>
+          <Fila icon={<Avatar ini={p.ini} color={p.color} />} title={p.nombre} sub={`${slotTexto(prox?.slot ?? p.slots[0])}, videollamada`} right={prox ? <Chip kind="info">Sesión</Chip> : <Chip kind="ok">Incluida</Chip>} />
+        </Lista>
+      </Seccion>
+      <Seccion label="Para tu empleador">
+      <Lista>
         <Fila icon={<IconRound name="doc" tone="info" />} title="Certificado médico" sub="Listo para descargar" right={
-          <span style={{ display: 'flex' }}>
+          <span className="acts">
             <button className="iconbtn" aria-label="Ver" onClick={() => setViewerDoc('cert')}><Icon name="eye" /></button>
             <button className="iconbtn" aria-label="Descargar" onClick={() => void descargar('cert')}><Icon name="download" /></button>
           </span>} />
-        <Fila icon={<IconRound name="mail" tone="ok" />} title="Avisar a tu empleador" sub="Primero verás exactamente qué recibirá" right={<Icon name="chevron" color="var(--c-texto-2)" />} onClick={() => go('empleador')} />
-      </div>
+        <Fila icon={<IconRound name="mail" tone="ok" />} title="Avisar a tu empleador" sub="Primero verás exactamente qué recibirá" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => go('empleador')} />
+      </Lista>
+      </Seccion>
     </Screen>
   );
 }
