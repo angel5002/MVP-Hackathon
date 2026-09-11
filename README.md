@@ -46,6 +46,6 @@ Vite 8 · React 19 · TypeScript 7 · Motion 13 (único motor de animación) · 
 
 ## Publicación
 
-La URL https://angel5002.github.io/MVP-Hackathon/ sigue sirviendo el prototipo anterior hasta que se apruebe el reemplazo. El flujo `.github/workflows/pages.yml` (manual) publica `dist/` cuando se active *Settings → Pages → Source: GitHub Actions*.
+La PWA está publicada en https://angel5002.github.io/MVP-Hackathon/ mediante el flujo `.github/workflows/pages.yml` (manual, fuente de Pages: GitHub Actions). El prototipo anterior se conserva en `legacy/index.html`.
 
 Datos simulados. Profesionales y colegiaturas son ficticios.

@@ -150,6 +150,12 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - Verificación de la PWA sin conexión con el build de producción: service worker activo, manifest con 3 íconos y `display: standalone`, y la app navega (ingreso → reloj) con la red desconectada y la fuente Signika cargada desde caché.
 - **No verificado:** rendimiento a 60 fps en un Android de gama media (no hay medición en dispositivo todavía) y el comportamiento real de la háptica, la hoja de compartir y el botón atrás en el teléfono; queda para el QA en dispositivo cuando se autorice la instalación por adb.
 
-### D-23 · Publicación en GitHub Pages: preparada, no ejecutada
-- El flujo `.github/workflows/pages.yml` (manual, `workflow_dispatch`) construye `dist/` y lo publica con `actions/deploy-pages`. Requiere activar *Settings → Pages → Source: GitHub Actions* y un `push`. No se ha hecho ni una cosa ni la otra: la URL actual sigue sirviendo `legacy/index.html` hasta la aprobación expresa.
+### D-23 · Publicación en GitHub Pages: ejecutada el 11 sep con aprobación del usuario
+- El flujo `.github/workflows/pages.yml` (manual, `workflow_dispatch`) construye `dist/` y lo publica con `actions/deploy-pages`. Tras el "Apruebo todo" del usuario: `git push` de los 5 commits a `origin/main`, cambio de la fuente de Pages de `legacy` (rama main, raíz) a `workflow` con `gh api -X PUT .../pages -f build_type=workflow`, y ejecución del flujo (run 34568344241, correcto). Verificado en vivo: https://angel5002.github.io/MVP-Hackathon/ responde 200 con la nueva app, `manifest.webmanifest` y `sw.js` disponibles, service worker activo y navegación ingreso → reloj sin errores de consola.
+- Nota: entre el push y el fin del flujo (unos 2 minutos) la URL sirvió el `index.html` de Vite sin compilar. El prototipo anterior sigue accesible en el repositorio como `legacy/index.html`; ya no se sirve en la URL pública.
 - `base: './'` en Vite permite que el mismo build funcione bajo `/MVP-Hackathon/` y dentro del APK.
+
+### D-24 · QA en dispositivo: bloqueado por el teléfono, pendiente de un paso manual
+- Teléfono detectado por adb: Xiaomi 25100RA69G, Android 16 (API 36), 1080×2392 a 450 dpi (unos 384×850 dp). Es exactamente el objetivo de prueba principal del prompt.
+- `adb install -r` falló dos veces con `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`: HyperOS exige activar **"Instalar vía USB"** en Opciones de desarrollador (y a veces iniciar sesión en la cuenta Mi) o aceptar un diálogo en la pantalla del teléfono. No es un problema del APK.
+- Como alternativa, el APK se copió a `/sdcard/Download/PAUSA-debug.apk` para instalarlo desde la app Archivos siguiendo `docs/COMO-INSTALAR.md` §A.2 y §A.3. El recorrido con `adb logcat` queda pendiente hasta que la instalación se complete.

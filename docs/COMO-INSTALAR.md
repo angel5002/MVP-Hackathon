@@ -56,7 +56,7 @@ No hay build nativo de iOS porque este equipo es Windows (Xcode solo existe en m
 
 ### Instalar desde Safari (iOS 26)
 
-1. Abre la URL de la PWA en **Safari** (la que te entreguen; hoy la versión publicada en GitHub Pages sigue siendo el prototipo anterior hasta que apruebes el reemplazo).
+1. Abre https://angel5002.github.io/MVP-Hackathon/ en **Safari**.
 2. Toca el botón **Compartir** (cuadrado con flecha).
 3. Elige **Añadir a pantalla de inicio** → **Añadir**.
 4. Ábrela desde el ícono: se abre a pantalla completa, sin barra del navegador.
