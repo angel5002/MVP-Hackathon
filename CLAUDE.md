@@ -22,6 +22,12 @@ Referencia: la app *stoic.* (Mobbin) por su sobriedad, más los toques de Pacíf
 - Teleconsulta a pantalla completa con avatar, ondas de audio, anillos y la carita en la cámara propia.
 - Solo se animan `transform` y `opacity`; se respeta `prefers-reduced-motion`.
 
+## Flujo clínico (reglas que el usuario fijó)
+- El médico se **asigna** automáticamente (`logic/recomendar.ts`), nunca se elige: antifraude. El psicólogo sí se elige, con el mismo sistema de recomendación.
+- Ver/descargar/compartir el certificado y el aviso solo con `tramiteListo`; nada de vistas previas antes. "Descargar" guarda en `Documentos/PAUSA` en Android; "Compartir" abre la hoja del sistema.
+- No mostrar la cita bibliográfica del PHQ-4 en pantalla (queda en docs).
+- `MainActivity` oculta la barra de navegación del sistema (inmersivo transitorio); no volver a mostrarla.
+
 ## Reglas de trabajo
 - Un commit por bloque de trabajo, mensajes en español. No hacer `push` ni publicar en GitHub Pages sin pedirlo (el flujo `pages.yml` es manual).
 - Preguntar antes de instalar en el teléfono; en HyperOS hace falta "Instalar vía USB" y "Depuración USB (ajustes de seguridad)".

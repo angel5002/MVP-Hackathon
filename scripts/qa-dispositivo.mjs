@@ -71,12 +71,13 @@ await p.waitForTimeout(10500); await click('Finalizar consulta'); await p.waitFo
 await click('Sí, terminar'); await p.waitForTimeout(3500); await shot('evaluacion');
 await click('Ver mi certificado'); await p.waitForTimeout(2000); await shot('emitiendo');
 await p.waitForTimeout(9500); await shot('certificado');
-await click('Vista previa del certificado'); await p.waitForTimeout(700); await shot('visor'); await click('Cerrar');
 await click('Iniciar el trámite'); await p.waitForTimeout(6500); await shot('tramite');
 await click('Ver mi proceso'); await shot('proceso');
-// Descarga nativa: debe abrir la hoja de compartir de Android (se detecta en logcat y por la actividad en primer plano)
+await p.getByRole('button', { name: 'Ver' }).first().click(); await p.waitForTimeout(700); await shot('visor'); await p.getByRole('button', { name: 'Cerrar' }).click(); await p.waitForTimeout(400);
+// Descarga nativa: debe dejar el PNG en Documentos/PAUSA (carpeta pública, visible desde Archivos)
+sh('rm -rf /sdcard/Documents/PAUSA'); await p.waitForTimeout(300);
 await p.getByRole('button', { name: 'Descargar' }).first().click(); await p.waitForTimeout(3000);
-const topShare = sh('dumpsys activity activities | grep -E "ResumedActivity" | head -1').trim();
+const topShare = sh('ls -la /sdcard/Documents/PAUSA 2>&1').trim();
 console.log('tras Descargar:', topShare);
 // Volver a la app si quedó la hoja de compartir encima
 sh(`monkey -p ${PKG} -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1`); await p.waitForTimeout(1500);

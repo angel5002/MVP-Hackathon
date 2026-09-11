@@ -1,5 +1,5 @@
-WebView: https://localhost/ · pid 9980 · 25100RA69G Android 16
-insets {"top":"39px","bottom":"47px","viewport":"384x850","dpr":2.8125,"nativo":true}
+WebView: https://localhost/ · pid 13002 · 25100RA69G Android 16
+insets {"top":"39px","bottom":"0px","viewport":"384x850","dpr":2.8125,"nativo":true}
 captura 01-ingreso.png
 captura 02-reloj.png
 captura 03-inicio.png
@@ -19,11 +19,11 @@ captura 16-finalizar-sheet.png
 captura 17-evaluacion.png
 captura 18-emitiendo.png
 captura 19-certificado.png
-captura 20-visor.png
-captura 21-tramite.png
-captura 22-proceso.png
-Failed to write while dumping service activity: Broken pipe
-tras Descargar: topResumedActivity=ActivityRecord{96736471 u0 com.android.intentresolver/.ChooserActivity t3530}
+captura 20-tramite.png
+captura 21-proceso.png
+captura 22-visor.png
+tras Descargar: total 424
+-rw-rw---- 1 u0_a273 media_rw 432586 2026-09-11 04:50 Certificado-medico-PAUSA-Camila-Reyes.png
 captura 23-empleador.png
 captura 24-correo.png
 captura 25-atras-fisico-1.png
@@ -35,20 +35,18 @@ captura 30-perfil.png
 Failed to write while dumping service activity: Broken pipe
 botón atrás: {"inyeccionDisponible":true,"pantallaTrasAtras1":"Tu empleador verá esto","pantallaTrasAtras2":"7 días","topTrasRaiz":"topResumedActivity=ActivityRecord{256228483 u0 com.miui.home/.launcher.Launcher t2}","appVivaTrasRaiz":true}
 {
- "erroresJs": [
-  "{message: Share canceled}"
- ],
+ "erroresJs": [],
  "erroresLogcat": [
-  "09-11 04:29:15.945 E/Zygote  ( 9980): process_name_ptr:9980 pe.pausa.hackathon\r",
-  "09-11 04:29:15.946 E/Zygote  ( 9980): SetMemoryProtected process_name_ptr:9980 pe.pausa.hackathon\r",
-  "09-11 04:29:15.999 E/ActivityManagerWrapper( 2698):  mainTaskId=3530   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 04:29:16.020 E/ActivityManagerWrapper( 2698):  mainTaskId=3530   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 04:29:16.090 E/ActivityManagerWrapper( 2698):  mainTaskId=3530   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 04:29:16.857 E/MiuiPreloadClassImpl(11736): preloadPkgs is null, packageName: com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0\r",
-  "09-11 04:29:17.332 E/ActivityManagerWrapper( 2698):  mainTaskId=3530   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
-  "09-11 04:29:20.713 E/HyperSentinel( 2241): ->pid:9980,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 308324kb -> 389220kb\r",
-  "09-11 04:30:12.427 E/ActivityTaskManager( 2241): Failed to schedule ConfigurationChangeItem=ConfigurationChangeItem{deviceId=0, config{1.0 716mcc6mnc [es_ES] ldltr sw384dp w384dp h850dp 450dpi nrml long widecg port night finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1080, 2392) mAppBounds=Rect(0, 0 - 1080, 2392) mMaxBounds=Rect(0, 0 - 1080, 2392) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0 mInSplitScreen=false letterBoxed=false foScaled=false isSpecificEmbedded=false embeddingScale=1.0} s.3539 fontWeightAdjustment=0/d/0 themeChanged=0 themeChangedFlags=0 display=0 extraData = Bundle[{}] screenType=0/0}} owner=ProcessRecord{afa7465 10960:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:1/u0a166i178}\r",
-  "09-11 04:31:10.782 E/HyperSentinel( 2241): ->pid:9980,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 389220kb -> 491572kb\r"
+  "09-11 04:48:58.966 E/Zygote  (13002): process_name_ptr:13002 pe.pausa.hackathon\r",
+  "09-11 04:48:58.966 E/Zygote  (13002): SetMemoryProtected process_name_ptr:13002 pe.pausa.hackathon\r",
+  "09-11 04:48:58.998 E/ActivityManagerWrapper( 2698):  mainTaskId=3535   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:48:59.096 E/ActivityManagerWrapper( 2698):  mainTaskId=3535   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:48:59.335 E/ActivityManagerWrapper( 2698):  mainTaskId=3535   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:48:59.905 E/MiuiPreloadClassImpl(17943): preloadPkgs is null, packageName: com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0\r",
+  "09-11 04:49:00.468 E/ActivityManagerWrapper( 2698):  mainTaskId=3535   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 04:49:03.813 E/HyperSentinel( 2241): ->pid:13002,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 307364kb -> 384512kb\r",
+  "09-11 04:51:04.068 E/HyperSentinel( 2241): ->pid:13002,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 384512kb -> 492964kb\r",
+  "09-11 04:51:12.700 E/ActivityManagerWrapper( 2698):  mainTaskId=3535   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r"
  ],
- "actividadTrasDescargar": "topResumedActivity=ActivityRecord{96736471 u0 com.android.intentresolver/.ChooserActivity t3530}"
+ "actividadTrasDescargar": "total 424\r\n-rw-rw---- 1 u0_a273 media_rw 432586 2026-09-11 04:50 Certificado-medico-PAUSA-Camila-Reyes.png"
 }

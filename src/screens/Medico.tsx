@@ -6,14 +6,16 @@ import { Icon } from '../components/icons';
 import { BreathLoader } from '../components/BreathLoader';
 import { useApp } from '../nav/store';
 import { LINEA_MINSA, MED, byId } from '../data/red';
+import { motivo, recomendado } from '../logic/recomendar';
 import { fechaSlot, slotTexto } from '../logic/fechas';
 import { PHQ4_ENCABEZADO, PHQ4_ITEMS, PHQ4_OPCIONES, puntuarPhq4 } from '../logic/phq4';
 import { abrirExterno, haptic } from '../platform/native';
 import type { SlotDef } from '../types';
 
 export function Buscando() {
-  const { replace } = useApp();
-  return <BreathLoader estado="Buscando un médico de tu red" ciclos={1} onListo={() => replace('medico')} />;
+  const { set, replace } = useApp();
+  // PAUSA asigna al médico mejor puntuado por el mismo sistema de recomendación; el asegurado no elige.
+  return <BreathLoader estado="Buscando un médico de tu red" ciclos={1} onListo={() => { set({ medId: recomendado(MED).id, medSlot: 0 }); replace('medico'); }} />;
 }
 
 function enCuanto(s: SlotDef) {
@@ -32,17 +34,11 @@ export function Medico() {
       <h1 className="h1">Médico asignado</h1>
       <p className="sub">Teleconsulta por videollamada en menos de 24 horas</p>
       <div className="card mt-5">
-        <ProCard p={m} selected tap={false} extra={
-          <>
-            <div className="cap mt-1">Colegiatura por verificar en el trámite</div>
-          </>
-        } />
-        <div className="hr" style={{ margin: '12px 0 0' }} />
-        <Fila title={state.medOthers ? 'Ocultar otros médicos' : 'Ver otros médicos disponibles'} sub="De la red de Pacífico, con horario esta semana" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => set({ medOthers: !state.medOthers })} />
-        {state.medOthers && MED.filter((x) => x.id !== m.id).map((x) => (
-          <ProCard key={x.id} p={x} onClick={() => set({ medId: x.id, medSlot: 0, medOthers: false })} />
-        ))}
+        <ProCard p={m} selected tap={false} extra={<div className="cap mt-1">Colegiatura por verificar en el trámite</div>} />
       </div>
+      <Lista className="mt-3">
+        <Fila icon={<IconRound name="shield" tone="info" />} title="Asignación automática de PAUSA" sub={`Elegida ${motivo(m)}, entre la red de Pacífico. No se puede cambiar de médico: así evitamos que se busque a quien firme un descanso.`} />
+      </Lista>
       <h2 className="h2 mt-6">Elige un horario</h2>
       <Slots slots={m.slots} sel={state.medSlot} onSel={(i) => set({ medSlot: i })} nota={enCuanto} />
       <p className="cap mt-3">Antes de la cita te haremos 4 preguntas breves para que {m.nombre.startsWith('Dra') ? 'la doctora' : 'el doctor'} llegue con contexto.</p>
@@ -57,11 +53,10 @@ export function PreIntro() {
       <p className="eyebrow">Pre-consulta</p>
       <h1 className="h1">Cuatro preguntas antes de tu cita</h1>
       <p className="sub">Toma menos de un minuto.</p>
-      <div className="card mt-5">
+      <Lista className="mt-6">
         <Fila icon={<IconRound name="info" tone="info" />} title="Es un tamizaje, no un diagnóstico" sub="Tu médico lo revisará durante la teleconsulta." />
         <Fila icon={<IconRound name="shield" tone="info" />} title="Solo lo ve tu médico" sub="No forma parte de lo que recibe tu empleador." />
-      </div>
-      <p className="cap mt-4">Basado en el PHQ-4 (Kroenke et al., 2009), en su traducción al español para el Perú.</p>
+      </Lista>
       <div className="mt-4"><Button variant="text" onClick={() => replace('cita')}>Responder después</Button></div>
     </Screen>
   );

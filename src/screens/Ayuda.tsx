@@ -1,9 +1,12 @@
+import { useEffect, useRef } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
 import { Avatar, Button, Chip, Fila, IconRound, Lista, ProCard, Slots } from '../components/ui';
 import { Icon } from '../components/icons';
 import { useApp } from '../nav/store';
 import { PERSONA, PSICO, byId } from '../data/red';
 import { slotTexto } from '../logic/fechas';
+import { motivo, ordenar } from '../logic/recomendar';
 import { haptic } from '../platform/native';
 
 export function Ayuda() {
@@ -34,9 +37,15 @@ export function Ayuda() {
 
 export function Psico() {
   const { state, set, go } = useApp();
+  const rm = useReducedMotion();
   const elegido = state.psico ? byId(PSICO, state.psico) : null;
-  const lista = elegido ? [elegido, ...PSICO.filter((p) => p.id !== elegido.id).slice(0, 1)] : PSICO;
+  // Misma recomendación que para el médico (historial, disponibilidad, cercanía); aquí sí se elige.
+  const lista = ordenar(PSICO);
   const disponibles = PERSONA.sesionesAnuales - state.sesiones.length;
+  const horariosRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (elegido) horariosRef.current?.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'center' });
+  }, [elegido, rm]);
   const confirmar = () => {
     if (!elegido || state.psicoSlot === null) return;
     set((s) => ({ sesiones: [...s.sesiones, { proId: elegido.id, slot: elegido.slots[s.psicoSlot ?? 0] }], psico: null, psicoSlot: null }));
@@ -45,20 +54,31 @@ export function Psico() {
   return (
     <Screen back cta={<Button disabled={!elegido || state.psicoSlot === null} onClick={confirmar} haptica="success">Confirmar sesión</Button>}>
       <h1 className="h1">Elige con quién hablar</h1>
-      <p className="sub">Psicólogos de la red disponibles esta semana</p>
+      <p className="sub">Psicólogos de la red, ordenados para ti</p>
       <div className="mt-4">
-        {lista.map((p) => (
+        {lista.map((p, i) => (
           <ProCard key={p.id} p={p} selected={p.id === state.psico} onClick={() => set({ psico: p.id, psicoSlot: null })}
-            extra={p.id === state.psico && p.nota ? <div className="cap mt-2">{p.nota}</div> : undefined} />
+            extra={
+              <>
+                {i === 0 && <div className="cap mt-2" style={{ color: 'var(--c-exito)', fontWeight: 500 }}>Recomendación de PAUSA, {motivo(p)}</div>}
+                {p.id === state.psico && p.nota && <div className="cap mt-1">{p.nota}</div>}
+              </>
+            } />
         ))}
       </div>
-      {elegido ? (
-        <>
-          <h2 className="h2 mt-6">Elige un horario</h2>
-          <Slots slots={elegido.slots} sel={state.psicoSlot} onSel={(i) => set({ psicoSlot: i })} />
-          <p className="cap mt-3">Videollamada desde esta app, 45 minutos. Usa 1 de tus {disponibles} sesiones disponibles.</p>
-        </>
-      ) : <p className="cap center mt-4">Toca un profesional para ver sus horarios</p>}
+      <div ref={horariosRef}>
+        <AnimatePresence mode="wait" initial={false}>
+          {elegido ? (
+            <motion.div key={elegido.id} initial={{ opacity: 0, y: rm ? 0 : 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              <h2 className="h2 mt-6">Horarios de {elegido.nombre.replace(/^Lic\. /, '')}</h2>
+              <Slots slots={elegido.slots} sel={state.psicoSlot} onSel={(i) => set({ psicoSlot: i })} />
+              <p className="cap mt-3">Videollamada desde esta app, 45 minutos. Usa 1 de tus {disponibles} sesiones disponibles.</p>
+            </motion.div>
+          ) : (
+            <motion.p key="vacio" className="cap center mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>Toca un profesional para ver sus horarios</motion.p>
+          )}
+        </AnimatePresence>
+      </div>
     </Screen>
   );
 }

@@ -22,7 +22,7 @@ export function estadoInicial(): AppState {
     logged: false, watch: false, alertNever: false, alertSeen: false, haptica: true,
     toggles: { hours: true, geo: true }, tab: 'home',
     psico: null, psicoSlot: null, sesiones: [],
-    medId: 'eq', medSlot: 0, medOthers: false, citaConfirmada: false, preConsulta: null,
+    medId: 'eq', medSlot: 0, citaConfirmada: false, preConsulta: null,
     horaLlego: false, consultaHecha: false, evaluacion: null, certEmitido: false, tramiteListo: false,
     correoDest: 'jefe', jefeNombre: '', correoJefe: 'jefe@tuempresa.com', correoRrhh: 'rrhh@tuempresa.com',
     presenter: presenterDesdeUrl(),

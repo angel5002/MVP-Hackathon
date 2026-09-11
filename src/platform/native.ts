@@ -38,16 +38,38 @@ export async function abrirExterno(url: string) {
   return true;
 }
 
-/** Guarda un PNG (dataURL) y lo comparte en nativo; en web dispara la descarga del navegador. */
-export async function guardarPng(nombre: string, dataUrl: string, titulo: string) {
+export const CARPETA_DESCARGAS = 'Documentos/PAUSA';
+
+/**
+ * Descarga un PNG (dataURL). En Android lo escribe en la carpeta pública Documentos/PAUSA
+ * (accesible desde Archivos; en Android 11+ no requiere permiso para archivos propios).
+ * En web dispara la descarga del navegador.
+ */
+export async function guardarPng(nombre: string, dataUrl: string): Promise<{ modo: 'guardado' | 'descargado'; ruta?: string }> {
   if (esNativo()) {
     const base64 = dataUrl.split(',')[1];
-    const r = await Filesystem.writeFile({ path: nombre, data: base64, directory: Directory.Cache });
-    await Share.share({ title: titulo, files: [r.uri], dialogTitle: 'Guardar o enviar' });
-    return 'compartido' as const;
+    const r = await Filesystem.writeFile({ path: `PAUSA/${nombre}`, data: base64, directory: Directory.Documents, recursive: true });
+    return { modo: 'guardado', ruta: r.uri };
   }
   const a = document.createElement('a');
   a.href = dataUrl; a.download = nombre;
   document.body.appendChild(a); a.click(); a.remove();
-  return 'descargado' as const;
+  return { modo: 'descargado' };
+}
+
+/** Comparte un PNG por la hoja del sistema (nativo o Web Share con archivos). Devuelve false si no hay cómo. */
+export async function compartirPng(nombre: string, dataUrl: string, titulo: string): Promise<boolean> {
+  try {
+    if (esNativo()) {
+      const base64 = dataUrl.split(',')[1];
+      const r = await Filesystem.writeFile({ path: nombre, data: base64, directory: Directory.Cache });
+      await Share.share({ title: titulo, files: [r.uri], dialogTitle: titulo });
+      return true;
+    }
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], nombre, { type: 'image/png' });
+    const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+    if (nav.share && nav.canShare?.({ files: [file] })) { await nav.share({ files: [file], title: titulo }); return true; }
+    return false;
+  } catch { return false; } // cancelar la hoja no es un error
 }

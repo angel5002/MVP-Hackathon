@@ -100,13 +100,6 @@
   {
     "tam": "360x800",
     "rm": "no-preference",
-    "nombre": "medico-otros",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "360x800",
-    "rm": "no-preference",
     "nombre": "pre-intro",
     "overflowX": false,
     "recorte": []
@@ -191,13 +184,6 @@
   {
     "tam": "360x800",
     "rm": "no-preference",
-    "nombre": "certificado-visor",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "360x800",
-    "rm": "no-preference",
     "nombre": "tramite",
     "overflowX": false,
     "recorte": []
@@ -213,6 +199,13 @@
     "tam": "360x800",
     "rm": "no-preference",
     "nombre": "proceso",
+    "overflowX": false,
+    "recorte": []
+  },
+  {
+    "tam": "360x800",
+    "rm": "no-preference",
+    "nombre": "certificado-visor",
     "overflowX": false,
     "recorte": []
   },
@@ -364,13 +357,6 @@
   {
     "tam": "360x800",
     "rm": "reduce",
-    "nombre": "medico-otros",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "360x800",
-    "rm": "reduce",
     "nombre": "pre-intro",
     "overflowX": false,
     "recorte": []
@@ -455,13 +441,6 @@
   {
     "tam": "360x800",
     "rm": "reduce",
-    "nombre": "certificado-visor",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "360x800",
-    "rm": "reduce",
     "nombre": "tramite",
     "overflowX": false,
     "recorte": []
@@ -477,6 +456,13 @@
     "tam": "360x800",
     "rm": "reduce",
     "nombre": "proceso",
+    "overflowX": false,
+    "recorte": []
+  },
+  {
+    "tam": "360x800",
+    "rm": "reduce",
+    "nombre": "certificado-visor",
     "overflowX": false,
     "recorte": []
   },
@@ -628,13 +614,6 @@
   {
     "tam": "412x915",
     "rm": "no-preference",
-    "nombre": "medico-otros",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "412x915",
-    "rm": "no-preference",
     "nombre": "pre-intro",
     "overflowX": false,
     "recorte": []
@@ -719,13 +698,6 @@
   {
     "tam": "412x915",
     "rm": "no-preference",
-    "nombre": "certificado-visor",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "412x915",
-    "rm": "no-preference",
     "nombre": "tramite",
     "overflowX": false,
     "recorte": []
@@ -741,6 +713,13 @@
     "tam": "412x915",
     "rm": "no-preference",
     "nombre": "proceso",
+    "overflowX": false,
+    "recorte": []
+  },
+  {
+    "tam": "412x915",
+    "rm": "no-preference",
+    "nombre": "certificado-visor",
     "overflowX": false,
     "recorte": []
   },
@@ -892,13 +871,6 @@
   {
     "tam": "412x915",
     "rm": "reduce",
-    "nombre": "medico-otros",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "412x915",
-    "rm": "reduce",
     "nombre": "pre-intro",
     "overflowX": false,
     "recorte": []
@@ -983,13 +955,6 @@
   {
     "tam": "412x915",
     "rm": "reduce",
-    "nombre": "certificado-visor",
-    "overflowX": false,
-    "recorte": []
-  },
-  {
-    "tam": "412x915",
-    "rm": "reduce",
     "nombre": "tramite",
     "overflowX": false,
     "recorte": []
@@ -1005,6 +970,13 @@
     "tam": "412x915",
     "rm": "reduce",
     "nombre": "proceso",
+    "overflowX": false,
+    "recorte": []
+  },
+  {
+    "tam": "412x915",
+    "rm": "reduce",
+    "nombre": "certificado-visor",
     "overflowX": false,
     "recorte": []
   },

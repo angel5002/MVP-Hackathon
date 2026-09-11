@@ -10,7 +10,7 @@ Origen: `legacy/index.html` y el README original. Estado al 11 de septiembre de 
 | 2 | Conectar reloj: Conectar / Ahora no / No tengo; con "Conectar" el inicio muestra dos métricas más | ✅ | `Auth.tsx` (Watch), `Home.tsx` (fila de reloj) |
 | 3 | Tu estado: anillo, tres métricas, gráfico semanal; alerta a los 3 s con Agendar / Ahora no / No mostrar más | ✅ ➕ la alerta es un bottom sheet arrastrable | `Home.tsx`, `components/Charts.tsx`, `components/Sheet.tsx` |
 | 4a | Psicólogo: lista con etiquetas, horarios y confirmación | ✅ | `Ayuda.tsx` (Psico, PsicoOk) |
-| 4b | Médico: búsqueda, médico asignado con horarios, lista opcional de otros médicos | ✅ ➕ la búsqueda es el loader de respiración (un ciclo) | `Medico.tsx` (Buscando, Medico) |
+| 4b | Médico: búsqueda, médico asignado con horarios | ✅ ➕ la búsqueda es el loader de respiración (un ciclo); la asignación es automática y no se puede cambiar (antifraude), con el mismo sistema de recomendación que los psicólogos | `Medico.tsx` (Buscando, Medico) |
 | 5 | Certificado: datos del médico, CIE-10, selector de días (5 preseleccionado), vista previa | ✅ ➕ los días ya no los elige la persona: los indica el médico tras la teleconsulta (`evaluarDescanso`) | `Consulta.tsx` (Evaluacion, Emitiendo, Cert), `logic/evaluarDescanso.ts` |
 | 6 | El trámite: cuatro checks cada 800 ms, pausa de 1,2 s y frase final | ✅ ➕ quinto check de canje por CITT cuando se superan los 20 días | `Tramite.tsx` (Tramite) |
 | 7 | Tu proceso: pausa activa, días, sesiones, documentos y correo | ✅ ("días guardados" se reemplaza por "días de descanso este año X de 20", porque el descanso no se acumula como saldo) | `Tramite.tsx` (Proceso) |

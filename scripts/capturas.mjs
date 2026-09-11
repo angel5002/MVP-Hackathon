@@ -2,7 +2,7 @@
 // pantalla en 360×800 y 412×915, con y sin movimiento reducido. Salida: docs/capturas/<tamaño>-<rm>/NN-pantalla.png
 // Uso: node scripts/capturas.mjs [url]   (por defecto http://127.0.0.1:5173 con ?demo=rapido)
 import { chromium } from 'playwright-core';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const base = process.argv[2] ?? 'http://127.0.0.1:5173/';
@@ -18,7 +18,7 @@ const informe = [];
 for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
   for (const rm of soloUno ? [RMS[0]] : RMS) {
     const carpeta = resolve(root, `docs/capturas/${t.w}x${t.h}-${rm === 'reduce' ? 'rm' : 'motion'}${fontScale !== 1 ? '-fs' + fontScale : ''}`);
-    mkdirSync(carpeta, { recursive: true });
+    rmSync(carpeta, { recursive: true, force: true }); mkdirSync(carpeta, { recursive: true });
     const ctx = await b.newContext({ viewport: { width: t.w, height: t.h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, reducedMotion: rm, locale: 'es-PE' });
     const p = await ctx.newPage();
     const errores = [];
@@ -67,8 +67,6 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
     await p.getByText('Necesito parar unos días').click(); await p.waitForTimeout(1800); await shot('buscando-inhala');
     await p.waitForTimeout(4000); await shot('buscando-exhala');
     await p.waitForTimeout(5000); await shot('medico');
-    await click('Ver otros médicos disponibles'); await shot('medico-otros');
-    await click('Ocultar otros médicos');
     await click('Confirmar cita'); await shot('pre-intro');
     await click('Empezar'); await shot('pre-1');
     for (let i = 0; i < 4; i++) { await p.getByRole('radio', { name: i < 2 ? 'Casi todos los días' : 'Varios días' }).click(); await p.waitForTimeout(350); }
@@ -82,10 +80,10 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
     await click('Tengo una duda sobre mi indicación'); await shot('evaluacion-duda'); await click('Cancelar');
     await click('Ver mi certificado'); await p.waitForTimeout(1800); await shot('emitiendo');
     await esperaLoader(); await shot('certificado');
-    await click('Vista previa del certificado'); await p.waitForTimeout(600); await shot('certificado-visor'); await click('Cerrar');
     await click('Iniciar el trámite'); await p.waitForTimeout(2000); await shot('tramite');
     await p.waitForTimeout(4000); await shot('tramite-listo');
     await click('Ver mi proceso'); await shot('proceso');
+    await p.getByRole('button', { name: 'Ver' }).first().click(); await p.waitForTimeout(600); await shot('certificado-visor'); await p.getByRole('button', { name: 'Cerrar' }).click(); await p.waitForTimeout(400);
     await click('Avisar a tu empleador'); await shot('empleador-jefe');
     await p.getByRole('radio', { name: /Recursos Humanos/ }).click(); await shot('empleador-rrhh');
     await p.getByRole('checkbox').click(); await click('Continuar'); await shot('correo');

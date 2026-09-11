@@ -82,7 +82,6 @@ export interface AppState {
 
   medId: string;
   medSlot: number;
-  medOthers: boolean;
   citaConfirmada: boolean;
   preConsulta: number[] | null; // 4 respuestas 0..3
   horaLlego: boolean;           // "Simular que llegó la hora"

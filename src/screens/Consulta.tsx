@@ -144,7 +144,7 @@ export function Emitiendo() {
 }
 
 export function Cert() {
-  const { state, go, setViewerDoc } = useApp();
+  const { state, go } = useApp();
   const rm = useReducedMotion();
   const ev = state.evaluacion!;
   const m = byId(MED, ev.medicoId);
@@ -161,7 +161,7 @@ export function Cert() {
         <Fila icon={<Avatar ini={m.ini} color={m.color} />} title={m.nombre} sub={`${m.cmp}, ${m.rol}`} />
         <Fila icon={<IconRound name="doc" tone="info" />} title={`${CIE10.codigo}, ${CIE10.titulo}`} sub="Diagnóstico CIE-10 indicado por tu médico" />
         <Fila icon={<IconRound name="calendar" tone="info" />} title={`${ev.dias} días de descanso`} sub={rangoTexto(ev.inicio, ev.fin)} />
-        <Fila icon={<IconRound name="eye" tone="info" />} title="Vista previa del certificado" sub="Se descarga al terminar el trámite" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => setViewerDoc('cert')} />
+        <Fila icon={<IconRound name="doc" tone="info" />} title="Se habilita al terminar el trámite" sub="Podrás verlo, descargarlo y compartirlo desde Documentos" />
       </Lista>
       <Seccion label="Días de descanso en el año" nota={`Los primeros ${LIMITE_DIAS_ANIO} días del año se justifican con certificado particular. Pasado ese umbral, el certificado se valida ante EsSalud y se canjea por el CITT en 30 días hábiles.`}>
         <Lista>
