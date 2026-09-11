@@ -30,11 +30,11 @@ img, svg { display: block; }
 
 /* ---- Marco ---- */
 .app { position: relative; height: 100%; width: 100%; overflow: hidden; background: var(--c-fondo); }
-.screen { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--c-fondo); padding-top: var(--sa-top); }
-.screen__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 calc(var(--margen) + var(--sa-right)) calc(var(--s-6) + var(--sa-bottom)) calc(var(--margen) + var(--sa-left)); -webkit-overflow-scrolling: touch; }
-.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-6) + var(--sa-bottom)); scroll-padding-bottom: calc(var(--cta-h) + var(--s-6) + var(--sa-bottom)); }
-.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--s-5)); }
-.screen__scroll--cta.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--cta-h) + var(--s-4)); }
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--c-fondo); padding-top: var(--sa-top); padding-bottom: var(--sa-bottom); }
+.screen__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 calc(var(--margen) + var(--sa-right)) var(--s-6) calc(var(--margen) + var(--sa-left)); -webkit-overflow-scrolling: touch; }
+.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-6)); scroll-padding-bottom: calc(var(--cta-h) + var(--s-6)); }
+.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--s-5)); }
+.screen__scroll--cta.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--cta-h) + var(--s-4)); }
 .screen--center .screen__scroll { display: flex; flex-direction: column; justify-content: center; }
 .screen--fill .screen__scroll { display: flex; flex-direction: column; }
 
@@ -46,9 +46,9 @@ img, svg { display: block; }
 .topbar__chip { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 10px; border-radius: var(--r-full); background: var(--c-superficie); box-shadow: var(--e-1); font: var(--t-label); color: var(--c-texto-2); white-space: nowrap; }
 
 /* CTA fijo */
-.cta { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--s-4) calc(var(--margen) + var(--sa-right)) calc(var(--s-4) + var(--sa-bottom)) calc(var(--margen) + var(--sa-left)); background: linear-gradient(to top, var(--c-fondo) 70%, rgba(245,245,242,0)); pointer-events: none; }
+.cta { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--s-4) calc(var(--margen) + var(--sa-right)) var(--s-4) calc(var(--margen) + var(--sa-left)); background: linear-gradient(to top, var(--c-fondo) 70%, rgba(245,245,242,0)); pointer-events: none; }
 .cta > * { pointer-events: auto; }
-.cta--tabs { bottom: calc(var(--tabbar-h) + var(--sa-bottom)); padding-bottom: var(--s-3); }
+.cta--tabs { bottom: var(--tabbar-h); padding-bottom: var(--s-3); }
 
 /* Barra inferior (5 posiciones, botón central) */
 .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--tabbar-h) + var(--sa-bottom)); padding: 0 calc(8px + var(--sa-right)) var(--sa-bottom) calc(8px + var(--sa-left)); background: var(--c-superficie); border-top: 1px solid var(--c-contorno); display: grid; grid-template-columns: 1fr 1fr 72px 1fr 1fr; align-items: center; z-index: 5; }
@@ -116,8 +116,8 @@ img, svg { display: block; }
 .hero .h1, .hero .h2, .hero .display { color: var(--c-heroe-texto); }
 .hero__glow { position: absolute; width: 280px; height: 280px; border-radius: 50%; right: -90px; top: -120px; background: radial-gradient(closest-side, rgba(0,160,223,.38), rgba(0,160,223,0)); pointer-events: none; }
 .hero .btn--primary { background: #fff; color: var(--c-texto); }
-.hero--login { margin: calc(var(--s-5) + 8px) var(--s-1) 0; min-height: 400px; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--s-6); }
-.hero__doodle { position: absolute; left: 50%; top: 18px; width: 270px; height: 190px; margin-left: -135px; pointer-events: none; }
+.hero--login { margin: var(--s-5) var(--s-1) 0; min-height: 352px; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--s-6); }
+.hero__doodle { position: absolute; left: 50%; top: 6px; width: 250px; height: 176px; margin-left: -125px; pointer-events: none; }
 .hero__login-text { position: relative; }
 .row { display: flex; align-items: center; gap: var(--s-3); min-height: var(--tap); }
 .row--tap { border-radius: var(--r-md); margin: 0 calc(-1 * var(--s-2)); padding: var(--s-1) var(--s-2); width: calc(100% + 2 * var(--s-2)); text-align: left; }

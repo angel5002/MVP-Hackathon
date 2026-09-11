@@ -85,7 +85,7 @@ export function Tele() {
           <button className="call__ctl" aria-label="Cámara" onClick={() => void haptic('light')}><Icon name="video" /></button>
         </div>
       </div>
-      <p className="cap center mt-3" style={{ paddingBottom: 'var(--sa-bottom)' }}>{fase < 2 ? 'La consulta dura unos segundos en el prototipo. Ningún dato sale de tu teléfono.' : 'Cuando quieras, cuelga para recibir tu indicación.'}</p>
+      <p className="cap center mt-3">{fase < 2 ? 'La consulta dura unos segundos en el prototipo. Ningún dato sale de tu teléfono.' : 'Cuando quieras, cuelga para recibir tu indicación.'}</p>
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} label="Finalizar consulta">
         <h2 className="h2">¿Terminar la teleconsulta?</h2>
         <p className="sub" style={{ margin: '8px 0 20px' }}>Recibirás la indicación médica por escrito en la siguiente pantalla.</p>
