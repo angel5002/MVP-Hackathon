@@ -1,11 +1,12 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AppProvider, useApp } from './nav/store';
+import { AppProvider, TABS, useApp } from './nav/store';
 import type { ScreenId } from './types';
 import { esNativo, modoPresentacion } from './platform/native';
 import { Viewer } from './components/Viewer';
 import { PresenterPanel } from './components/PresenterPanel';
+import { TabBar } from './components/Screen';
 import { Login, Watch } from './screens/Auth';
 import { Home } from './screens/Home';
 import { Citas, Docs, Perfil } from './screens/Tabs';
@@ -27,15 +28,16 @@ function Router() {
   const { current, dir } = useApp();
   const rm = useReducedMotion();
   const Comp = SCREENS[current];
+  // d = 1 adelante, -1 atrás (eje compartido X); d = 0 cambio de pestaña (solo fundido, la barra no se mueve)
   const variants = {
-    enter: (d: number) => (rm ? { opacity: 0 } : { x: d > 0 ? 48 : -48, opacity: 0 }),
+    enter: (d: number) => (rm || d === 0 ? { opacity: 0, x: 0 } : { x: d > 0 ? 48 : -48, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (d: number) => (rm ? { opacity: 0 } : { x: d > 0 ? -32 : 32, opacity: 0 }),
+    exit: (d: number) => (rm || d === 0 ? { opacity: 0, x: 0 } : { x: d > 0 ? -32 : 32, opacity: 0 }),
   };
   return (
     <AnimatePresence initial={false} custom={dir} mode="popLayout">
       <motion.div key={current} custom={dir} variants={variants} initial="enter" animate="center" exit="exit"
-        transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }} style={{ position: 'absolute', inset: 0 }}>
+        transition={{ duration: dir === 0 ? 0.2 : 0.28, ease: [0.2, 0.8, 0.2, 1] }} style={{ position: 'absolute', inset: 0 }}>
         <Comp />
       </motion.div>
     </AnimatePresence>
@@ -52,9 +54,12 @@ function Toast() {
 }
 
 function Shell() {
+  const { current } = useApp();
+  const conTabs = (TABS as string[]).includes(current);
   return (
     <div className="app">
       <Router />
+      {conTabs && <TabBar />}
       <Viewer />
       <Toast />
       <PresenterPanel />

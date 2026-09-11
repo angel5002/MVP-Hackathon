@@ -75,8 +75,12 @@ export function BreathLoader({ estado, ciclos, onListo, salida, contador = false
           <path fill="url(#espuma)" d="M0 70 C 130 30, 270 30, 400 70 S 670 110, 800 70 S 1070 30, 1200 70 S 1470 110, 1600 70 L1600 260 L0 260 Z" />
         </motion.svg>
         {/* La carita va dentro del mar (a 7 % bajo la superficie): se mueve con él usando solo transform */}
-        <motion.div className="breath__face" style={{ top: '7%' }} animate={{ scale: fase === 'inhala' ? 1.08 : 1 }} transition={trans}>
-          <Face animo={fase === 'inhala' ? 'calma' : 'alivio'} color="#0F2E40" />
+        <motion.div className="breath__face" style={{ top: '7%' }}
+          animate={rm ? undefined : { x: [-96, 96], rotate: [-5, 5] }}
+          transition={rm ? undefined : { duration: 9, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}>
+          <motion.div animate={{ scale: fase === 'inhala' ? 1.08 : 1, y: fase === 'inhala' ? -6 : 4 }} transition={trans}>
+            <Face animo={fase === 'inhala' ? 'calma' : 'alivio'} color="#0F2E40" />
+          </motion.div>
         </motion.div>
       </motion.div>
 

@@ -38,7 +38,7 @@ interface Ctx {
   // navegación
   stack: ScreenId[];
   current: ScreenId;
-  dir: 1 | -1;
+  dir: 1 | -1 | 0;
   go: (id: ScreenId) => void;
   replace: (id: ScreenId) => void;
   back: () => void;
@@ -56,7 +56,7 @@ const AppCtx = createContext<Ctx | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(estadoInicial);
   const [stack, setStack] = useState<ScreenId[]>(['login']);
-  const [dir, setDir] = useState<1 | -1>(1);
+  const [dir, setDir] = useState<1 | -1 | 0>(1);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [viewerDoc, setViewerDoc] = useState<'cert' | 'aviso' | null>(null);
   const [presenterOpen, setPresenterOpen] = useState(false);
@@ -88,7 +88,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     window.setTimeout(() => { if (ignorePop.current) { ignorePop.current = false; popInterno(); } }, 120);
   }, [popInterno]);
   const goTab = useCallback((tab: TabId) => {
-    setDir(1);
+    setDir(0);
     set({ tab });
     setStack([tab]);
     try { history.pushState({ d: 1 }, ''); } catch { /* */ }

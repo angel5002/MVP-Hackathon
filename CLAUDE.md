@@ -14,8 +14,8 @@ Referencia: la app *stoic.* (Mobbin) por su sobriedad, más los toques de Pacíf
 - Fondo gris cálido casi blanco (`--gris-050`), tinta casi negra, tarjetas blancas con sombra suave, **tarjeta héroe oscura** con brillo azul para lo importante.
 - Acento Pacífico `#00A0DF` solo donde suma: logo, botón central de la barra, loader, brillos. Botón primario en tinta.
 - Tipografía DM Sans (OFL, empaquetada). Etiquetas de sección en mayúsculas espaciadas pequeñas (`.eyebrow`).
-- Barra inferior de 5 posiciones con botón central "Pedir ayuda". La alerta del inicio es una tarjeta héroe, no un modal.
-- Loader de respiración: mar azul con ola y carita (`components/BreathLoader.tsx`, `components/Face.tsx`); 4 s inhala / 6 s exhala; nunca corta una exhalación.
+- Barra inferior de 5 posiciones con botón central "Pedir ayuda", montada una sola vez en `App.tsx` (fuera de la transición de pantallas; entre pestañas solo hay fundido). La alerta del inicio es una tarjeta héroe, no un modal.
+- Loader de respiración: mar azul con ola y carita que recorre la ola en bucle (`components/BreathLoader.tsx`, `components/Face.tsx`); 4 s inhala / 6 s exhala; nunca corta una exhalación. Ilustración del ingreso en `components/MindDoodle.tsx`.
 - Teleconsulta a pantalla completa con avatar, ondas de audio, anillos y la carita en la cámara propia.
 - Solo se animan `transform` y `opacity`; se respeta `prefers-reduced-motion`.
 

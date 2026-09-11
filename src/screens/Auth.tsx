@@ -3,18 +3,22 @@ import { motion, useReducedMotion } from 'motion/react';
 import { Screen } from '../components/Screen';
 import { Button } from '../components/ui';
 import { Icon } from '../components/icons';
+import { MindDoodle } from '../components/MindDoodle';
 import { useApp, useTimers } from '../nav/store';
 
 export function Login() {
   const { go } = useApp();
   return (
     <Screen bar={false}>
-      <section className="hero" style={{ marginTop: 12, minHeight: 300, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <section className="hero hero--login">
         <div className="hero__glow" />
-        <Icon name="logo" size={40} color="var(--c-acento)" />
-        <p className="eyebrow mt-5">Pacífico Seguros</p>
-        <h1 className="display mt-2" style={{ letterSpacing: '.12em' }}>PAUSA</h1>
-        <p className="sub mt-2">Detecta cuándo llevas demasiado tiempo conectada y te acompaña a parar a tiempo.</p>
+        <MindDoodle className="hero__doodle" />
+        <div className="hero__login-text">
+          <Icon name="logo" size={36} color="var(--c-acento)" />
+          <p className="eyebrow mt-4">Pacífico Seguros</p>
+          <h1 className="display mt-1" style={{ letterSpacing: '.12em' }}>PAUSA</h1>
+          <p className="sub mt-2">Detecta cuándo llevas demasiado tiempo conectada y te acompaña a parar a tiempo.</p>
+        </div>
       </section>
       <h2 className="h2 mt-8">Ingresa con tu cuenta Pacífico</h2>
       <form onSubmit={(e) => { e.preventDefault(); go('watch'); }}>

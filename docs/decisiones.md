@@ -170,3 +170,8 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - **Se conserva de Pacífico:** el azul `#00A0DF` como acento en el logo, el botón central, los brillos y el mar del loader; los tonos de alerta y éxito; el tono de voz.
 - **Descartado:** añadir Lottie para la carita (bastó un SVG con Motion, sin assets de terceros ni licencias que registrar); botón primario azul (compite con el acento y resta sobriedad).
 - **Referencias consultadas:** las dos pantallas de stoic. se leyeron a resolución completa desde la sesión de Chrome del usuario (Mobbin bloquea el acceso automatizado); el loader, desde `imgs/`.
+
+### D-26 · Segunda revisión visual (11 sep, tarde)
+- **Qué:** barra inferior fuera de la transición entre pantallas (fundido entre pestañas), carita que recorre la ola en bucle, ilustración animada en el ingreso (referencia: introducción de stoic. en Mobbin, adaptada a los tonos azules de PAUSA), márgenes del ingreso en teléfono y en el marco de escritorio, y redistribución de botones largos como filas. Detalle en `docs/sistema-de-diseno.md` §10.4.
+- **Defecto encontrado y corregido:** la regla `.breath__sea svg { height: 100% }` alcanzaba también al SVG de la carita al envolverla en un contenedor sin alto, dejándola en 0 px durante la exhalación; la regla ahora aplica solo al hijo directo.
+- **Por qué:** pedido del usuario tras revisar el APK y la web publicada.

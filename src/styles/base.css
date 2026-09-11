@@ -116,6 +116,9 @@ img, svg { display: block; }
 .hero .h1, .hero .h2, .hero .display { color: var(--c-heroe-texto); }
 .hero__glow { position: absolute; width: 280px; height: 280px; border-radius: 50%; right: -90px; top: -120px; background: radial-gradient(closest-side, rgba(0,160,223,.38), rgba(0,160,223,0)); pointer-events: none; }
 .hero .btn--primary { background: #fff; color: var(--c-texto); }
+.hero--login { margin: calc(var(--s-5) + 8px) var(--s-1) 0; min-height: 400px; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--s-6); }
+.hero__doodle { position: absolute; left: 50%; top: 18px; width: 270px; height: 190px; margin-left: -135px; pointer-events: none; }
+.hero__login-text { position: relative; }
 .row { display: flex; align-items: center; gap: var(--s-3); min-height: var(--tap); }
 .row--tap { border-radius: var(--r-md); margin: 0 calc(-1 * var(--s-2)); padding: var(--s-1) var(--s-2); width: calc(100% + 2 * var(--s-2)); text-align: left; }
 .row--tap:active { background: var(--c-superficie-pulsada); }
@@ -207,7 +210,8 @@ img, svg { display: block; }
 .breath__status { font: var(--t-body); color: var(--c-texto-2); margin-top: var(--s-2); }
 .breath__count { font: var(--t-caption); color: var(--c-texto-3); margin-top: var(--s-1); }
 .breath__sea { position: absolute; left: 0; right: 0; top: 0; height: 100%; will-change: transform; }
-.breath__sea svg { position: absolute; left: 0; top: 0; width: 200%; height: 100%; }
+.breath__sea > svg { position: absolute; left: 0; top: 0; width: 200%; height: 100%; }
+.breath__face > div { width: 100%; height: 100%; }
 .breath__face { position: absolute; left: 50%; top: 0; width: 96px; height: 64px; margin-left: -48px; z-index: 1; will-change: transform; }
 .breath__exit { z-index: 3; position: absolute; left: var(--margen); right: var(--margen); bottom: calc(var(--s-6) + var(--sa-bottom)); }
 

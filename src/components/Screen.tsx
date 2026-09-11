@@ -67,7 +67,6 @@ export function Screen({ children, back, tabs, cta, center, fill, bar = true, ri
       {bar && <TopBar back={back} right={right} titulo={titulo} greeting={greeting} leftChip={leftChip} />}
       <div className={`screen__scroll ${cta ? 'screen__scroll--cta' : ''} ${tabs ? 'screen__scroll--tabs' : ''}`}>{children}</div>
       {cta && <div className={`cta ${tabs ? 'cta--tabs' : ''}`}>{cta}</div>}
-      {tabs && <TabBar />}
     </div>
   );
 }

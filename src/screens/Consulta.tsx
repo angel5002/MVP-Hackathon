@@ -122,7 +122,9 @@ export function Evaluacion() {
         <div><div className="label">Días de descanso en el año</div><div className="cap">{supera ? `Superas los ${LIMITE_DIAS_ANIO}: el certificado se valida ante EsSalud y se canjea por el CITT en 30 días hábiles` : `Hasta ${LIMITE_DIAS_ANIO} se justifican con certificado particular`}</div></div>
         <div className="h2" style={{ whiteSpace: 'nowrap', color: supera ? 'var(--c-alerta)' : 'var(--c-texto)' }}>{acumulados} <span className="cap">de {LIMITE_DIAS_ANIO}</span></div>
       </div>
-      <div className="mt-4"><Button variant="outline" onClick={() => setSheetOpen(true)}>Tengo una duda sobre mi indicación</Button></div>
+      <div className="card mt-4" style={{ padding: '4px 16px' }}>
+        <Fila icon={<IconRound name="chat" tone="info" />} title="Tengo una duda sobre mi indicación" sub={`Escríbele a ${trato} ${apellido}; responde en menos de 24 horas`} right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => setSheetOpen(true)} />
+      </div>
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} label="Mensaje al médico">
         <h2 className="h2">Mensaje para {m.nombre}</h2>
         <p className="sub" style={{ margin: '8px 0 12px' }}>Responde por este canal en menos de 24 horas.</p>

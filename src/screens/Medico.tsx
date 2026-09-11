@@ -35,9 +35,10 @@ export function Medico() {
         <ProCard p={m} selected tap={false} extra={
           <>
             <div className="cap mt-1">Colegiatura por verificar en el trámite</div>
-            <button className="btn btn--text btn--left mt-2" onClick={() => set({ medOthers: !state.medOthers })}>{state.medOthers ? 'Ocultar otros médicos' : 'Ver otros médicos disponibles'}</button>
           </>
         } />
+        <div className="hr" style={{ margin: '12px 0 0' }} />
+        <Fila title={state.medOthers ? 'Ocultar otros médicos' : 'Ver otros médicos disponibles'} sub="De la red de Pacífico, con horario esta semana" right={<Icon name="chevron" color="var(--c-texto-3)" />} onClick={() => set({ medOthers: !state.medOthers })} />
         {state.medOthers && MED.filter((x) => x.id !== m.id).map((x) => (
           <ProCard key={x.id} p={x} onClick={() => set({ medId: x.id, medSlot: 0, medOthers: false })} />
         ))}
