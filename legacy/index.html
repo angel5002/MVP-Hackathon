@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#00A0DF">
+<title>PAUSA · Pacífico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============ Identidad: Pacífico + hackathon (ficha de diseño) ============ */
+  :root{
+    --bg:#FDF3E3;            /* crema fondo */
+    --surface:#FFFFFF;
+    --tile:#F8F3EA;          /* filas dentro de tarjetas */
+    --blue:#00A0DF;          /* azul Pacífico */
+    --blue-d:#0077B6;        /* para legibilidad en botones */
+    --navy:#003B5C;          /* azul profundo · títulos */
+    --orange:#FF5C35;        /* atención, nunca error */
+    --green:#2FA84F;
+    --text:#1F2937;
+    --muted:#6B7280;
+    --border:#E5E7EB;
+    --grad:linear-gradient(135deg,#0077B6 0%,#00A0DF 100%);
+    --shadow:0 6px 18px -8px rgba(0,59,92,.18);
+    --p-blue-bg:#E0F4FB;   --p-blue-fg:#003B5C;
+    --p-orange-bg:#FFE9E1; --p-orange-fg:#B23A17;
+    --p-green-bg:#E3F5E8;  --p-green-fg:#1E7A3A;
+    --p-navy-bg:#E3EDF3;   --p-navy-fg:#003B5C;
+    --r:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:#E8E8E6;font-family:"Nunito","Segoe UI",Roboto,-apple-system,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;}
+  input,textarea{user-select:text;-webkit-user-select:text;}
+
+  /* ============ Marco del teléfono ============ */
+  .stage{position:relative;width:390px;height:844px;flex:none;}
+  .phone{position:absolute;left:0;top:0;width:390px;height:844px;border-radius:44px;background:var(--bg);box-shadow:0 34px 70px rgba(0,0,0,.22),0 6px 18px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.05),0 0 0 10px #1A1C1E,0 0 0 12px #3A3D41;overflow:hidden;display:flex;flex-direction:column;transform-origin:0 0;}
+  .statusbar{height:47px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:10px 26px 0 30px;font-size:15px;font-weight:700;letter-spacing:-.2px;color:#111;cursor:default;position:relative;}
+  .statusbar .icons{display:flex;align-items:center;gap:6px;}
+  .statusbar .cam{position:absolute;left:50%;top:12px;width:14px;height:14px;border-radius:50%;background:#111;transform:translateX(-50%);box-shadow:inset 0 0 0 3px #222,inset 0 0 0 5px #0a0a0a;}
+  .content{height:749px;flex:none;position:relative;overflow:hidden;background:var(--bg);}
+  /* Barra de navegación del sistema (botones típicos de Android) */
+  .sysnav{height:48px;flex:none;display:flex;align-items:center;justify-content:center;gap:88px;background:var(--bg);border-top:1px solid rgba(0,0,0,.04);}
+  .sysnav button{width:48px;height:40px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:12px;padding:0;}
+  .sysnav button:active{background:rgba(0,59,92,.08);}
+  .sysnav svg{width:22px;height:22px;}
+
+  /* ============ Pantallas y transiciones ============ */
+  .screen{position:absolute;inset:0;padding:14px 20px 0;display:none;flex-direction:column;overflow:hidden;background:var(--bg);}
+  .screen.on{display:flex;}
+  .screen.in-fwd{animation:inR .32s cubic-bezier(.2,.8,.2,1) both;z-index:5;}
+  .screen.in-back{animation:inL .32s cubic-bezier(.2,.8,.2,1) both;z-index:5;}
+  .screen.out-fwd{animation:outL .32s cubic-bezier(.2,.8,.2,1) both;z-index:4;}
+  .screen.out-back{animation:outR .32s cubic-bezier(.2,.8,.2,1) both;z-index:4;}
+  @keyframes inR{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes inL{from{transform:translateX(-60px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes outL{from{transform:none;opacity:1}to{transform:translateX(-40px);opacity:0}}
+  @keyframes outR{from{transform:none;opacity:1}to{transform:translateX(40px);opacity:0}}
+  .screen.withtabs{padding-bottom:64px;}
+
+  /* Barra superior */
+  .topbar{display:flex;align-items:center;justify-content:space-between;height:40px;margin-bottom:10px;flex:none;}
+  .roundbtn{width:40px;height:40px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .12s;}
+  .roundbtn:active{transform:scale(.92);}
+  .apptitle{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:1.6px;}
+  .avatar{width:40px;height:40px;border-radius:50%;background:var(--p-blue-bg);color:var(--navy);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+
+  h1{font-size:26px;line-height:32px;font-weight:800;margin:0;letter-spacing:-.6px;color:var(--navy);}
+  h2{font-size:23px;line-height:29px;font-weight:800;margin:0;letter-spacing:-.5px;color:var(--navy);}
+  .sub{font-size:14px;line-height:19px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .small{font-size:13px;line-height:18px;color:var(--muted);font-weight:600;}
+  .card{background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow);}
+  .chip{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:12px;font-size:13px;font-weight:800;white-space:nowrap;}
+  .chip svg{width:13px;height:13px;}
+  .c-blue{background:var(--p-blue-bg);color:var(--p-blue-fg);}
+  .c-green{background:var(--p-green-bg);color:var(--p-green-fg);}
+  .c-orange{background:var(--p-orange-bg);color:var(--p-orange-fg);}
+  .c-navy{background:var(--p-navy-bg);color:var(--p-navy-fg);}
+  .c-line{background:transparent;color:var(--muted);border:1px solid var(--border);}
+
+  .tile{display:flex;align-items:center;gap:12px;background:var(--tile);border-radius:var(--r);padding:10px 12px;min-height:56px;}
+  .tile + .tile{margin-top:8px;}
+  .tile .ic{width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;flex:none;font-size:14px;font-weight:800;color:var(--navy);}
+  .tile .tt{font-size:16px;line-height:21px;font-weight:800;color:var(--text);}
+  .tile .tm{font-size:13px;line-height:17px;color:var(--muted);font-weight:600;margin-top:1px;}
+  .tile .right{margin-left:auto;flex:none;}
+  .tile.sel{outline:2px solid var(--blue);background:var(--p-blue-bg);}
+  .tile.tap{cursor:pointer;}
+  .tile.tap:active{background:#F1EBDF;}
+
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:26px;border:0;font:inherit;font-size:17px;font-weight:800;background:var(--grad);color:#fff;cursor:pointer;width:100%;box-shadow:0 8px 16px -6px rgba(0,119,182,.5);transition:transform .12s,opacity .12s;}
+  .btn:active{transform:scale(.985);opacity:.92;}
+  .btn.secondary{background:var(--p-blue-bg);color:var(--navy);box-shadow:none;}
+  .btn.ghost{background:transparent;color:var(--muted);font-weight:700;box-shadow:none;}
+  .btn.white{background:var(--surface);color:var(--navy);box-shadow:var(--shadow);}
+  .btn.sm{height:44px;font-size:15px;border-radius:22px;}
+  .btn-fixed{position:absolute;left:20px;bottom:24px;width:350px;height:52px;}
+  .withtabs .btn-fixed{bottom:76px;}
+  .btn[disabled]{opacity:.45;pointer-events:none;}
+
+  .check{width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 8px 16px -6px rgba(47,168,79,.5);animation:pop .5s cubic-bezier(.2,1.4,.4,1) both;}
+  .check svg{width:28px;height:28px;}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+  .center{align-items:center;text-align:center;}
+  .center h2{margin-top:14px;}
+
+  /* Aparición escalonada */
+  .stagger > *{opacity:0;transform:translateY(10px);}
+  .stagger.play > *{animation:fadeUp .45s ease-out both;}
+  .stagger.play > *:nth-child(1){animation-delay:.05s}
+  .stagger.play > *:nth-child(2){animation-delay:.13s}
+  .stagger.play > *:nth-child(3){animation-delay:.21s}
+  .stagger.play > *:nth-child(4){animation-delay:.29s}
+  .stagger.play > *:nth-child(5){animation-delay:.37s}
+  .stagger.play > *:nth-child(6){animation-delay:.45s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* Barra de pestañas de la app */
+  .tabbar{position:absolute;left:0;right:0;bottom:0;height:64px;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:0 8px;z-index:6;}
+  .tab{width:78px;height:52px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--muted);font:inherit;font-size:12.5px;font-weight:700;border-radius:14px;position:relative;padding:0;}
+  .tab svg{width:22px;height:22px;stroke:currentColor;}
+  .tab.active{color:var(--blue-d);}
+  .tab.active::before{content:'';position:absolute;top:2px;width:44px;height:26px;border-radius:13px;background:var(--p-blue-bg);z-index:-1;}
+  .tab .dot{position:absolute;top:4px;right:20px;width:8px;height:8px;border-radius:50%;background:var(--orange);border:2px solid #fff;}
+
+  /* ============ P0 · Ingreso ============ */
+  #login{justify-content:center;padding-bottom:40px;}
+  #psico{padding-bottom:92px;}
+  #psicoList{flex:none;}
+  .logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:26px;}
+  .logo .mark{width:84px;height:84px;border-radius:28px;background:var(--grad);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px -10px rgba(0,119,182,.55);}
+  .logo .name{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:4px;}
+  .logo .by{font-size:13px;font-weight:700;color:var(--muted);margin-top:-6px;}
+  .field{background:var(--surface);border-radius:var(--r);height:56px;display:flex;align-items:center;gap:12px;padding:0 16px;box-shadow:var(--shadow);}
+  .field + .field{margin-top:12px;}
+  .field label{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;width:86px;flex:none;}
+  .field input{border:0;outline:0;font:inherit;font-size:16px;font-weight:700;color:var(--text);background:transparent;flex:1;min-width:0;}
+  .link{font-size:14px;color:var(--muted);font-weight:600;text-align:center;margin-top:22px;line-height:20px;}
+  .link b{color:var(--blue-d);font-weight:800;}
+
+  /* ============ P1 · Reloj ============ */
+  #watch{justify-content:center;align-items:center;text-align:center;padding-bottom:20px;}
+  .pulse{position:relative;width:150px;height:150px;display:flex;align-items:center;justify-content:center;margin-bottom:26px;}
+  .pulse .core{width:96px;height:96px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;z-index:1;}
+  .pulse i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--blue);opacity:0;animation:ripple 2.4s ease-out infinite;}
+  .pulse i:nth-child(2){animation-delay:.8s}
+  .pulse i:nth-child(3){animation-delay:1.6s}
+  @keyframes ripple{0%{transform:scale(.62);opacity:.8}100%{transform:scale(1.15);opacity:0}}
+  .pulse.linking .core{animation:wob .6s ease-in-out infinite alternate;}
+  @keyframes wob{to{transform:scale(1.06)}}
+  #watch .btns{width:100%;margin-top:28px;display:flex;flex-direction:column;gap:10px;}
+  #watch p{margin:10px 0 0;font-size:15px;line-height:22px;color:var(--muted);font-weight:600;max-width:300px;}
+
+  /* ============ P2 · Inicio ============ */
+  .hero{display:flex;gap:10px;margin-top:12px;align-items:stretch;flex:none;height:212px;}
+  .ringcard{width:158px;flex:none;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;position:relative;}
+  .ring{width:142px;height:142px;position:relative;}
+  .ring svg{width:142px;height:142px;transform:rotate(-90deg);}
+  .ring .arc{transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1),stroke .4s;}
+  .ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .ring .in .l{font-size:13px;line-height:15px;color:var(--muted);font-weight:700;}
+  .ring .in .v{font-size:24px;line-height:28px;font-weight:800;color:var(--orange);letter-spacing:-.4px;margin:2px 0;transition:color .4s;}
+  .ring.calm .in .v{color:var(--green);}
+  .ring .badge{position:absolute;top:6px;right:-6px;background:var(--p-orange-bg);color:var(--p-orange-fg);font-size:13px;font-weight:800;padding:4px 9px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  .ring.calm .badge{background:var(--p-green-bg);color:var(--p-green-fg);}
+  .pills{display:flex;flex-direction:column;gap:7px;flex:1;}
+  .pill{flex:1;border-radius:18px;padding:6px 10px 6px 8px;display:flex;align-items:center;gap:9px;min-height:0;}
+  .pill .ic{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;flex:none;}
+  .pill .v{font-size:19px;line-height:22px;font-weight:800;letter-spacing:-.4px;}
+  .pill .l{font-size:13px;line-height:14px;font-weight:700;opacity:.85;}
+  .p-orange{background:var(--p-orange-bg);color:var(--p-orange-fg);}
+  .p-navy{background:var(--p-navy-bg);color:var(--p-navy-fg);}
+  .p-blue{background:var(--p-blue-bg);color:var(--p-blue-fg);}
+  .p-green{background:var(--p-green-bg);color:var(--p-green-fg);}
+  .watchrow{display:none;gap:8px;margin-top:8px;flex:none;}
+  .watchrow.on{display:flex;}
+  .watchrow .pill{min-height:50px;flex:1;padding:6px 10px;}
+  .watchrow .pill .v{font-size:17px;line-height:21px;}
+  .week{margin-top:10px;padding:12px 16px 10px;flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+  .week .hd{display:flex;align-items:center;justify-content:space-between;flex:none;}
+  .week .hd .tot{font-size:15px;font-weight:800;color:var(--navy);}
+  .bars{display:flex;justify-content:space-between;align-items:flex-end;flex:1;min-height:40px;margin-top:8px;padding:0 2px;}
+  .bar{width:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+  .bar i{display:block;width:100%;border-radius:8px;background:var(--p-blue-bg);position:relative;overflow:hidden;height:100%;}
+  .bar i b{position:absolute;left:0;right:0;bottom:0;background:var(--blue);border-radius:8px;height:0;transition:height .8s cubic-bezier(.2,.8,.2,1);}
+  .bar.late i::after{content:'';position:absolute;left:50%;top:6px;width:8px;height:8px;border-radius:50%;background:var(--orange);transform:translateX(-50%);}
+  .days7{display:flex;justify-content:space-between;margin-top:6px;padding:0 2px;flex:none;}
+  .days7 span{width:26px;text-align:center;font-size:13px;font-weight:700;color:var(--muted);}
+  .legend{display:flex;gap:12px;margin-top:6px;flex:none;}
+  .legend span{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;}
+  .legend i{width:10px;height:10px;border-radius:3px;display:block;flex:none;}
+  #home{padding-bottom:0;}
+  #home .body{display:flex;flex-direction:column;flex:1;min-height:0;padding-bottom:140px;}
+
+  /* ============ P3 · Alerta ============ */
+  .overlay{position:absolute;inset:0;background:rgba(0,59,92,.45);display:none;align-items:flex-end;padding:0 12px 14px;opacity:0;transition:opacity .3s;z-index:30;}
+  .overlay.on{display:flex;}
+  .overlay.show{opacity:1;}
+  .overlay.top{align-items:flex-start;padding:0;}
+  .sheet{background:#fff;border-radius:28px;padding:22px 22px 16px;width:100%;transform:translateY(24px);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
+  .overlay.show .sheet{transform:translateY(0);}
+  .sheet .bell{width:48px;height:48px;border-radius:50%;background:var(--p-orange-bg);display:flex;align-items:center;justify-content:center;margin-bottom:12px;animation:ringbell 1.2s ease-in-out 1;}
+  @keyframes ringbell{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+  .sheet .main{font-size:20px;line-height:27px;font-weight:800;color:var(--navy);letter-spacing:-.4px;}
+  .sheet .sec{font-size:16px;line-height:22px;color:var(--muted);margin:8px 0 18px;font-weight:600;}
+  .sheet .btn + .btn{margin-top:8px;}
+
+  /* ============ P4 · Pedir ayuda ============ */
+  .routes{display:flex;flex-direction:column;gap:12px;flex:1;margin-top:14px;margin-bottom:60px;}
+  .route{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;border-radius:20px;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;position:relative;transition:transform .12s;}
+  .route:active{transform:scale(.985);}
+  .route .chip{align-self:flex-start;}
+  .route .ico{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+  .route .t{font-size:21px;line-height:27px;font-weight:800;letter-spacing:-.4px;color:var(--navy);margin-top:10px;}
+  .route .s{font-size:15px;line-height:21px;color:var(--muted);margin-top:4px;font-weight:600;padding-right:56px;}
+  .route .go{position:absolute;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px -6px rgba(0,119,182,.5);}
+  .foot{position:absolute;left:20px;right:20px;bottom:26px;text-align:center;}
+
+  /* ============ Listas de profesionales ============ */
+  .list{display:flex;flex-direction:column;gap:10px;overflow:hidden;}
+  .pro{background:var(--surface);border-radius:20px;padding:12px;box-shadow:var(--shadow);display:flex;gap:12px;cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .12s;}
+  .pro:active{transform:scale(.985);}
+  .pro.sel{border-color:var(--blue);}
+  .pro .av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none;}
+  .pro .nm{font-size:16px;line-height:21px;font-weight:800;color:var(--navy);}
+  .pro .rl{font-size:13px;line-height:17px;color:var(--muted);font-weight:600;margin-top:1px;}
+  .pro .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+  .pro .star{margin-left:auto;flex:none;font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:3px;}
+  .pro .radio{position:absolute;}
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+  .slot{min-height:58px;padding:7px 6px;border-radius:16px;border:1.5px solid var(--border);background:var(--surface);font:inherit;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:18px;transition:all .15s;}
+  .slot.sel{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 6px 14px -6px rgba(0,119,182,.5);}
+  .slot small{font-weight:700;opacity:.75;font-size:13px;line-height:15px;}
+  .sect{font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin:14px 0 8px;}
+
+  /* ============ P5 · Médico ============ */
+  .searching{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:var(--bg);z-index:3;transition:opacity .35s;}
+  .searching.hide{opacity:0;pointer-events:none;}
+  .searching p{margin:0;font-size:17px;color:var(--navy);font-weight:800;}
+  .searching .sub{margin-top:-8px;}
+  .spinner{width:72px;height:72px;border-radius:50%;border:6px solid var(--p-blue-bg);border-top-color:var(--blue);animation:spin .9s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .scan{display:flex;flex-direction:column;gap:8px;width:300px;}
+  .scan div{height:40px;border-radius:14px;background:linear-gradient(90deg,#F3EBDD 25%,#FBF6EC 50%,#F3EBDD 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite;}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  .assigned{position:absolute;inset:0;padding:14px 20px 92px;display:none;flex-direction:column;overflow:hidden;}
+  .assigned.on{display:flex;}
+  .fade-in{animation:fadeUp .45s ease-out both;}
+  .scroll{flex:1;min-height:0;overflow:hidden;}
+
+  /* ============ P6 · Certificado ============ */
+  .days{display:flex;gap:12px;margin-top:10px;}
+  .day{flex:1;height:62px;border-radius:18px;border:0;background:var(--surface);box-shadow:var(--shadow);font:inherit;font-size:24px;font-weight:800;color:var(--navy);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .12s;}
+  .day small{font-size:13px;font-weight:700;color:var(--muted);line-height:14px;}
+  .day.sel{background:var(--grad);color:#fff;box-shadow:0 8px 16px -6px rgba(0,119,182,.5);}
+  .day.sel small{color:rgba(255,255,255,.85);}
+  .day:active{transform:scale(.96);}
+  .hint{font-size:14px;line-height:20px;color:var(--muted);text-align:center;margin-top:12px;font-weight:600;}
+  .doc{display:flex;align-items:center;gap:12px;background:var(--tile);border-radius:var(--r);padding:10px 12px;}
+  .doc .thumb{width:44px;height:58px;border-radius:6px;background:#fff;border:1px solid var(--border);flex:none;overflow:hidden;position:relative;}
+  .doc .thumb i{position:absolute;left:6px;right:6px;height:3px;border-radius:2px;background:#D9E2EA;}
+  .doc .thumb i:nth-child(1){top:8px;height:8px;background:var(--navy);right:14px}
+  .doc .thumb i:nth-child(2){top:22px}.doc .thumb i:nth-child(3){top:29px}.doc .thumb i:nth-child(4){top:36px;right:18px}
+  .doc .thumb i:nth-child(5){top:47px;left:22px;height:6px;background:var(--p-orange-bg)}
+  .doc .acts{margin-left:auto;display:flex;gap:6px;flex:none;}
+  .iconbtn{width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .12s;}
+  .iconbtn:active{transform:scale(.9);}
+
+  /* ============ P7 · Trámite ============ */
+  #tramite{justify-content:center;padding-bottom:40px;}
+  .steps{margin-top:16px;display:flex;flex-direction:column;gap:8px;}
+  .step{display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s;background:var(--tile);border-radius:var(--r);padding:12px 14px;}
+  .step.on{opacity:1;transform:none;}
+  .step .ck{width:32px;height:32px;border-radius:50%;background:#D1D5DB;display:flex;align-items:center;justify-content:center;flex:none;transition:background .3s .25s,transform .3s .25s;}
+  .step.on .ck{background:var(--green);transform:scale(1.05);}
+  .step .ck svg{width:16px;height:16px;}
+  .step span{font-size:16px;line-height:21px;font-weight:700;color:var(--text);}
+  .step em{font-style:normal;color:var(--muted);font-weight:600;font-size:13px;display:block;margin-top:1px;}
+  .closing{font-size:21px;line-height:29px;font-weight:800;color:var(--navy);opacity:0;transition:opacity .7s;letter-spacing:-.4px;text-align:center;margin-top:22px;}
+  .closing.on{opacity:1;}
+  .closing b{color:var(--blue-d);}
+  #tramiteBtn{opacity:0;transition:opacity .5s;}
+  #tramiteBtn.on{opacity:1;}
+  .progress{height:6px;border-radius:3px;background:var(--p-blue-bg);overflow:hidden;margin-top:14px;}
+  .progress b{display:block;height:100%;width:0;background:var(--grad);border-radius:3px;transition:width .8s cubic-bezier(.2,.8,.2,1);}
+
+  /* ============ P8 · Proceso ============ */
+  .herob{background:var(--grad);border-radius:22px;padding:20px 22px 18px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 26px -10px rgba(0,119,182,.55);flex:none;}
+  .herob .wave{position:absolute;right:-30px;bottom:-36px;opacity:.18;}
+  .herob .lbl{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:12px;}
+  .herob .big{font-size:38px;line-height:44px;font-weight:800;letter-spacing:-1.2px;margin-top:8px;}
+  .herob .range{font-size:16px;line-height:22px;font-weight:700;margin-top:2px;opacity:.95;}
+  .stats{display:flex;gap:10px;margin-top:10px;flex:none;}
+  .stat{flex:1;border-radius:18px;padding:12px 14px;}
+  .stat .l{font-size:13px;font-weight:700;opacity:.85;line-height:16px;}
+  .stat .v{font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:30px;margin-top:2px;}
+  .stat .v small{font-size:14px;font-weight:700;opacity:.8;}
+
+  /* ============ Correo ============ */
+  .fld{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:8px 14px 8px;}
+  .fld + .fld{margin-top:8px;}
+  .fld label{display:block;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;}
+  .fld input{width:100%;border:0;outline:0;font:inherit;font-size:15px;font-weight:700;color:var(--text);background:transparent;padding:2px 0 0;}
+  .mail{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:14px 16px;margin-top:10px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;}
+  .mail .subj{font-size:15px;font-weight:800;color:var(--navy);padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .mail .body{font-size:13px;line-height:18px;color:var(--text);font-weight:600;white-space:pre-line;margin-top:8px;overflow:hidden;}
+  .mail .body mark{background:var(--p-blue-bg);color:var(--navy);border-radius:4px;padding:0 3px;}
+  .send{display:flex;gap:8px;margin-top:10px;flex:none;}
+  .send .btn{flex:1;height:48px;font-size:14px;border-radius:24px;gap:6px;}
+  .send .gm{background:#fff;color:#1F2937;box-shadow:var(--shadow);}
+  .send .ol{background:#fff;color:#0F6CBD;box-shadow:var(--shadow);}
+  .send .ot{background:var(--p-blue-bg);color:var(--navy);box-shadow:none;}
+
+  /* ============ Perfil ============ */
+  .toggle{width:46px;height:28px;border-radius:14px;background:#D1D5DB;position:relative;flex:none;transition:background .2s;cursor:pointer;}
+  .toggle::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;}
+  .toggle.on{background:var(--blue);}
+  .toggle.on::after{left:21px;}
+
+  /* ============ Visor de documento ============ */
+  .viewer{position:absolute;inset:0;background:rgba(0,59,92,.55);display:none;flex-direction:column;z-index:40;opacity:0;transition:opacity .3s;}
+  .viewer.on{display:flex;}
+  .viewer.show{opacity:1;}
+  .viewer .paper{margin:16px 20px 0;flex:1;min-height:0;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.3);transform:translateY(20px);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;align-items:flex-start;justify-content:center;}
+  .viewer.show .paper{transform:none;}
+  .viewer .paper svg{width:100%;height:auto;display:block;}
+  .viewer .acts{display:flex;gap:10px;padding:12px 20px 16px;}
+  .viewer .acts .btn{flex:1;}
+
+  /* Toast */
+  .toast{position:absolute;left:20px;right:20px;top:12px;background:var(--navy);color:#fff;border-radius:16px;padding:12px 16px;font-size:14px;font-weight:700;text-align:center;opacity:0;transform:translateY(-10px);transition:all .3s;z-index:50;pointer-events:none;}
+  .toast.on{opacity:1;transform:none;}
+
+  /* Reset oculto */
+  .statusbar{user-select:none;}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+<div class="phone" id="phone">
+
+  <div class="statusbar" id="statusbar">
+    <span>9:41</span>
+    <span class="cam"></span>
+    <span class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#111"><path d="M8 9.6a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4zm0-3.4c1.6 0 3 .6 4.1 1.6l-1.3 1.3A4.3 4.3 0 0 0 8 8a4.3 4.3 0 0 0-2.8 1.1L3.9 7.8A5.9 5.9 0 0 1 8 6.2zm0-3.2c2.5 0 4.8.9 6.6 2.5l-1.3 1.3A7.7 7.7 0 0 0 8 4.8a7.7 7.7 0 0 0-5.3 2L1.4 5.5A9.2 9.2 0 0 1 8 3zM8 0c3.3 0 6.3 1.2 8.6 3.3l-1.3 1.3A10.8 10.8 0 0 0 8 1.8c-2.8 0-5.4 1-7.3 2.8L-.6 3.3C1.7 1.2 4.7 0 8 0z" transform="translate(0 -1)"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="22" height="12" rx="3.5" fill="none" stroke="#111" stroke-opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#111"/><path d="M24.5 4.5v4a2 2 0 0 0 0-4z" fill="#111" fill-opacity=".4"/></svg>
+    </span>
+  </div>
+
+  <div class="content" id="content">
+
+    <!-- ===== P0 · Ingreso ===== -->
+    <section class="screen on" id="login">
+      <div class="logo">
+        <div class="mark"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg></div>
+        <div class="name">PAUSA</div>
+        <div class="by">por Pacífico Seguros</div>
+      </div>
+      <h2 style="text-align:center;font-size:20px;line-height:26px">Ingresa con tu cuenta Pacífico</h2>
+      <div style="height:20px"></div>
+      <div class="field"><label>Usuario</label><input id="user" value="camila.reyes" spellcheck="false"></div>
+      <div class="field"><label>Contraseña</label><input id="pass" type="password" value="pausa2026"></div>
+      <div style="height:18px"></div>
+      <button class="btn" data-go="watch">Ingresar</button>
+      <div class="link">¿Aún no tienes PAUSA?<br><b>Contrátalo en pacifico.com.pe</b></div>
+    </section>
+
+    <!-- ===== P1 · Conectar reloj ===== -->
+    <section class="screen" id="watch">
+      <div class="pulse" id="pulse"><i></i><i></i><i></i>
+        <div class="core"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#00A0DF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="3.5"/><path d="M9 6V3h6v3M9 18v3h6v-3M12 10v2.5l1.6 1"/></svg></div>
+      </div>
+      <h1 id="watchTitle">¿Quieres conectar tu reloj?</h1>
+      <p>Si lo conectas, las alertas se afinan con tu descanso y tu ritmo.</p>
+      <p>Si no, la app funciona igual.</p>
+      <div class="btns">
+        <button class="btn" data-watch="yes">Conectar</button>
+        <button class="btn secondary" data-watch="later">Ahora no</button>
+        <button class="btn ghost" data-watch="none">No tengo</button>
+      </div>
+    </section>
+
+    <!-- ===== P2 · Inicio (pestaña) ===== -->
+    <section class="screen withtabs" id="home">
+      <div class="body">
+        <div class="topbar">
+          <div class="roundbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00A0DF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg></div>
+          <div class="apptitle">PAUSA</div>
+          <div class="avatar" data-tab="perfil">CR</div>
+        </div>
+        <h1>Hola, Camila</h1>
+        <div class="sub" id="homeSub">Así va tu semana de trabajo</div>
+
+        <div class="hero">
+          <div class="ringcard">
+            <div class="ring" id="ring">
+              <svg viewBox="0 0 156 156">
+                <circle cx="78" cy="78" r="66" fill="none" stroke="#F1E9DA" stroke-width="15"/>
+                <circle class="arc" id="arc" cx="78" cy="78" r="66" fill="none" stroke="#FF5C35" stroke-width="15" stroke-linecap="round" stroke-dasharray="415" stroke-dashoffset="415"/>
+              </svg>
+              <div class="in"><div class="l">Tu ritmo</div><div class="v" id="ringV">Elevado</div><div class="l">esta semana</div></div>
+              <div class="badge" id="ringBadge">11 días</div>
+            </div>
+          </div>
+          <div class="pills stagger" id="pills">
+            <div class="pill p-orange"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B23A17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><div class="v">11</div><div class="l">días sin desconectar<br>más de 12 h</div></div></div>
+            <div class="pill p-navy"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></div><div><div class="v">4</div><div class="l">noches después<br>de las 11 pm</div></div></div>
+            <div class="pill p-blue"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg></div><div><div class="v">62 h</div><div class="l">conectada<br>esta semana</div></div></div>
+          </div>
+        </div>
+
+        <div class="watchrow stagger" id="watchrow">
+          <div class="pill p-navy"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="3.5"/><path d="M9 6V3h6v3M9 18v3h6v-3"/></svg></div><div><div class="v">5,2 h</div><div class="l">de sueño promedio</div></div></div>
+          <div class="pill p-orange"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B23A17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div><div><div class="v">Irregular</div><div class="l">ritmo de descanso</div></div></div>
+        </div>
+
+        <div class="card week">
+          <div class="hd">
+            <span class="chip c-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-8M22 19H2"/></svg>Horas conectada</span>
+            <span class="tot">62 h</span>
+          </div>
+          <div class="bars" id="bars">
+            <div class="bar late"><i><b data-h="88"></b></i></div>
+            <div class="bar"><i><b data-h="80"></b></i></div>
+            <div class="bar late"><i><b data-h="94"></b></i></div>
+            <div class="bar"><i><b data-h="72"></b></i></div>
+            <div class="bar late"><i><b data-h="88"></b></i></div>
+            <div class="bar late"><i><b data-h="58"></b></i></div>
+            <div class="bar"><i><b data-h="42"></b></i></div>
+          </div>
+          <div class="days7"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+          <div class="legend"><span><i style="background:#00A0DF"></i>Horas por día</span><span><i style="background:#FF5C35;border-radius:50%"></i>Actividad después de las 11 pm</span></div>
+        </div>
+        <p class="small" style="margin:8px 4px 0;text-align:center;flex:none">Medimos tu patrón de trabajo, no tu salud. <b style="color:var(--navy)">Tú eliges qué ve PAUSA.</b></p>
+      </div>
+      <button class="btn btn-fixed" data-go="ayuda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a2 2 0 1 1 4 0v4M11 9V5a2 2 0 1 1 4 0v4M15 10V7a2 2 0 1 1 4 0v7a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.5L3 13a2 2 0 0 1 3.5-2L7 12"/></svg>Pedir ayuda</button>
+
+    </section>
+
+    <!-- ===== Pestaña · Citas ===== -->
+    <section class="screen withtabs" id="citas">
+      <div class="topbar"><div class="roundbtn" style="visibility:hidden"></div><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <h1>Tus citas</h1>
+      <div class="sub">Sesiones y consultas de tu red</div>
+      <div id="citasList" class="scroll" style="margin-top:14px"></div>
+      <button class="btn btn-fixed" data-go="ayuda">Agendar una sesión</button>
+    </section>
+
+    <!-- ===== Pestaña · Documentos ===== -->
+    <section class="screen withtabs" id="docs">
+      <div class="topbar"><div class="roundbtn" style="visibility:hidden"></div><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <h1>Documentos</h1>
+      <div class="sub">Lo que la red médica generó por ti</div>
+      <div id="docsList" class="scroll" style="margin-top:14px"></div>
+    </section>
+
+    <!-- ===== Pestaña · Perfil ===== -->
+    <section class="screen withtabs" id="perfil">
+      <div class="topbar"><div class="roundbtn" style="visibility:hidden"></div><div class="apptitle">PAUSA</div><div class="roundbtn" style="visibility:hidden"></div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="avatar" style="width:64px;height:64px;font-size:22px">CR</div>
+        <div><h1 style="font-size:24px;line-height:30px">Camila Reyes</h1><div class="sub">Analista junior · 24 años</div></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <span class="chip c-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Cobertura activa</span>
+        <div class="tile" style="margin-top:10px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div><div><div class="tt">PAUSA Standard</div><div class="tm">S/ 7,30 al mes · asegurada desde hace 5 meses</div></div></div>
+        <div class="tile"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><div><div class="tt">6 sesiones al año</div><div class="tm">Psicología por videollamada</div></div></div>
+      </div>
+      <div class="sect">Tú eliges qué ve PAUSA</div>
+      <div class="card" style="padding:6px 16px">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)"><div><div class="tt" style="font-size:15px;font-weight:800">Reloj conectado</div><div class="tm small">Sueño y ritmo de descanso</div></div><div class="toggle right" data-toggle="watch" style="margin-left:auto"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)"><div><div class="tt" style="font-size:15px;font-weight:800">Horario de conexión</div><div class="tm small">Horas y noches de actividad</div></div><div class="toggle on" data-toggle="hours" style="margin-left:auto"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0"><div><div class="tt" style="font-size:15px;font-weight:800">Ubicación</div><div class="tm small">Para sugerirte profesionales cercanos</div></div><div class="toggle on" data-toggle="geo" style="margin-left:auto"></div></div>
+      </div>
+      <button class="btn white btn-fixed" data-logout>Cerrar sesión</button>
+    </section>
+
+    <!-- ===== P4 · Pedir ayuda ===== -->
+    <section class="screen" id="ayuda">
+      <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <h1>¿Qué necesitas?</h1>
+      <div class="sub">Elige la ruta que te sirva hoy</div>
+      <div class="routes stagger" id="routes">
+        <div class="route" data-go="psico">
+          <div class="ico" style="background:var(--p-blue-bg)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div>
+          <span class="chip c-blue">Psicología</span>
+          <div class="t">Quiero hablar con alguien</div>
+          <div class="s">Sesión con un psicólogo de la red</div>
+          <div class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+        <div class="route" data-go="medico">
+          <div class="ico" style="background:var(--p-orange-bg)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B23A17" stroke-width="2.2" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg></div>
+          <span class="chip c-orange">Medicina</span>
+          <div class="t">Necesito parar unos días</div>
+          <div class="s">Consulta con un médico que puede darte descanso</div>
+          <div class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+      </div>
+      <p class="small foot">Ninguna de las dos avisa a tu empresa todavía.</p>
+    </section>
+
+    <!-- ===== Psicólogos ===== -->
+    <section class="screen" id="psico">
+      <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <h1>Elige con quién hablar</h1>
+      <div class="sub">Psicólogos de la red disponibles esta semana</div>
+      <div class="list" id="psicoList" style="margin-top:12px"></div>
+      <div id="psicoSlots" style="flex:none"></div>
+      <button class="btn btn-fixed" id="psicoBtn" data-go="psicoOk" disabled>Confirmar sesión</button>
+    </section>
+
+    <section class="screen center" id="psicoOk">
+      <div class="topbar" style="width:100%"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <div style="height:26px"></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2>Sesión agendada</h2>
+      <div class="card" style="width:100%;margin-top:18px;text-align:left" id="psicoOkCard"></div>
+      <p class="small" style="margin-top:14px">Te avisaremos 10 minutos antes. Puedes cambiarla desde <b>Citas</b>.</p>
+      <button class="btn secondary btn-fixed" data-home>Ir al inicio</button>
+    </section>
+
+    <!-- ===== P5 · Médico ===== -->
+    <section class="screen" id="medico">
+      <div class="searching" id="searching">
+        <div class="spinner"></div>
+        <p>Buscando un médico disponible…</p>
+        <div class="small sub">Consultando la red de Pacífico</div>
+        <div class="scan"><div></div><div></div><div></div></div>
+      </div>
+      <div id="assigned" class="assigned">
+        <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+        <div style="display:flex;align-items:center;gap:12px;flex:none">
+          <div class="check" style="width:44px;height:44px"><svg style="width:22px;height:22px" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <div><h2>Médico asignado</h2><div class="sub" style="margin-top:0">Teleconsulta en menos de 24 horas</div></div>
+        </div>
+        <div class="scroll" style="margin-top:12px">
+          <div id="medList" class="list"></div>
+          <div id="medSlots"></div>
+          <p class="small" style="margin:10px 2px 0;text-align:center">Asignamos al médico disponible de nuestra red.</p>
+        </div>
+        <button class="btn btn-fixed" data-go="cert">Confirmar cita</button>
+      </div>
+    </section>
+
+    <!-- ===== P6 · Certificado y días ===== -->
+    <section class="screen" id="cert">
+      <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="check" style="width:44px;height:44px"><svg style="width:22px;height:22px" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <div><h2>Certificado emitido</h2><div class="sub" style="margin-top:0" id="certSub">Emitido tras tu teleconsulta de hoy, 4:30 pm</div></div>
+      </div>
+      <div class="card" style="margin-top:14px;padding:12px">
+        <div class="tile" style="min-height:52px"><div class="ic" style="background:var(--p-orange-bg);color:var(--p-orange-fg)" id="certAv">EQ</div><div><div class="tt" id="certDoc">Dra. Elena Quispe Vargas</div><div class="tm" id="certCmp">CMP 042817 · Medicina general</div></div></div>
+        <div class="tile" style="min-height:52px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div><div class="tt">F43.2 — Trastorno de adaptación</div><div class="tm">Diagnóstico · CIE-10 · autorizado hasta 7 días</div></div></div>
+        <div class="doc" style="margin-top:8px">
+          <div class="thumb"><i></i><i></i><i></i><i></i><i></i></div>
+          <div><div class="tt" style="font-size:15px;font-weight:800">Vista previa del certificado</div><div class="tm small">Se descarga al terminar el trámite</div></div>
+          <div class="acts"><button class="iconbtn" data-view="cert" aria-label="Ver"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+        </div>
+      </div>
+      <div class="sect" style="margin-top:14px">¿Cuántos días necesitas?</div>
+      <div class="days" id="days" style="margin-top:0">
+        <button class="day" data-days="3">3<small>días</small></button>
+        <button class="day sel" data-days="5">5<small>días</small></button>
+        <button class="day" data-days="7">7<small>días</small></button>
+      </div>
+      <p class="hint">Los días que no uses quedan disponibles<br>por si los necesitas más adelante.</p>
+      <button class="btn btn-fixed" data-go="tramite">Continuar</button>
+    </section>
+
+    <!-- ===== P7 · El trámite ===== -->
+    <section class="screen" id="tramite">
+      <div class="card" style="padding:20px 18px 18px">
+        <span class="chip c-blue" id="tramiteChip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>En proceso</span>
+        <h2 style="margin-top:10px">Estamos gestionando todo</h2>
+        <div class="progress"><b id="prog"></b></div>
+        <div class="steps">
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Cita médica asignada en 24 horas</span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Certificado emitido y recibido</span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Colegiatura verificada<em id="tramiteCmp">CMP 042817 · registro del CMP</em></span></div>
+          <div class="step"><div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><span>Documento listo para tu empleador</span></div>
+        </div>
+      </div>
+      <div class="closing" id="closing">Solo te queda presentarlo.<br><b>Nosotros hicimos el resto.</b></div>
+      <button class="btn btn-fixed" id="tramiteBtn" data-go="proceso">Ver mi proceso</button>
+    </section>
+
+    <!-- ===== P8 · Tu proceso ===== -->
+    <section class="screen" id="proceso">
+      <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <div class="herob">
+        <svg class="wave" width="220" height="120" viewBox="0 0 220 120" fill="none"><path d="M0 70c30-50 60-50 90 0s60 50 90 0 60-50 90 0" stroke="#fff" stroke-width="14" stroke-linecap="round"/><path d="M0 110c30-50 60-50 90 0s60 50 90 0 60-50 90 0" stroke="#fff" stroke-width="14" stroke-linecap="round"/></svg>
+        <span class="lbl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Tu pausa</span>
+        <div class="big" id="pausaDias">5 días</div>
+        <div class="range" id="pausaRango">Del 8 al 12 de septiembre</div>
+      </div>
+      <div class="stats stagger" id="procStats">
+        <div class="stat p-navy"><div class="l">Días guardados</div><div class="v" id="guardados">2</div></div>
+        <div class="stat p-green"><div class="l">Sesiones disponibles</div><div class="v" id="sesiones">6 <small>de 6</small></div></div>
+      </div>
+      <div class="card" style="margin-top:10px;padding:12px" id="procNext"></div>
+      <div class="card" style="margin-top:10px;padding:12px">
+        <span class="chip c-blue">Para tu empleador</span>
+        <div class="doc" style="margin-top:8px"><div class="thumb"><i></i><i></i><i></i><i></i><i></i></div><div><div class="tt" style="font-size:15px;font-weight:800">Certificado médico</div><div class="tm small">Listo para descargar</div></div><div class="acts"><button class="iconbtn" data-view="cert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button><button class="iconbtn" data-download="cert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg></button></div></div>
+        <div class="tile tap" data-go="correo" style="margin-top:8px;min-height:52px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></svg></div><div><div class="tt" style="font-size:15px">Enviar por correo</div><div class="tm">Plantilla lista para Gmail, Outlook u otro</div></div><svg class="right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00A0DF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
+      </div>
+      <button class="btn btn-fixed" data-home>Volver al inicio</button>
+    </section>
+
+    <!-- ===== Correo para el empleador ===== -->
+    <section class="screen" id="correo">
+      <div class="topbar"><button class="roundbtn" data-back><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="apptitle">PAUSA</div><div class="avatar" data-tab="perfil">CR</div></div>
+      <h1 style="font-size:24px;line-height:30px">Correo para tu empleador</h1>
+      <div class="sub">Completa los campos. El texto se arma solo.</div>
+      <div style="margin-top:12px;flex:none">
+        <div class="fld"><label>Para</label><input id="mTo" value="rrhh@tuempresa.com" spellcheck="false"></div>
+        <div class="fld"><label>Nombre de tu jefe o jefa</label><input id="mBoss" value="Nombre de tu jefe" spellcheck="false"></div>
+      </div>
+      <div class="mail">
+        <div class="subj" id="mSubj"></div>
+        <div class="body" id="mBody"></div>
+      </div>
+      <div class="send">
+        <button class="btn gm" data-send="gmail"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6.5V18h3.5v-7.2L12 14.5l5.5-3.7V18H21V6.5L12 12.6z" fill="#EA4335"/><path d="M3 6.5 12 12.6 21 6.5" stroke="#4285F4" stroke-width="1.6"/></svg>Gmail</button>
+        <button class="btn ol" data-send="outlook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="11" height="14" rx="2" fill="#0F6CBD"/><rect x="14" y="8" width="7" height="9" rx="1.5" fill="#28A8EA"/><circle cx="8.5" cy="12" r="2.6" fill="#fff"/></svg>Outlook</button>
+        <button class="btn ot" data-send="other"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></svg>Otro</button>
+      </div>
+      <p class="small" style="margin:8px 2px 12px;text-align:center;flex:none">Se abre tu correo con el texto listo. Adjunta el certificado que descargaste.</p>
+    </section>
+
+    <!-- Barra de pestañas -->
+    <nav class="tabbar" id="tabbar" style="display:none">
+      <button class="tab active" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg>Inicio</button>
+      <button class="tab" data-tab="citas"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Citas</button>
+      <button class="tab" data-tab="docs" id="tabDocs"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Documentos</button>
+      <button class="tab" data-tab="perfil"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Perfil</button>
+    </nav>
+
+      <!-- P3 · La alerta -->
+    <div class="overlay" id="alert">
+      <div class="sheet">
+        <div class="bell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B23A17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4"/></svg></div>
+        <div class="main">Llevas 11 días sin desconectar más de 12 horas seguidas.</div>
+        <div class="sec">¿Quieres hablar con alguien?</div>
+        <button class="btn" data-alert="go">Agendar</button>
+        <button class="btn secondary" data-alert="later">Ahora no</button>
+        <button class="btn ghost" data-alert="never">No mostrar más</button>
+      </div>
+    </div>
+
+    <!-- Visor de documentos -->
+    <div class="viewer" id="viewer">
+      <div class="paper" id="paper"></div>
+      <div class="acts">
+        <button class="btn white" data-viewer="close">Cerrar</button>
+        <button class="btn" data-viewer="download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>Descargar</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <!-- Botones del sistema -->
+  <div class="sysnav">
+    <button data-sys="back" aria-label="Atrás"><svg viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2" stroke-linejoin="round"><path d="M16 4L7 12l9 8"/></svg></button>
+    <button data-sys="home" aria-label="Inicio"><svg viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></button>
+    <button data-sys="recents" aria-label="Recientes"><svg viewBox="0 0 24 24" fill="none" stroke="#1F2937" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></button>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+
+  /* ---------- Escalado ---------- */
+  var stage = $('#stage'), phone = $('#phone');
+  function fit(){
+    var s = Math.min(1, (window.innerWidth - 40) / 390, (window.innerHeight - 40) / 844);
+    stage.style.width = (390*s)+'px'; stage.style.height = (844*s)+'px';
+    phone.style.transform = 'scale('+s+')';
+  }
+  window.addEventListener('resize', fit); fit();
+
+  /* ---------- Datos ---------- */
+  var PSICO = [
+    { id:'at', ini:'AT', name:'Lic. Andrea Torres',  role:'Psicóloga clínica · 6 años', rating:'4,9', color:'blue',  tags:[['green','Te atendió antes'],['blue','Disponible hoy']], last:'Última sesión: hace 3 semanas', slots:[['Mar 10','6:00 pm'],['Mié 11','7:30 pm'],['Jue 12','5:00 pm']] },
+    { id:'ms', ini:'MS', name:'Lic. Marco Salazar',  role:'Psicólogo laboral · 9 años',  rating:'4,8', color:'navy',  tags:[['orange','Más cercano · 1,2 km'],['line','Presencial']], last:'San Isidro · atiende hasta las 9 pm', slots:[['Mar 10','8:00 pm'],['Jue 12','7:00 pm'],['Sáb 14','10:00 am']] },
+    { id:'pr', ini:'PR', name:'Lic. Paola Ríos',     role:'Psicóloga · 4 años',          rating:'4,7', color:'green', tags:[['line','Turnos de noche']], last:'Especialista en descanso y sueño', slots:[['Hoy','9:30 pm'],['Mié 11','10:00 pm']] },
+    { id:'dh', ini:'DH', name:'Lic. Diego Huamán',   role:'Psicólogo · 7 años',          rating:'4,9', color:'orange',tags:[['line','Fines de semana']], last:'Atiende sábados y domingos', slots:[['Sáb 14','9:00 am'],['Dom 15','11:00 am']] }
+  ];
+  var MED = [
+    { id:'eq', ini:'EQ', name:'Dra. Elena Quispe Vargas', role:'Medicina general', cmp:'CMP 042817', color:'orange', tags:[['green','Disponible más pronto'],['blue','Te atendió antes']], slots:[['Hoy','4:30 pm','en 3 h 12 min'],['Hoy','6:00 pm','en 4 h 42 min'],['Mañana','9:00 am','']] , assigned:true },
+    { id:'lp', ini:'LP', name:'Dr. Luis Paredes',         role:'Medicina general', cmp:'CMP 051233', color:'navy',   tags:[['orange','Más cercano · 0,8 km'],['line','Presencial']], slots:[['Mañana','8:00 am',''],['Mañana','5:00 pm','']] },
+    { id:'rm', ini:'RM', name:'Dra. Rocío Mendoza',       role:'Medicina ocupacional', cmp:'CMP 038790', color:'green', tags:[['line','Turno noche']], slots:[['Hoy','8:00 pm','en 6 h 42 min'],['Mañana','8:00 pm','']] }
+  ];
+  function slotLabel(s){ return s[0]+' · '+s[1]; }
+  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  /* ---------- Estado en memoria ---------- */
+  var state, navStack, timers = [];
+  function initialState(){
+    return { logged:false, watch:false, alertNever:false, alertSeen:false, days:5,
+             psico:null, psicoSlot:null, sessions:[],
+             med:'eq', medSlot:0, medDone:false, medConfirmed:false, medOthers:false,
+             cert:false, proceso:false, tab:'home' };
+  }
+  function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+  function replay(el){ if(!el) return; el.classList.remove('play'); void el.offsetWidth; el.classList.add('play'); }
+  function toast(msg){ var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('on'); }, 2200); }
+
+  /* ---------- Navegación con transición ---------- */
+  var TABS = ['home','citas','docs','perfil'];
+  var current = 'login';
+  function show(id, opts){
+    opts = opts || {};
+    clearTimers();
+    var from = $('#'+current), to = $('#'+id);
+    var back = !!opts.back;
+    $$('.screen').forEach(function(s){ s.classList.remove('in-fwd','in-back','out-fwd','out-back'); });
+    if (from && from !== to){
+      from.classList.add(back ? 'out-back' : 'out-fwd');
+      setTimeout(function(){ if (current !== from.id) from.classList.remove('on','out-fwd','out-back'); }, 330);
+    }
+    to.classList.add('on', back ? 'in-back' : 'in-fwd');
+    current = id;
+    // Pestañas
+    var tb = $('#tabbar');
+    if (TABS.indexOf(id) >= 0){ tb.style.display = 'flex'; $$('.tab').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-tab') === id); }); state.tab = id; }
+    else tb.style.display = 'none';
+    // Entradas
+    if (id === 'home')   enterHome();
+    if (id === 'watch')  { $('#pulse').classList.remove('linking'); $('#watchTitle').textContent = '¿Quieres conectar tu reloj?'; }
+    if (id === 'ayuda')  replay($('#routes'));
+    if (id === 'psico')  renderPsico(true);
+    if (id === 'psicoOk')renderPsicoOk();
+    if (id === 'medico') enterMedico(back);
+    if (id === 'cert')   enterCert();
+    if (id === 'tramite')enterTramite();
+    if (id === 'proceso')enterProceso();
+    if (id === 'correo') renderMail();
+    if (id === 'citas')  renderCitas();
+    if (id === 'docs')   renderDocs();
+    if (id === 'perfil') renderPerfil();
+    if (!back){
+      if (id === 'psicoOk'){
+        var pp = PSICO.filter(function(x){ return x.id===state.psico; })[0] || PSICO[0];
+        state.sessions.push({ p:pp, slot:pp.slots[state.psicoSlot||0] });
+        state.psico = null; state.psicoSlot = null;
+      }
+      if (TABS.indexOf(id) >= 0){ navStack = [id]; }
+      else if (id === 'psicoOk' || id === 'proceso'){ navStack = ['home', id]; }   // recibos: atrás vuelve al inicio
+      else navStack.push(id);
+      try { history.pushState({ id:id }, ''); } catch(e){}
+    }
+  }
+  function goBack(){
+    if (navStack.length < 2){ if (state.logged && current !== 'home') show('home', {back:true}); return; }
+    navStack.pop();
+    show(navStack[navStack.length-1], { back:true });
+  }
+  window.addEventListener('popstate', function(){
+    if (navStack.length < 2){ try { history.pushState({ id: current }, ''); } catch(e){} return; }
+    goBack();
+  });
+  function goHome(){ navStack = ['home']; show('home', {back:true}); }
+
+  /* ---------- Clicks ---------- */
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (t.closest('[data-back]')){ goBack(); return; }
+    if (t.closest('[data-home]')){ goHome(); return; }
+    var sys = t.closest('[data-sys]');
+    if (sys){ var k = sys.getAttribute('data-sys'); if (k==='back') goBack(); else if (k==='home'){ if (state.logged) goHome(); } else toast('Sin apps recientes'); return; }
+    var tab = t.closest('[data-tab]');
+    if (tab){ var id = tab.getAttribute('data-tab'); if (id !== current) show(id); return; }
+    if (t.closest('[data-logout]')){ reset(); return; }
+    var w = t.closest('[data-watch]');
+    if (w){ var k2 = w.getAttribute('data-watch'); state.logged = true;
+      if (k2 === 'yes'){ state.watch = true; $('#pulse').classList.add('linking'); $('#watchTitle').textContent = 'Conectando tu reloj…'; later(function(){ $('#watchTitle').textContent = 'Reloj conectado'; later(function(){ navStack = ['home']; show('home'); }, 500); }, 1300); }
+      else { state.watch = false; navStack = ['home']; show('home'); }
+      return; }
+    var go = t.closest('[data-go]');
+    if (go){ show(go.getAttribute('data-go')); return; }
+    var a = t.closest('[data-alert]');
+    if (a){ var k3 = a.getAttribute('data-alert'); hideAlert(); if (k3==='go') show('ayuda'); if (k3==='never') state.alertNever = true; return; }
+    var d = t.closest('[data-days]');
+    if (d){ state.days = parseInt(d.getAttribute('data-days'),10); $$('.day').forEach(function(b){ b.classList.toggle('sel', b===d); }); return; }
+    var p = t.closest('[data-psico]');
+    if (p){ state.psico = p.getAttribute('data-psico'); state.psicoSlot = null; renderPsico(); return; }
+    var ps = t.closest('[data-pslot]');
+    if (ps){ state.psicoSlot = parseInt(ps.getAttribute('data-pslot'),10); renderPsico(); return; }
+    var m = t.closest('[data-med]');
+    if (m){ state.med = m.getAttribute('data-med'); state.medSlot = 0; renderMed(); return; }
+    var ms = t.closest('[data-mslot]');
+    if (ms){ state.medSlot = parseInt(ms.getAttribute('data-mslot'),10); renderMed(); return; }
+    if (t.closest('[data-others]')){ state.medOthers = !state.medOthers; renderMed(); return; }
+    var tg = t.closest('[data-toggle]');
+    if (tg){ var key = tg.getAttribute('data-toggle'); tg.classList.toggle('on'); if (key==='watch') state.watch = tg.classList.contains('on'); return; }
+    var v = t.closest('[data-view]');
+    if (v){ openViewer(v.getAttribute('data-view')); return; }
+    var dl = t.closest('[data-download]');
+    if (dl){ if (!state.proceso){ toast('Se habilita al terminar el trámite'); return; } download(dl.getAttribute('data-download')); return; }
+    var vw = t.closest('[data-viewer]');
+    if (vw){ if (vw.getAttribute('data-viewer')==='close') closeViewer(); else download(viewerDoc); return; }
+    var sd = t.closest('[data-send]');
+    if (sd){ sendMail(sd.getAttribute('data-send')); return; }
+  });
+  document.addEventListener('input', function(e){ if (e.target.id==='mTo' || e.target.id==='mBoss') renderMail(); });
+
+  /* ---------- P2 · Inicio ---------- */
+  var alertEl = $('#alert');
+  function enterHome(){
+    hideAlert(true);
+    $('#watchrow').classList.toggle('on', state.watch);
+    var arc = $('#arc'), ring = $('#ring');
+    arc.style.strokeDashoffset = 415;
+    if (state.proceso){
+      ring.classList.add('calm'); arc.style.stroke = '#2FA84F'; $('#ringV').textContent = 'En pausa';
+      $('#ringBadge').textContent = state.days + ' días'; $('#homeSub').textContent = 'Tu pausa está activa. Descansa.';
+    } else {
+      ring.classList.remove('calm'); arc.style.stroke = '#FF5C35'; $('#ringV').textContent = 'Elevado';
+      $('#ringBadge').textContent = '11 días'; $('#homeSub').textContent = 'Así va tu semana de trabajo';
+    }
+    $$('#bars b').forEach(function(b){ b.style.height = '0%'; });
+    later(function(){
+      arc.style.strokeDashoffset = state.proceso ? 415*0.2 : 415*0.28;
+      $$('#bars b').forEach(function(b,i){ b.style.transitionDelay = (i*60)+'ms'; b.style.height = b.getAttribute('data-h')+'%'; });
+    }, 60);
+    replay($('#pills')); if (state.watch) replay($('#watchrow'));
+    if (!state.alertNever && !state.alertSeen && !state.proceso) later(showAlert, 3000);
+  }
+  function showAlert(){ state.alertSeen = true; alertEl.classList.add('on'); setTimeout(function(){ alertEl.classList.add('show'); }, 30); }
+  function hideAlert(now){ alertEl.classList.remove('show'); if (now){ alertEl.classList.remove('on'); return; } setTimeout(function(){ if(!alertEl.classList.contains('show')) alertEl.classList.remove('on'); }, 320); }
+
+  /* ---------- Utilidades de render ---------- */
+  function avColor(c){ return { blue:['#E0F4FB','#003B5C'], navy:['#E3EDF3','#003B5C'], green:['#E3F5E8','#1E7A3A'], orange:['#FFE9E1','#B23A17'] }[c]; }
+  function tagsHtml(tags){ return tags.map(function(t){ return '<span class="chip c-'+t[0]+'">'+t[1]+'</span>'; }).join(''); }
+  function proHtml(p, sel, attr, extra){
+    var c = avColor(p.color);
+    return '<div class="pro'+(sel?' sel':'')+'" '+attr+'><div class="av" style="background:'+c[0]+';color:'+c[1]+'">'+p.ini+'</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:flex-start"><div><div class="nm">'+p.name+'</div><div class="rl">'+p.role+(p.cmp?' · '+p.cmp:'')+'</div></div>'+(p.rating?'<div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#F5A623"><path d="M12 2l3 7 7 .6-5.3 4.7L18.2 22 12 18.2 5.8 22l1.5-7.7L2 9.6 9 9z"/></svg>'+p.rating+'</div>':'')+'</div><div class="tags">'+tagsHtml(p.tags)+'</div>'+(extra||'')+'</div></div>';
+  }
+
+  /* ---------- Psicólogos ---------- */
+  function renderPsico(anim){
+    var list = $('#psicoList'); list.classList.toggle('stagger', !!anim);
+    var chosen = PSICO.filter(function(p){ return p.id===state.psico; })[0];
+    var items = state.psico ? [chosen].concat(PSICO.filter(function(p){ return p.id!==state.psico; }).slice(0,1)) : PSICO;
+    list.innerHTML = items.map(function(p){ return proHtml(p, p.id===state.psico, 'data-psico="'+p.id+'"', p.id===state.psico ? '<div class="rl" style="margin-top:6px">'+p.last+'</div>' : ''); }).join('');
+    if (anim) replay(list);
+    var slots = $('#psicoSlots');
+    if (chosen){
+      slots.innerHTML = '<div class="sect">Elige un horario</div><div class="slots">'+chosen.slots.map(function(s,i){ return '<button class="slot'+(state.psicoSlot===i?' sel':'')+'" data-pslot="'+i+'"><small>'+s[0]+'</small><b>'+s[1]+'</b></button>'; }).join('')+'</div><p class="small" style="margin:10px 2px 0">Videollamada desde esta app · 45 min · usa 1 de tus 6 sesiones</p>';
+    } else slots.innerHTML = '<p class="small" style="margin:8px 2px 0;text-align:center">Toca un profesional para ver sus horarios</p>';
+    $('#psicoBtn').disabled = !(chosen && state.psicoSlot !== null);
+  }
+  function renderPsicoOk(){
+    var last = state.sessions[state.sessions.length-1] || { p:PSICO[0], slot:PSICO[0].slots[0] };
+    var p = last.p;
+    var s = slotLabel(last.slot);
+    var c = avColor(p.color);
+    $('#psicoOkCard').innerHTML = '<span class="chip c-blue">Psicología</span>'+
+      '<div class="tile" style="margin-top:10px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+p.ini+'</div><div><div class="tt">'+p.name+'</div><div class="tm">'+p.role+'</div></div></div>'+
+      '<div class="tile"><div class="ic">'+icoCal()+'</div><div><div class="tt">'+s+'</div><div class="tm">Duración estimada: 45 min</div></div></div>'+
+      '<div class="tile"><div class="ic">'+icoVideo()+'</div><div><div class="tt">Videollamada</div><div class="tm">Desde esta app</div></div></div>';
+  }
+  function icoCal(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'; }
+  function icoVideo(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>'; }
+  function icoDoc(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>'; }
+
+  /* ---------- Médico ---------- */
+  var searching = $('#searching'), assigned = $('#assigned');
+  function enterMedico(back){
+    if (back && state.medDone){ searching.classList.add('hide'); assigned.classList.add('on'); renderMed(); return; }
+    searching.classList.remove('hide'); assigned.classList.remove('on');
+    later(function(){ state.medDone = true; searching.classList.add('hide'); assigned.classList.add('on'); renderMed(true); }, 2000);
+  }
+  function medSel(){ return MED.filter(function(m){ return m.id===state.med; })[0]; }
+  function renderMed(anim){
+    var m = medSel();
+    var list = $('#medList'); list.classList.toggle('stagger', !!anim);
+    var html = proHtml(m, true, 'data-med="'+m.id+'"');
+    html += '<button class="btn white sm" data-others>'+(state.medOthers?'Ocultar otros médicos':'Ver otros médicos disponibles')+'</button>';
+    if (state.medOthers) html += MED.filter(function(x){ return x.id!==m.id; }).map(function(x){ return proHtml(x, false, 'data-med="'+x.id+'"'); }).join('');
+    list.innerHTML = html; if (anim) replay(list);
+    $('#medSlots').innerHTML = '<div class="sect">Horario</div><div class="slots">'+m.slots.map(function(s,i){ return '<button class="slot'+(state.medSlot===i?' sel':'')+'" data-mslot="'+i+'"><small>'+s[0]+'</small><b>'+s[1]+'</b>'+(s[2]?'<small>'+s[2]+'</small>':'<small>&nbsp;</small>')+'</button>'; }).join('')+'</div>';
+  }
+
+  /* ---------- Certificado ---------- */
+  function enterCert(){
+    var m = medSel();
+    if (!state.medConfirmed) toast('Cita confirmada · teleconsulta realizada');
+    state.cert = true; state.medConfirmed = true;
+    $('#certAv').textContent = m.ini; $('#certDoc').textContent = m.name; $('#certCmp').textContent = m.cmp+' · '+m.role;
+    $('#certSub').textContent = 'Emitido tras tu teleconsulta de '+slotLabel(m.slots[state.medSlot]).replace(' · ',', ').toLowerCase();
+    $('#tramiteCmp').textContent = m.cmp+' · registro del CMP';
+    $$('.day').forEach(function(b){ b.classList.toggle('sel', parseInt(b.getAttribute('data-days'),10)===state.days); });
+  }
+  function fechas(){
+    var n = state.days, ini = 8, fin = ini+n-1;
+    return { n:n, ini:ini, fin:fin, mes:'septiembre', anio:2026, retorno:fin+1, rango:'Del '+ini+' al '+fin+' de septiembre' };
+  }
+
+  /* ---------- P7 · Trámite ---------- */
+  var steps = $$('.step');
+  function enterTramite(){
+    steps.forEach(function(s){ s.classList.remove('on'); });
+    $('#closing').classList.remove('on'); $('#tramiteBtn').classList.remove('on'); $('#prog').style.width = '0%';
+    var chip = $('#tramiteChip'); chip.className = 'chip c-blue'; chip.lastChild.textContent = 'En proceso';
+    [400,1200,2000,2800].forEach(function(ms,i){ later(function(){ steps[i].classList.add('on'); $('#prog').style.width = ((i+1)*25)+'%'; }, ms); });
+    later(function(){ $('#closing').classList.add('on'); chip.className = 'chip c-green'; chip.lastChild.textContent = 'Listo'; }, 4000);   // pausa 1,2 s tras el 4.º check
+    later(function(){ $('#tramiteBtn').classList.add('on'); }, 4700);
+    later(function(){ if (current==='tramite') show('proceso'); }, 9500);
+  }
+
+  /* ---------- P8 · Proceso ---------- */
+  function enterProceso(){
+    state.proceso = true;
+    var f = fechas();
+    $('#pausaDias').textContent = f.n+' días'; $('#pausaRango').textContent = f.rango;
+    $('#guardados').textContent = 7 - f.n;
+    $('#sesiones').innerHTML = (6-state.sessions.length)+' <small>de 6</small>';
+    replay($('#procStats'));
+    var nx = nextSession(), c = avColor(nx.p.color);
+    $('#procNext').innerHTML = '<span class="chip c-blue">Próxima sesión</span>'+(nx.included?'<span class="chip c-green" style="margin-left:6px">Incluida en tu pausa</span>':'')+
+      '<div class="tile" style="margin-top:8px;min-height:52px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+nx.p.ini+'</div><div><div class="tt" style="font-size:15px">'+nx.p.name+'</div><div class="tm">'+nx.label+' · videollamada'+(nx.included?' · sin usar tus sesiones':'')+'</div></div></div>';
+  }
+
+  // Sesión que sigue: la que agendó la persona; si no hay, la de acompañamiento que incluye la pausa
+  function nextSession(){
+    if (state.sessions.length){ var s0 = state.sessions[0]; return { p:s0.p, label:slotLabel(s0.slot), included:false }; }
+    return { p:PSICO[0], label:'Martes 10 · 6:00 pm', included:true };
+  }
+
+  /* ---------- Citas / Documentos / Perfil ---------- */
+  function renderCitas(){
+    var html = '<div class="sect" style="margin-top:0">Próximas</div>';
+    var m = medSel();
+    var items = [];
+    if (state.medConfirmed) items.push(tile(m.ini, m.name, slotLabel(m.slots[state.medSlot])+' · teleconsulta', avColor(m.color), state.proceso?'<span class="chip c-green right">Realizada</span>':'<span class="chip c-orange right">Confirmada</span>'));
+    state.sessions.forEach(function(x){ items.push(tile(x.p.ini, x.p.name, slotLabel(x.slot)+' · videollamada', avColor(x.p.color), '<span class="chip c-blue right">Sesión</span>')); });
+    if (state.proceso && !state.sessions.length) items.push(tile(PSICO[0].ini, PSICO[0].name, 'Martes 10 · 6:00 pm · acompañamiento', avColor(PSICO[0].color), '<span class="chip c-green right">Incluida</span>'));
+    if (items.length) html += '<div class="card" style="padding:12px">'+items.join('<div style="height:8px"></div>')+'</div>';
+    else html += '<div class="card" style="padding:16px"><div class="tm" style="text-align:center">Aún no tienes citas. Agenda una sesión o pide una consulta médica.</div></div>';
+    html += '<div class="sect">Anteriores</div><div class="card" style="padding:12px">'+tile('AT','Lic. Andrea Torres','19 de agosto · sesión completada', avColor('blue'), '<span class="chip c-line right">Hace 3 sem.</span>')+'</div>';
+    $('#citasList').innerHTML = html;
+  }
+  function tile(ini, tt, tm, c, right){ return '<div class="tile" style="min-height:52px"><div class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+ini+'</div><div style="min-width:0"><div class="tt" style="font-size:15px">'+tt+'</div><div class="tm">'+tm+'</div></div>'+(right||'')+'</div>'; }
+  function renderDocs(){
+    var el = $('#docsList');
+    if (!state.proceso){
+      el.innerHTML = '<div class="card center" style="display:flex;flex-direction:column;padding:34px 20px"><div class="ic" style="width:64px;height:64px;border-radius:50%;background:var(--p-blue-bg);display:flex;align-items:center;justify-content:center">'+icoDoc()+'</div><h2 style="margin-top:14px;font-size:19px">Aún no hay documentos</h2><p class="small" style="margin:8px 0 0">Cuando termine el trámite de tu certificado, aparecerá aquí listo para descargar y enviar.</p></div>';
+      return;
+    }
+    var f = fechas();
+    el.innerHTML =
+      '<div class="card" style="padding:12px"><span class="chip c-green">Emitido hoy</span>'+
+      '<div class="doc" style="margin-top:8px"><div class="thumb"><i></i><i></i><i></i><i></i><i></i></div><div><div class="tt" style="font-size:15px;font-weight:800">Certificado médico</div><div class="tm small">'+f.n+' días · '+f.rango.toLowerCase()+'</div></div><div class="acts"><button class="iconbtn" data-view="cert">'+eye()+'</button><button class="iconbtn" data-download="cert">'+dlIco()+'</button></div></div>'+
+      '<div class="doc" style="margin-top:8px"><div class="thumb"><i></i><i></i><i></i><i></i><i></i></div><div><div class="tt" style="font-size:15px;font-weight:800">Aviso de ausencia</div><div class="tm small">Para tu empleador</div></div><div class="acts"><button class="iconbtn" data-view="aviso">'+eye()+'</button><button class="iconbtn" data-download="aviso">'+dlIco()+'</button></div></div></div>'+
+      '<div class="card" style="padding:12px;margin-top:10px"><span class="chip c-blue">Enviar</span><div class="tile tap" data-go="correo" style="margin-top:8px;min-height:52px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></svg></div><div><div class="tt" style="font-size:15px">Correo para tu empleador</div><div class="tm">Gmail, Outlook u otro</div></div><svg class="right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00A0DF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div></div>'+
+      '<div class="card" style="padding:12px;margin-top:10px"><span class="chip c-navy">Verificación</span><div class="tile" style="margin-top:8px;min-height:52px"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7A3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></div><div><div class="tt" style="font-size:15px">Colegiatura verificada</div><div class="tm">'+medSel().cmp+' · registro del CMP</div></div></div></div>';
+  }
+  function eye(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>'; }
+  function dlIco(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003B5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>'; }
+  function renderPerfil(){ $('[data-toggle="watch"]').classList.toggle('on', state.watch); }
+  function refreshDocsBadge(){ var t = $('#tabDocs'); var dot = t.querySelector('.dot'); if (state.proceso && !dot){ var d = document.createElement('i'); d.className='dot'; t.appendChild(d); } if (!state.proceso && dot) dot.remove(); }
+
+  /* ---------- Correo ---------- */
+  function mailData(){
+    var f = fechas(), m = medSel();
+    var boss = ($('#mBoss').value || 'Nombre de tu jefe').trim();
+    var subj = 'Certificado de descanso médico — Camila Reyes';
+    var body = 'Hola '+boss+','+'\n\n'+
+      'Por indicación médica tomaré una pausa de '+f.n+' días, del '+f.ini+' al '+f.fin+' de '+f.mes+'. Me reincorporo el '+f.retorno+' de '+f.mes+'.'+'\n\n'+
+      'Adjunto el certificado de descanso emitido por '+m.name+' ('+m.cmp+') a través de la red PAUSA de Pacífico Seguros, con colegiatura verificada en el registro del CMP.'+'\n\n'+
+      'Dejo mis pendientes organizados y avisados al equipo. Gracias por la comprensión.'+'\n\n'+
+      'Camila Reyes · Analista junior';
+    return { to: ($('#mTo').value||'').trim(), subj: subj, body: body, boss: boss, f:f, m:m };
+  }
+  function renderMail(){
+    var d = mailData();
+    $('#mSubj').textContent = d.subj;
+    var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+    var html = esc(d.body)
+      .replace(esc(d.boss), '<mark>'+esc(d.boss)+'</mark>')
+      .replace(d.f.n+' días', '<mark>'+d.f.n+' días</mark>')
+      .replace('del '+d.f.ini+' al '+d.f.fin+' de '+d.f.mes, '<mark>del '+d.f.ini+' al '+d.f.fin+' de '+d.f.mes+'</mark>')
+      .replace(esc(d.m.name)+' ('+d.m.cmp+')', '<mark>'+esc(d.m.name)+' ('+d.m.cmp+')</mark>');
+    $('#mBody').innerHTML = html;
+  }
+  function sendMail(via){
+    var d = mailData(), url;
+    var to = encodeURIComponent(d.to), su = encodeURIComponent(d.subj), bo = encodeURIComponent(d.body);
+    if (via==='gmail')   url = 'https://mail.google.com/mail/?view=cm&fs=1&to='+to+'&su='+su+'&body='+bo;
+    else if (via==='outlook') url = 'https://outlook.live.com/mail/0/deeplink/compose?to='+to+'&subject='+su+'&body='+bo;
+    else url = 'mailto:'+to+'?subject='+su+'&body='+bo;
+    var w = window.open(url, '_blank');
+    if (!w) location.href = url;
+    toast('Abriendo tu correo…');
+  }
+
+  /* ---------- Documentos (SVG) y descarga ---------- */
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function fakeQR(x, y, size){
+    var n = 21, c = size/n, out = '', seed = 7;
+    for (var i=0;i<n;i++) for (var j=0;j<n;j++){
+      var finder = (i<7&&j<7)||(i<7&&j>=n-7)||(i>=n-7&&j<7);
+      var on;
+      if (finder){ var ii=i%(n-7)<7?i%(n-7):i, jj=j%(n-7)<7?j%(n-7):j; if(i>=n-7) ii=i-(n-7); if(j>=n-7) jj=j-(n-7); on = (ii===0||ii===6||jj===0||jj===6)||(ii>=2&&ii<=4&&jj>=2&&jj<=4); }
+      else { seed = (seed*1103515245+12345+i*31+j*17)&0x7fffffff; on = ((seed>>8)&3)===0 || ((i*j+i+j)%7===0); }
+      if (on) out += '<rect x="'+(x+j*c)+'" y="'+(y+i*c)+'" width="'+(c+0.2)+'" height="'+(c+0.2)+'" fill="#003B5C"/>';
+    }
+    return out;
+  }
+  function certSVG(){
+    var f = fechas(), m = medSel(), W=794, H=1123;
+    var font = 'font-family="Segoe UI, Roboto, Arial, sans-serif"';
+    var slot = m.slots[state.medSlot][1];
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+      '<rect width="'+W+'" height="'+H+'" fill="#fff"/>'+
+      '<rect x="0" y="0" width="'+W+'" height="118" fill="#003B5C"/>'+
+      '<rect x="0" y="118" width="'+W+'" height="6" fill="#00A0DF"/>'+
+      '<circle cx="74" cy="59" r="26" fill="none" stroke="#fff" stroke-width="3"/><path d="M56 59h7l4-9 7 19 5-9h11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<text x="116" y="54" '+font+' font-size="30" font-weight="800" fill="#fff" letter-spacing="4">PAUSA</text>'+
+      '<text x="116" y="80" '+font+' font-size="13" fill="#CFE9F6">Red médica · Pacífico Seguros · Lima, Perú</text>'+
+      '<text x="738" y="52" '+font+' font-size="15" font-weight="800" fill="#fff" text-anchor="end" letter-spacing="1.5">CERTIFICADO DE DESCANSO MÉDICO</text>'+
+      '<text x="738" y="78" '+font+' font-size="13" fill="#CFE9F6" text-anchor="end">N.º PAU-2026-004812 · Emitido el 8 de septiembre de 2026</text>'+
+      '<text x="397" y="620" '+font+' font-size="150" font-weight="800" fill="#003B5C" opacity=".05" text-anchor="middle" transform="rotate(-28 397 620)">DEMOSTRACIÓN</text>';
+    function lab(x,y,t){ return '<text x="'+x+'" y="'+y+'" '+font+' font-size="11" font-weight="700" fill="#6B7280" letter-spacing="1.4">'+esc(t).toUpperCase()+'</text>'; }
+    function val(x,y,t,sz,w){ return '<text x="'+x+'" y="'+y+'" '+font+' font-size="'+(sz||16)+'" font-weight="'+(w||600)+'" fill="#1F2937">'+esc(t)+'</text>'; }
+    function line(y){ return '<line x1="56" y1="'+y+'" x2="738" y2="'+y+'" stroke="#E5E7EB"/>'; }
+    var y = 178;
+    s += '<text x="56" y="'+y+'" '+font+' font-size="22" font-weight="800" fill="#003B5C">Certificado de descanso médico</text>';
+    s += '<text x="56" y="'+(y+24)+'" '+font+' font-size="13" fill="#6B7280">Emitido tras teleconsulta realizada por videollamada en la red médica PAUSA.</text>';
+    y += 62; s += lab(56,y,'Persona atendida'); s += val(56,y+26,'Camila Reyes',18,700); s += val(56,y+50,'DNI 7•••••12 · 24 años · Analista junior');
+    s += lab(430,y,'Plan y cobertura'); s += val(430,y+26,'PAUSA Standard',18,700); s += val(430,y+50,'Cobertura activa · asegurada desde abril de 2026');
+    y += 78; s += line(y);
+    y += 34; s += lab(56,y,'Diagnóstico (CIE-10)'); s += val(56,y+28,'F43.2 — Trastorno de adaptación',20,700);
+    s += lab(430,y,'Fecha de atención'); s += val(430,y+28,'8 de septiembre de 2026 · '+slot,16,700);
+    y += 60; s += line(y);
+    y += 34; s += lab(56,y,'Indicación médica');
+    s += '<rect x="56" y="'+(y+14)+'" width="682" height="118" rx="14" fill="#F3F9FD" stroke="#CFE9F6"/>';
+    s += '<text x="80" y="'+(y+52)+'" '+font+' font-size="15" fill="#1F2937">Se indica <tspan font-weight="800" fill="#003B5C">descanso médico por '+f.n+' días calendario</tspan>, del <tspan font-weight="800">'+f.ini+' al '+f.fin+' de '+f.mes+' de '+f.anio+'</tspan>.</text>';
+    s += '<text x="80" y="'+(y+78)+'" '+font+' font-size="15" fill="#1F2937">Reincorporación: <tspan font-weight="800">'+f.retorno+' de '+f.mes+' de '+f.anio+'</tspan>. Días autorizados como máximo: 7. Días elegidos: '+f.n+'.</text>';
+    s += '<text x="80" y="'+(y+104)+'" '+font+' font-size="15" fill="#1F2937">Recomendaciones: desconexión laboral completa y sesión de acompañamiento psicológico programada.</text>';
+    y += 166; s += line(y);
+    y += 34; s += lab(56,y,'Médico tratante'); s += val(56,y+28,m.name,18,700); s += val(56,y+52,m.role+' · '+m.cmp);
+    s += val(56,y+76,'Colegiatura verificada en el registro del Colegio Médico del Perú · código PAU-4812-'+m.ini);
+    // Firma
+    var fy = y+120;
+    s += '<rect x="56" y="'+fy+'" width="330" height="150" rx="14" fill="none" stroke="#9CA3AF" stroke-dasharray="6 6"/>';
+    s += '<text x="221" y="'+(fy+78)+'" '+font+' font-size="30" font-weight="800" fill="#B23A17" text-anchor="middle" letter-spacing="3" transform="rotate(-6 221 '+(fy+78)+')">CASO FICTICIO</text>';
+    s += '<line x1="96" y1="'+(fy+112)+'" x2="346" y2="'+(fy+112)+'" stroke="#9CA3AF"/>';
+    s += '<text x="221" y="'+(fy+132)+'" '+font+' font-size="12" fill="#6B7280" text-anchor="middle">Firma y sello del médico · '+esc(m.cmp)+'</text>';
+    // QR
+    s += '<rect x="560" y="'+fy+'" width="178" height="150" rx="14" fill="#FAFAFA" stroke="#E5E7EB"/>';
+    s += fakeQR(583, fy+14, 100);
+    s += '<text x="583" y="'+(fy+136)+'" '+font+' font-size="11" fill="#6B7280">Verificación: PAU-4812-'+m.ini+'</text>';
+    s += '<text x="400" y="'+(fy+40)+'" '+font+' font-size="12" fill="#6B7280">Documento generado por</text><text x="400" y="'+(fy+60)+'" '+font+' font-size="12" fill="#6B7280">la red médica PAUSA.</text><text x="400" y="'+(fy+90)+'" '+font+' font-size="12" fill="#6B7280">Validar con el código</text><text x="400" y="'+(fy+110)+'" '+font+' font-size="12" fill="#6B7280">en pausa.pacifico.com.pe</text>';
+    // Pie
+    s += '<rect x="0" y="'+(H-70)+'" width="'+W+'" height="70" fill="#FDF3E3"/>';
+    s += '<text x="397" y="'+(H-40)+'" '+font+' font-size="12" font-weight="700" fill="#B23A17" text-anchor="middle">PROTOTIPO DE DEMOSTRACIÓN · Datos, profesionales y colegiaturas son ficticios · Sin validez legal</text>';
+    s += '<text x="397" y="'+(H-20)+'" '+font+' font-size="11" fill="#6B7280" text-anchor="middle">PAUSA es una propuesta para la hackathon de Pacífico Seguros · 2026</text>';
+    s += '</svg>';
+    return s;
+  }
+  function avisoSVG(){
+    var f = fechas(), m = medSel(), W=794, H=1123;
+    var font = 'font-family="Segoe UI, Roboto, Arial, sans-serif"';
+    var boss = ($('#mBoss') && $('#mBoss').value.trim()) || 'Nombre de tu jefe';
+    function p(y,t,w){ return '<text x="72" y="'+y+'" '+font+' font-size="15" font-weight="'+(w||400)+'" fill="#1F2937">'+esc(t)+'</text>'; }
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'"><rect width="'+W+'" height="'+H+'" fill="#fff"/>'+
+      '<rect x="0" y="0" width="'+W+'" height="10" fill="#00A0DF"/>'+
+      '<text x="72" y="84" '+font+' font-size="13" font-weight="700" fill="#6B7280" letter-spacing="2">AVISO DE AUSENCIA POR DESCANSO MÉDICO</text>'+
+      '<text x="72" y="126" '+font+' font-size="26" font-weight="800" fill="#003B5C">Camila Reyes</text>'+
+      '<text x="72" y="150" '+font+' font-size="14" fill="#6B7280">Analista junior</text>'+
+      '<text x="722" y="126" '+font+' font-size="14" fill="#6B7280" text-anchor="end">Lima, 8 de septiembre de 2026</text>'+
+      '<line x1="72" y1="176" x2="722" y2="176" stroke="#E5E7EB"/>'+
+      p(220,'Para: '+boss+' · Recursos Humanos',700)+
+      p(270,'Estimado/a '+boss+':')+
+      p(306,'Por indicación médica, tomaré una pausa de '+f.n+' días, del '+f.ini+' al '+f.fin+' de '+f.mes+' de '+f.anio+'.')+
+      p(332,'Me reincorporo el '+f.retorno+' de '+f.mes+' de '+f.anio+'.')+
+      p(376,'Adjunto el certificado de descanso médico N.º PAU-2026-004812, emitido por '+m.name)+
+      p(402,'('+m.cmp+') a través de la red médica PAUSA de Pacífico Seguros. La colegiatura del médico está')+
+      p(428,'verificada en el registro del Colegio Médico del Perú.')+
+      p(472,'Durante estos días no estaré disponible. Dejo mis pendientes organizados y avisados al equipo.')+
+      p(516,'Gracias por la comprensión.')+
+      '<text x="72" y="640" '+font+' font-size="22" font-weight="800" fill="#B23A17" letter-spacing="2" transform="rotate(-5 72 640)">CASO FICTICIO</text>'+
+      '<line x1="72" y1="664" x2="320" y2="664" stroke="#9CA3AF"/>'+
+      p(686,'Camila Reyes',700)+
+      '<text x="72" y="706" '+font+' font-size="13" fill="#6B7280">Analista junior · Plan PAUSA Standard</text>'+
+      '<rect x="0" y="'+(H-70)+'" width="'+W+'" height="70" fill="#FDF3E3"/>'+
+      '<text x="397" y="'+(H-40)+'" '+font+' font-size="12" font-weight="700" fill="#B23A17" text-anchor="middle">PROTOTIPO DE DEMOSTRACIÓN · Datos y profesionales ficticios · Sin validez legal</text>'+
+      '<text x="397" y="'+(H-20)+'" '+font+' font-size="11" fill="#6B7280" text-anchor="middle">Documento generado automáticamente por PAUSA · Pacífico Seguros</text></svg>';
+    return s;
+  }
+  var viewerDoc = 'cert';
+  function docSVG(k){ return k==='aviso' ? avisoSVG() : certSVG(); }
+  function openViewer(k){
+    viewerDoc = k; $('#paper').innerHTML = docSVG(k);
+    var b = $('[data-viewer="download"]');
+    if (state.proceso){ b.disabled = false; b.innerHTML = dlIcoW()+'Descargar'; }
+    else { b.disabled = true; b.innerHTML = 'Disponible al terminar el trámite'; }
+    var v = $('#viewer'); v.classList.add('on'); setTimeout(function(){ v.classList.add('show'); }, 30);
+  }
+  function dlIcoW(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M4 20h16"/></svg>'; }
+  function closeViewer(){ var v = $('#viewer'); v.classList.remove('show'); setTimeout(function(){ v.classList.remove('on'); }, 300); }
+  function download(k){
+    var svg = docSVG(k), name = (k==='aviso' ? 'Aviso-de-ausencia' : 'Certificado-medico')+'-PAUSA-Camila-Reyes.png';
+    var blob = new Blob([svg], {type:'image/svg+xml;charset=utf-8'});
+    var url = URL.createObjectURL(blob), img = new Image();
+    img.onload = function(){
+      var c = document.createElement('canvas'); c.width = 794*2; c.height = 1123*2;
+      var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);
+      var done = function(href){ var a = document.createElement('a'); a.href = href; a.download = name; document.body.appendChild(a); a.click(); a.remove(); toast('Descargando '+name); };
+      if (c.toBlob) c.toBlob(function(b){ done(URL.createObjectURL(b)); }, 'image/png'); else done(c.toDataURL('image/png'));
+    };
+    img.onerror = function(){ var a = document.createElement('a'); a.href = url; a.download = name.replace('.png','.svg'); a.click(); toast('Descargando documento'); };
+    img.src = url;
+  }
+
+  /* ---------- Reset oculto: triple toque en la barra de estado ---------- */
+  var taps = 0, tapTimer = null;
+  $('#statusbar').addEventListener('pointerdown', function(){ taps++; clearTimeout(tapTimer); tapTimer = setTimeout(function(){ taps = 0; }, 700); if (taps>=3){ taps = 0; reset(); } });
+  function reset(){
+    clearTimers(); state = initialState(); navStack = ['login'];
+    $$('.day').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-days')==='5'); });
+    $('#mTo').value = 'rrhh@tuempresa.com'; $('#mBoss').value = 'Nombre de tu jefe';
+    closeViewer(); hideAlert(true); refreshDocsBadge();
+    show('login', {back:true});
+  }
+
+  // Marcar Documentos cuando hay certificado
+  var _show = show; show = function(id, o){ _show(id, o); refreshDocsBadge(); };
+
+  /* ---------- Arranque ---------- */
+  state = initialState(); navStack = ['login'];
+  try { history.replaceState({ id:'login' }, ''); } catch(e){}
+  $('#login').classList.add('on'); current = 'login';
+})();
+</script>
+</body>
+</html>
