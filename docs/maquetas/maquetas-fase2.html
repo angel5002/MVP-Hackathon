@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAUSA · Maquetas del punto de control (Fase 2)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+@font-face{font-family:"PausaSans";src:url("fonts/Signika-latin.woff2") format("woff2");font-weight:300 700;font-display:swap;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#E9E5DC;font:var(--t-body);color:var(--c-texto);-webkit-font-smoothing:antialiased}
+.board{display:flex;gap:28px;padding:28px;align-items:flex-start;width:max-content}
+.panel{display:flex;flex-direction:column;gap:10px}
+.panel > .lbl{font:var(--t-label);color:var(--c-texto-2);padding-left:2px}
+.phone{width:360px;height:800px;background:var(--c-fondo);position:relative;overflow:hidden;border-radius:18px;outline:1px solid rgba(0,59,92,.12)}
+/* Barra de estado real: solo un inset; nada de "9:41" */
+.sa-top{height:28px;flex:none}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column}
+.scroll{flex:1;overflow:hidden;padding:0 var(--margen)}
+.topbar{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 8px;flex:none}
+.topbar .brand{font:var(--t-label);letter-spacing:.12em;color:var(--c-texto);font-weight:700}
+.iconbtn{width:var(--tap);height:var(--tap);border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;background:transparent;border:0;color:var(--c-texto)}
+.iconbtn svg{width:24px;height:24px}
+.avatar{width:40px;height:40px;border-radius:var(--r-full);background:var(--c-primario-tinte);color:var(--c-texto);font:var(--t-label);display:flex;align-items:center;justify-content:center}
+.tap48{width:var(--tap);height:var(--tap);display:flex;align-items:center;justify-content:center}
+h1{font:var(--t-headline);color:var(--c-texto)}
+h2{font:var(--t-title);color:var(--c-texto)}
+.eyebrow{font:var(--t-label);color:var(--c-texto-2)}
+.sub{font:var(--t-body);color:var(--c-texto-2);margin-top:2px}
+.cap{font:var(--t-caption);color:var(--c-texto-2)}
+.display{font:var(--t-display);color:var(--c-texto);letter-spacing:-.01em}
+.hr{height:1px;background:var(--c-contorno);margin:var(--s-5) 0}
+/* Botones */
+.btn{height:var(--tap);border-radius:var(--r-full);border:0;font:var(--t-button);display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:0 var(--s-6)}
+.btn-primary{background:var(--c-primario);color:var(--c-sobre-primario)}
+.btn-tonal{background:var(--c-primario-tinte);color:var(--c-texto)}
+.btn-text{background:transparent;color:var(--c-texto);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--c-contorno)}
+.btn-outline{background:transparent;color:var(--c-texto);box-shadow:inset 0 0 0 1.5px var(--c-texto)}
+.cta{position:absolute;left:0;right:0;bottom:0;padding:var(--s-3) var(--margen) calc(var(--s-3) + 16px);background:var(--c-fondo);flex:none}
+.cta.with-tabs{bottom:calc(64px + 16px)}
+/* Tab bar */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:calc(64px + 16px);padding-bottom:16px;background:var(--c-superficie);border-top:1px solid var(--c-contorno);display:flex;justify-content:space-around;align-items:center}
+.tab{width:72px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:var(--t-caption);font-weight:600;color:var(--c-texto-2);position:relative;isolation:isolate}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.tab.active{color:var(--c-texto)}
+.tab.active i{position:absolute;top:4px;width:56px;height:30px;border-radius:var(--r-full);background:var(--c-primario-tinte);z-index:-1}
+/* Chips */
+.chip{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:var(--r-sm);font:var(--t-label);white-space:nowrap}
+.chip-info{background:var(--c-primario-tinte);color:var(--c-texto)}
+.chip-ok{background:var(--c-exito-tinte);color:var(--c-exito)}
+.chip-warn{background:var(--c-alerta-tinte);color:var(--c-alerta)}
+/* Superficie nivel 1 (solo agrupa accionable) */
+.card{background:var(--c-superficie);border-radius:var(--r-lg);box-shadow:var(--e-1);padding:var(--s-4)}
+/* Inicio */
+.estado{display:flex;gap:var(--s-4);align-items:center;margin-top:var(--s-5)}
+.ring{width:124px;height:124px;flex:none;position:relative}
+.ring svg{width:124px;height:124px;transform:rotate(-90deg)}
+.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring .in .v{font:var(--t-title);color:var(--c-alerta)}
+.ring .in .l{font:var(--t-caption);color:var(--c-texto-2)}
+.metrics{display:flex;flex-direction:column;gap:var(--s-3);flex:1;min-width:0}
+.metric .n{font:var(--t-title);color:var(--c-texto)}
+.metric .n b{font-weight:700;font-size:1.375rem;line-height:1.5rem}
+.metric .l{font:var(--t-caption);color:var(--c-texto-2)}
+.week{margin-top:var(--s-6)}
+.week .hd{display:flex;justify-content:space-between;align-items:baseline}
+.bars{display:flex;justify-content:space-between;align-items:flex-end;height:96px;margin-top:var(--s-3)}
+.bar{width:28px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
+.bar i{width:100%;border-radius:6px 6px 3px 3px;background:var(--c-primario);display:block}
+.bar.late i{background:var(--c-alerta)}
+.days{display:flex;justify-content:space-between;margin-top:6px}
+.days span{width:28px;text-align:center;font:var(--t-caption);color:var(--c-texto-2)}
+.days span.hoy{color:var(--c-texto);font-weight:600}
+.legend{display:flex;gap:var(--s-4);margin-top:var(--s-2)}
+.legend span{display:flex;align-items:center;gap:6px;font:var(--t-caption);color:var(--c-texto-2)}
+.legend i{width:10px;height:10px;border-radius:3px;display:block}
+/* Médico */
+.pro{display:flex;gap:var(--s-3);align-items:flex-start}
+.av{width:48px;height:48px;border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;font:var(--t-label);flex:none}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-2);margin-top:var(--s-3)}
+.slot{height:56px;border-radius:var(--r-sm);box-shadow:inset 0 0 0 1px var(--c-contorno);background:var(--c-superficie);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--c-texto)}
+.slot small{font:var(--t-caption);color:var(--c-texto-2)}
+.slot b{font:var(--t-label)}
+.slot.sel{background:var(--c-primario);color:var(--c-sobre-primario);box-shadow:none}
+.slot.sel small{color:rgba(255,255,255,.85)}
+/* Evaluación */
+.strip{display:flex;gap:4px;margin-top:var(--s-4)}
+.cell{flex:1;height:64px;border-radius:var(--r-sm);box-shadow:inset 0 0 0 1px var(--c-contorno);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--c-superficie)}
+.cell small{font:var(--t-caption);color:var(--c-texto-2)}
+.cell b{font:var(--t-label);font-size:1rem}
+.cell.on{background:var(--c-primario);color:#fff;box-shadow:none}
+.cell.on small{color:rgba(255,255,255,.85)}
+.quote{margin-top:var(--s-5);padding-left:var(--s-4);border-left:3px solid var(--c-acento)}
+.quote p{font:var(--t-body);color:var(--c-texto)}
+.quote .cap{margin-top:var(--s-1)}
+.row{display:flex;align-items:center;gap:var(--s-3);min-height:var(--tap)}
+/* Sheet */
+.scrim{position:absolute;inset:0;background:var(--c-scrim);display:flex;align-items:flex-end}
+.sheet{background:var(--c-superficie);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s-2) var(--s-5) calc(var(--s-5) + 16px);width:100%;box-shadow:var(--e-2)}
+.handle{width:32px;height:4px;border-radius:2px;background:var(--c-contorno);margin:0 auto var(--s-4)}
+.sheet .btn + .btn{margin-top:var(--s-2)}
+.icon-round{width:48px;height:48px;border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;background:var(--c-alerta-tinte);color:var(--c-alerta);margin-bottom:var(--s-3)}
+.icon-round svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+svg.ln{stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div class="board">
+
+<!-- ===================== 1 · INICIO ===================== -->
+<div class="panel"><div class="lbl">1 · Inicio (360×800)</div>
+<div class="phone"><div class="screen">
+  <div class="sa-top"></div>
+  <div class="topbar">
+    <div class="tap48"><svg class="ln" width="26" height="26" viewBox="0 0 24 24" style="color:var(--c-acento)"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg></div>
+    <div class="brand">PAUSA</div>
+    <div class="tap48"><div class="avatar">CR</div></div>
+  </div>
+  <div class="scroll">
+    <h1>Hola, Camila</h1>
+    <div class="sub">Así va tu semana de trabajo</div>
+
+    <div class="estado">
+      <div class="ring">
+        <svg viewBox="0 0 124 124"><circle cx="62" cy="62" r="54" fill="none" stroke="#F0EADC" stroke-width="12"/><circle cx="62" cy="62" r="54" fill="none" stroke="#B23A17" stroke-width="12" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="95"/></svg>
+        <div class="in"><div class="l">Tu ritmo</div><div class="v">Elevado</div><div class="l">11 días</div></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="n"><b>11</b> días</div><div class="l">sin desconectar más de 12 h</div></div>
+        <div class="metric"><div class="n"><b>4</b> noches</div><div class="l">con actividad después de las 11 pm</div></div>
+        <div class="metric"><div class="n"><b>62</b> h</div><div class="l">conectada esta semana</div></div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="hd"><h2>Horas conectada</h2><span class="cap">Semana del 8 al 14</span></div>
+      <div class="bars">
+        <div class="bar late"><i style="height:88%"></i></div>
+        <div class="bar"><i style="height:80%"></i></div>
+        <div class="bar late"><i style="height:94%"></i></div>
+        <div class="bar"><i style="height:72%"></i></div>
+        <div class="bar late"><i style="height:88%"></i></div>
+        <div class="bar late"><i style="height:58%"></i></div>
+        <div class="bar"><i style="height:42%"></i></div>
+      </div>
+      <div class="days"><span>L</span><span>M</span><span class="hoy">X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+      <div class="legend"><span><i style="background:var(--c-primario)"></i>Horas por día</span><span><i style="background:var(--c-alerta)"></i>Con actividad después de las 11 pm</span></div>
+    </div>
+
+    <div class="hr"></div>
+    <p class="cap">Medimos tu patrón de trabajo, no tu salud. <u style="color:var(--c-texto);text-underline-offset:3px">Tú eliges qué datos recoge PAUSA</u></p>
+  </div>
+  <div class="cta with-tabs"><button class="btn btn-primary">Pedir ayuda</button></div>
+  <nav class="tabbar">
+    <div class="tab active"><i></i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg>Inicio</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Citas</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Documentos</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Perfil</div>
+  </nav>
+</div></div></div>
+
+<!-- ===================== 2 · MÉDICO ASIGNADO ===================== -->
+<div class="panel"><div class="lbl">2 · Médico asignado</div>
+<div class="phone"><div class="screen">
+  <div class="sa-top"></div>
+  <div class="topbar">
+    <button class="iconbtn"><svg class="ln" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="brand">PAUSA</div>
+    <div class="tap48"><div class="avatar">CR</div></div>
+  </div>
+  <div class="scroll">
+    <div class="eyebrow">Medicina</div>
+    <h1>Médico asignado</h1>
+    <div class="sub">Teleconsulta por videollamada en menos de 24 horas</div>
+
+    <div class="card" style="margin-top:var(--s-5)">
+      <div class="pro">
+        <div class="av" style="background:var(--c-alerta-tinte);color:var(--c-alerta)">EQ</div>
+        <div style="flex:1;min-width:0">
+          <h2>Dra. Elena Quispe Vargas</h2>
+          <div class="cap" style="margin-top:2px">Medicina general</div>
+          <div class="cap">CMP 042817, colegiatura por verificar en el trámite</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:var(--s-3)"><span class="chip chip-ok">Disponible más pronto</span><span class="chip chip-info">Te atendió antes</span></div>
+        </div>
+      </div>
+      <button class="btn btn-text" style="margin-top:var(--s-2);justify-content:flex-start;padding:0">Ver otros médicos disponibles</button>
+    </div>
+
+    <h2 style="margin-top:var(--s-6)">Elige un horario</h2>
+    <div class="slots">
+      <div class="slot sel"><small>Hoy</small><b>4:30 pm</b></div>
+      <div class="slot"><small>Hoy</small><b>6:00 pm</b></div>
+      <div class="slot"><small>Mañana</small><b>9:00 am</b></div>
+    </div>
+    <p class="cap" style="margin-top:var(--s-3)">Antes de la cita te haremos 4 preguntas breves para que la doctora llegue con contexto.</p>
+  </div>
+  <div class="cta"><button class="btn btn-primary">Confirmar cita</button></div>
+</div></div></div>
+
+<!-- ===================== 3 · EVALUACIÓN MÉDICA ===================== -->
+<div class="panel"><div class="lbl">3 · Evaluación médica</div>
+<div class="phone"><div class="screen">
+  <div class="sa-top"></div>
+  <div class="topbar">
+    <button class="iconbtn"><svg class="ln" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="brand">PAUSA</div>
+    <div class="tap48"><div class="avatar">CR</div></div>
+  </div>
+  <div class="scroll">
+    <div class="eyebrow">Evaluación médica</div>
+    <h1>Tu indicación de pausa</h1>
+    <div class="row" style="margin-top:var(--s-3)">
+      <div class="av" style="width:40px;height:40px;background:var(--c-alerta-tinte);color:var(--c-alerta)">EQ</div>
+      <div><div style="font:var(--t-label)">Dra. Elena Quispe Vargas</div><div class="cap">Medicina general, CMP 042817</div></div>
+    </div>
+
+    <div class="display" style="margin-top:var(--s-5)">5 días</div>
+    <div class="sub">Del jueves 10 al lunes 14 de septiembre</div>
+    <div class="strip">
+      <div class="cell on"><small>Jue</small><b>10</b></div>
+      <div class="cell on"><small>Vie</small><b>11</b></div>
+      <div class="cell on"><small>Sáb</small><b>12</b></div>
+      <div class="cell on"><small>Dom</small><b>13</b></div>
+      <div class="cell on"><small>Lun</small><b>14</b></div>
+      <div class="cell"><small>Mar</small><b>15</b></div>
+      <div class="cell"><small>Mié</small><b>16</b></div>
+    </div>
+    <p class="cap" style="margin-top:var(--s-2)">Te reincorporas el martes 15 de septiembre.</p>
+
+    <div class="quote">
+      <p>“Con once días seguidos de más de doce horas y lo que me contaste en la consulta, cinco días de desconexión completa es lo que corresponde. Nos vemos en el control.”</p>
+      <div class="cap">Indicación de la Dra. Quispe</div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="row" style="justify-content:space-between"><div><div style="font:var(--t-label)">Días de descanso en el año</div><div class="cap">Hasta 20 se justifican con certificado particular</div></div><div class="display" style="font-size:1.5rem;line-height:2rem;white-space:nowrap">5 <span class="cap" style="font-size:1rem">de 20</span></div></div>
+
+    <button class="btn btn-outline" style="margin-top:var(--s-4)">Tengo una duda sobre mi indicación</button>
+  </div>
+  <div class="cta"><button class="btn btn-primary">Ver mi certificado</button></div>
+</div></div></div>
+
+<!-- ===================== 4 · INICIO CON ALERTA (bottom sheet) ===================== -->
+<div class="panel"><div class="lbl">4 · Inicio, alerta como bottom sheet</div>
+<div class="phone"><div class="screen">
+  <div class="sa-top"></div>
+  <div class="topbar">
+    <div class="tap48"><svg class="ln" width="26" height="26" viewBox="0 0 24 24" style="color:var(--c-acento)"><circle cx="12" cy="12" r="9.5"/><path d="M6 12h2.2l1.6-3.5 2.4 7 1.8-3.5H18"/></svg></div>
+    <div class="brand">PAUSA</div>
+    <div class="tap48"><div class="avatar">CR</div></div>
+  </div>
+  <div class="scroll">
+    <h1>Hola, Camila</h1>
+    <div class="sub">Así va tu semana de trabajo</div>
+    <div class="estado">
+      <div class="ring">
+        <svg viewBox="0 0 124 124"><circle cx="62" cy="62" r="54" fill="none" stroke="#F0EADC" stroke-width="12"/><circle cx="62" cy="62" r="54" fill="none" stroke="#B23A17" stroke-width="12" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="95"/></svg>
+        <div class="in"><div class="l">Tu ritmo</div><div class="v">Elevado</div><div class="l">11 días</div></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="n"><b>11</b> días</div><div class="l">sin desconectar más de 12 h</div></div>
+        <div class="metric"><div class="n"><b>4</b> noches</div><div class="l">con actividad después de las 11 pm</div></div>
+        <div class="metric"><div class="n"><b>62</b> h</div><div class="l">conectada esta semana</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="scrim"><div class="sheet">
+    <div class="handle"></div>
+    <div class="icon-round"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4"/></svg></div>
+    <h2 style="font:var(--t-headline);font-size:1.25rem;line-height:1.75rem">Llevas 11 días sin desconectar más de 12 horas seguidas.</h2>
+    <p class="sub" style="margin:var(--s-2) 0 var(--s-5)">¿Quieres hablar con alguien?</p>
+    <button class="btn btn-primary">Agendar</button>
+    <button class="btn btn-tonal">Ahora no</button>
+    <button class="btn btn-text">No mostrar más</button>
+  </div></div>
+</div></div></div>
+
+</div>
+</body>
+</html>
