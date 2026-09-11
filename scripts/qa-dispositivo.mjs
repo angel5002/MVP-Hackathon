@@ -55,7 +55,7 @@ await shot('ingreso');
 await click('Ingresar'); await shot('reloj');
 await click('Conectar'); await p.waitForTimeout(2500); await shot('inicio');
 await p.waitForTimeout(3500); await shot('inicio-alerta');
-await click('Agendar'); await p.waitForTimeout(500); await shot('ayuda');
+await p.getByRole('button', { name: 'Pedir ayuda' }).first().click(); await p.waitForTimeout(500); await shot('ayuda');
 await p.getByText('Necesito parar unos días').click(); await p.waitForTimeout(2000); await shot('loader-inhala');
 await p.waitForTimeout(4000); await shot('loader-exhala');
 await p.waitForTimeout(5000); await shot('medico');
@@ -92,7 +92,7 @@ await click('Volver al inicio'); await p.waitForTimeout(1500); await shot('inici
 await tab('Documentos'); await shot('documentos');
 await tab('Citas'); await shot('citas');
 await tab('Perfil'); await shot('perfil');
-await tab('Inicio'); await p.waitForTimeout(800);
+await tab('Hoy'); await p.waitForTimeout(800);
 // Atrás físico en la raíz: la app debe minimizarse y seguir viva
 backFisico(); await p.waitForTimeout(1500);
 const topTrasRaiz = sh('dumpsys activity activities | grep -E "ResumedActivity" | head -1').trim();

@@ -169,3 +169,36 @@ Reglas: una animación ambiental por pantalla como máximo; solo `transform` y `
 1. **Barras de noches en naranja-700**: la maqueta colorea la barra entera del día con actividad nocturna. Alternativa: barra en primario con un punto de alerta encima (menos alarmista). Recomiendo la barra completa porque el punto de 8 px no cumple 3:1 sobre crema con el naranja base y con el naranja-700 pierde el matiz.
 2. **Nombre del acento**: el azul `#00A0DF` queda casi ausente de la interfaz (solo logo y borde de cita). Si el equipo quiere más presencia del cian, el único lugar seguro es sobre navy (3,99:1), por ejemplo en el hero de "Tu pausa activa".
 3. **Botón atrás en la barra superior**: se mantiene además del botón del sistema, como hacen las apps peruanas revisadas.
+
+---
+
+## 10. Versión 2 del sistema visual (11 de septiembre de 2026)
+
+Motivo: tras probar la app en el teléfono, el equipo pidió una capa visual más profesional tomando como referencia la app *stoic.* (Mobbin: pantallas "Morning Homepage" y "Premium Offer") y el loader de respiración original de `imgs/`. La paleta base de Pacífico deja de ser una restricción cerrada: el azul `#00A0DF` se mantiene como firma, el crema `#FDF3E3` desaparece del fondo y la jerarquía se construye con neutros.
+
+### 10.1 Qué cambió
+| Eje | v1 | v2 |
+|---|---|---|
+| Fondo | Crema `#FDF3E3` | Gris cálido casi blanco `#F5F5F2` (`--gris-050`) |
+| Texto | Navy `#003B5C` / navy-600 | Tinta `#16181C`, secundario `#5F646B`, terciario `#6B7077` |
+| Botón primario | Azul `#0077B6` | Tinta `#16181C` (píldora); dentro de la tarjeta héroe, blanco |
+| Acento Pacífico | Botones, barras, loader | Logo, **botón central de la barra** (degradado `#00A0DF→#0077B6`), brillos de la tarjeta héroe, mar del loader |
+| Tarjetas | Blanco + hairline | Blanco + sombra suave (`--e-1`), radio 20; tarjeta héroe oscura (`--c-heroe`, radio 28) para lo prioritario |
+| Tipografía | Signika | **DM Sans** variable (OFL), 6 pasos, pesos 400/500/600/700; etiquetas de sección en mayúsculas espaciadas de 11 px |
+| Barra inferior | 4 pestañas | 5 posiciones: Hoy · Citas · **[+] Pedir ayuda** · Documentos · Perfil |
+| Alerta del inicio | Bottom sheet a los 3 s | **Tarjeta héroe** que entra a los 2,5 s con "Pedir ayuda" y "Ahora no", cerrable con ×; no tapa nada ni depende del alto del dispositivo |
+| Gráfico semanal | Barras sin escala | Eje de horas (0 · 3,5 · 7 · 10,5 · 14 h) con líneas de referencia, valor sobre cada barra y total de la semana |
+| Inicio | Saludo fijo | Saludo por hora en minúsculas ("buenas noches, camila."), chip con los días seguidos, tira de la semana con punto en las noches tardías |
+| Loader | Relleno azul plano con texto centrado en dos capas | **Mar con ola** (SVG de dos periodos que se desplaza en X) que sube al inhalar hasta el 66 % y baja al exhalar al 22 %, **carita** que flota 7 % bajo la superficie y cambia de gesto, texto arriba sobre el fondo claro (sin conflicto de contraste) |
+| Teleconsulta | Tarjeta pequeña con hueco debajo | **Llamada a pantalla completa**: temporizador, avatar con anillos que respiran, ondas de audio, cámara propia con la carita, controles de micrófono, colgar y cámara |
+| Ingreso | Logo azul cuadrado | Tarjeta héroe con la marca y una frase de propósito |
+
+### 10.2 Tokens v2 (extracto de `src/styles/tokens.css`)
+`--c-fondo #F5F5F2` · `--c-superficie #FFFFFF` · `--c-texto #16181C` · `--c-texto-2 #5F646B` · `--c-texto-3 #6B7077` · `--c-contorno #E1E1DC` · `--c-primario #16181C` · `--c-acento #00A0DF` · `--c-acento-fuerte #0077B6` · `--c-heroe linear-gradient(160deg,#0F2E40,#16181C)` · radios 10 / 14 / 20 / 28 · sombras `--e-1` (tarjeta) y `--e-2` (héroe, visor).
+
+Contraste (tabla en `docs/contraste-tabla-v2.md`): tinta sobre gris-050 = 16,3:1; `#5F646B` sobre gris-050 = 5,5:1; `#6B7077` (etiquetas de sección, ejes, pestañas inactivas) ≥ 4,5:1; blanco sobre héroe = 14,1:1; blanco sobre `#0077B6` = 4,87:1 (botón central); carita sobre el mar = 5,9:1.
+
+### 10.3 Movimiento añadido
+- Tarjeta héroe de alerta: entra con `opacity + y(16) + scale(.98)` en 450 ms.
+- Loader: ola en desplazamiento continuo (9 s, lineal) sobre el bloque que sube y baja; la carita escala 1,08 al inhalar. Con `prefers-reduced-motion` el mar queda fijo al nivel bajo y solo cambia su opacidad.
+- Teleconsulta: tres anillos que se expanden cada 4 s, avatar con pulso de 4 s, siete barras de audio con espejo; todo se apaga con movimiento reducido o al silenciar.

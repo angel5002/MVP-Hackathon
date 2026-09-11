@@ -34,7 +34,7 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
         // Elementos de texto que se salen de la pantalla por la derecha o cuyo texto se recorta
         const out = [];
         for (const el of document.querySelectorAll('.screen__scroll *')) {
-          const r = el.getBoundingClientRect(); if (r.width === 0) continue;
+          const r = el.getBoundingClientRect(); if (r.width === 0 || el.classList.contains('hero__glow')) continue;
           if (r.right > innerWidth + 1) out.push(el.className || el.tagName);
         }
         return out.slice(0, 5);
@@ -56,7 +56,7 @@ for (const t of soloUno ? [TAMANOS[0]] : TAMANOS) {
     await tab('Citas'); await shot('citas-vacio');
     await tab('Documentos'); await shot('documentos-vacio');
     await tab('Perfil'); await shot('perfil');
-    await tab('Inicio');
+    await tab('Hoy');
     await click('Pedir ayuda'); await shot('ayuda');
     // Psicología
     await p.getByText('Quiero hablar con alguien').click(); await shot('psico-lista');

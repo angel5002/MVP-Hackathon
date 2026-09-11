@@ -58,12 +58,15 @@ export function Proceso() {
   const p = byId(PSICO, prox?.proId ?? PSICO[0].id);
   return (
     <Screen back cta={<Button variant="tonal" onClick={goHome}>Volver al inicio</Button>}>
-      <p className="eyebrow">Tu pausa</p>
-      <div className="display">{ev.dias} días</div>
-      <p className="sub">{rangoTexto(ev.inicio, ev.fin)}</p>
-      <div className="metrics metrics--row">
-        <div className="metric"><div className="metric__n"><b>{acumulados}</b> de {LIMITE_DIAS_ANIO}</div><div className="cap">días de descanso este año</div></div>
-        <div className="metric"><div className="metric__n"><b>{PERSONA.sesionesAnuales - state.sesiones.length}</b> de {PERSONA.sesionesAnuales}</div><div className="cap">sesiones de psicología disponibles</div></div>
+      <section className="hero">
+        <div className="hero__glow" />
+        <p className="eyebrow">Tu pausa</p>
+        <div className="display mt-2">{ev.dias} días</div>
+        <p className="sub">{rangoTexto(ev.inicio, ev.fin)}</p>
+      </section>
+      <div className="stats">
+        <div className="stat"><div className="stat__n">{acumulados}<small>de {LIMITE_DIAS_ANIO}</small></div><div className="stat__l">días de descanso este año</div></div>
+        <div className="stat"><div className="stat__n">{PERSONA.sesionesAnuales - state.sesiones.length}<small>de {PERSONA.sesionesAnuales}</small></div><div className="stat__l">sesiones de psicología disponibles</div></div>
       </div>
       <h2 className="eyebrow mt-6">Próxima sesión</h2>
       <Fila icon={<Avatar ini={p.ini} color={p.color} />} title={p.nombre} sub={`${slotTexto(prox?.slot ?? p.slots[0])}, videollamada${prox ? '' : '. Incluida en tu pausa, no usa tus sesiones'}`} right={prox ? <Chip kind="info">Sesión</Chip> : <Chip kind="ok">Incluida</Chip>} />

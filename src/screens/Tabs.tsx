@@ -12,7 +12,7 @@ export function Citas() {
   const slot = m.slots[state.medSlot];
   const puedeSimular = state.citaConfirmada && !state.consultaHecha;
   return (
-    <Screen tabs cta={<Button onClick={() => go('ayuda')}>Agendar una sesión</Button>}>
+    <Screen tabs>
       <h1 className="h1">Tus citas</h1>
       <p className="sub">Sesiones y consultas de tu red</p>
 
@@ -43,6 +43,7 @@ export function Citas() {
 
       <h2 className="eyebrow mt-6">Anteriores</h2>
       <Fila icon={<Avatar ini="AT" color="blue" />} title="Lic. Andrea Torres" sub="Sesión completada hace 3 semanas" right={<Chip kind="line">Psicología</Chip>} />
+      <div className="mt-6"><Button variant="tonal" onClick={() => go('ayuda')}>Agendar una sesión</Button></div>
     </Screen>
   );
 }
@@ -93,7 +94,7 @@ export function Docs() {
 export function Perfil() {
   const { state, set, reset } = useApp();
   return (
-    <Screen tabs right="none" cta={<Button variant="outline" onClick={reset}>Cerrar sesión</Button>}>
+    <Screen tabs right="none">
       <div className="row">
         <Avatar ini={PERSONA.iniciales} color="blue" size="xl" />
         <div><h1 className="h1">{PERSONA.nombreCompleto}</h1><p className="sub">{PERSONA.cargo}, {PERSONA.edad} años</p></div>
@@ -114,7 +115,8 @@ export function Perfil() {
       <div className="card mt-3" style={{ padding: '4px 16px' }}>
         <Fila title="Vibración en la respiración" sub="Un toque suave al inhalar y al exhalar" right={<Toggle on={state.haptica} onChange={(v) => set({ haptica: v })} label="Vibración en la respiración" />} />
       </div>
-      <p className="cap mt-4">Datos simulados. Profesionales y colegiaturas son ficticios.</p>
+      <div className="mt-6"><Button variant="outline" onClick={reset}>Cerrar sesión</Button></div>
+      <p className="cap center mt-4" style={{ color: 'var(--c-texto-3)' }}>Datos simulados. Profesionales y colegiaturas son ficticios.</p>
     </Screen>
   );
 }

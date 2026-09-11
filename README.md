@@ -38,11 +38,11 @@ Parámetros de URL para demo y QA: `?demo=rapido` (loaders de un ciclo), `?dias=
 6. **Evaluación médica**: el médico indica de 3 a 7 días (`evaluarDescanso()`), tira de calendario, fundamento y contador "X de 20 días en el año".
 7. **Certificado** (emisión con loader) → **Trámite** (checklist) → **Tu proceso** → **Tu empleador verá esto** (jefe directo sin diagnóstico o RR. HH. con certificado) → correo en Gmail, Outlook u otra app, fuera del WebView.
 
-Pestañas: Inicio · Citas · Documentos · Perfil. Reinicio: triple toque sobre la palabra PAUSA. Modo presentador: mantener PAUSA 2 s.
+Barra inferior: Hoy · Citas · [+] Pedir ayuda · Documentos · Perfil. Reinicio: triple toque sobre el título de la barra superior. Modo presentador: mantenerlo 2 s.
 
 ## Stack
 
-Vite 8 · React 19 · TypeScript 7 · Motion 13 (único motor de animación) · Capacitor 8.5.1 (`@capacitor/app`, `haptics`, `splash-screen`, `filesystem`, `share`, `app-launcher`) · vite-plugin-pwa. Tipografía Signika (OFL) empaquetada localmente. Paleta: azul Pacífico `#00A0DF`, azul profundo `#003B5C`, naranja `#FF5C35`, verde `#2FA84F`, crema `#FDF3E3`, con tonos derivados documentados en D4.
+Vite 8 · React 19 · TypeScript 7 · Motion 13 (único motor de animación) · Capacitor 8.5.1 (`@capacitor/app`, `haptics`, `splash-screen`, `filesystem`, `share`, `app-launcher`) · vite-plugin-pwa. Tipografía DM Sans (OFL) empaquetada localmente. Sistema visual v2: fondo neutro, tinta casi negra, tarjeta héroe oscura y el azul de Pacífico `#00A0DF` como acento (logo, botón central, loader); ver `docs/sistema-de-diseno.md` §10.
 
 ## Publicación
 

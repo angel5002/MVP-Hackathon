@@ -4,7 +4,7 @@ import { diaLabel, hora12 } from '../logic/fechas';
 import { Icon } from './icons';
 import { haptic } from '../platform/native';
 
-type Variant = 'primary' | 'tonal' | 'outline' | 'text' | 'alerta' | 'surface';
+type Variant = 'primary' | 'tonal' | 'outline' | 'text' | 'alerta' | 'surface' | 'acento' | 'ghost-light';
 
 export function Button({ variant = 'primary', onClick, disabled, children, className = '', left, haptica, type = 'button', ariaLabel }:
   { variant?: Variant; onClick?: () => void; disabled?: boolean; children: ReactNode; className?: string; left?: boolean; haptica?: 'light' | 'medium' | 'success'; type?: 'button' | 'submit'; ariaLabel?: string }) {

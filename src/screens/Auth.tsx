@@ -8,22 +8,22 @@ import { useApp, useTimers } from '../nav/store';
 export function Login() {
   const { go } = useApp();
   return (
-    <Screen center bar={false}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 24 }}>
-        <div style={{ width: 84, height: 84, borderRadius: 28, background: 'var(--c-primario)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon name="logo" size={46} color="#fff" />
-        </div>
-        <div className="display" style={{ letterSpacing: '.18em', marginTop: 8 }}>PAUSA</div>
-        <div className="cap">por Pacífico Seguros</div>
-      </div>
-      <h1 className="h2 center">Ingresa con tu cuenta Pacífico</h1>
+    <Screen bar={false}>
+      <section className="hero" style={{ marginTop: 12, minHeight: 300, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+        <div className="hero__glow" />
+        <Icon name="logo" size={40} color="var(--c-acento)" />
+        <p className="eyebrow mt-5">Pacífico Seguros</p>
+        <h1 className="display mt-2" style={{ letterSpacing: '.12em' }}>PAUSA</h1>
+        <p className="sub mt-2">Detecta cuándo llevas demasiado tiempo conectada y te acompaña a parar a tiempo.</p>
+      </section>
+      <h2 className="h2 mt-8">Ingresa con tu cuenta Pacífico</h2>
       <form onSubmit={(e) => { e.preventDefault(); go('watch'); }}>
         <label className="field"><span>Usuario</span><input defaultValue="camila.reyes" autoComplete="username" spellCheck={false} /></label>
         <label className="field"><span>Contraseña</span><input type="password" defaultValue="pausa2026" autoComplete="current-password" /></label>
         <div className="mt-5"><Button type="submit" haptica="light">Ingresar</Button></div>
       </form>
-      <p className="cap center mt-6">¿Aún no tienes PAUSA?<br /><span className="link">Contrátalo en pacifico.com.pe</span></p>
-      <p className="cap center mt-4">Prototipo con datos ficticios.</p>
+      <p className="cap center mt-6">¿Aún no tienes PAUSA? <span className="link">Contrátalo en pacifico.com.pe</span></p>
+      <p className="cap center mt-3" style={{ color: 'var(--c-texto-3)' }}>Prototipo con datos ficticios.</p>
     </Screen>
   );
 }

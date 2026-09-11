@@ -6,6 +6,7 @@ import { Icon } from '../components/icons';
 import { BreathLoader } from '../components/BreathLoader';
 import { CalendarStrip } from '../components/Charts';
 import { Sheet } from '../components/Sheet';
+import { Face } from '../components/Face';
 import { useApp, useTimers } from '../nav/store';
 import { CIE10, LIMITE_DIAS_ANIO, MED, PATRON, RELOJ, byId } from '../data/red';
 import { evaluarDescanso } from '../logic/evaluarDescanso';
@@ -26,9 +27,11 @@ export function Sala() {
 export function Tele() {
   const { state, set, replace, sheetOpen, setSheetOpen } = useApp();
   const later = useTimers();
+  const rm = useReducedMotion();
   const m = byId(MED, state.medId);
   const [seg, setSeg] = useState(0);
   const [fase, setFase] = useState(0);
+  const [mute, setMute] = useState(false);
   const rapido = state.presenter.unCiclo;
   useEffect(() => {
     const t = window.setInterval(() => setSeg((s) => s + 1), 1000);
@@ -49,20 +52,40 @@ export function Tele() {
   };
   const mm = String(Math.floor(seg / 60)).padStart(2, '0'), ss = String(seg % 60).padStart(2, '0');
   const textos = ['Conectando el video…', `${m.nombre} está revisando tu tamizaje y tu patrón de trabajo.`, 'La consulta va terminando. Recibirás tu indicación por escrito.'];
+  const animo = fase === 0 ? 'calma' : fase === 1 ? 'atenta' : 'alivio';
   return (
-    <Screen bar={false} className="screen--tele" cta={
-      fase >= 2 ? <Button variant="alerta" onClick={() => setSheetOpen(true)}><Icon name="phone" size={20} color="#fff" />Finalizar consulta</Button>
-        : <Button variant="tonal" disabled>Consulta en curso · {mm}:{ss}</Button>}>
-      <p className="eyebrow">Teleconsulta simulada</p>
-      <h1 className="h1">{m.nombre}</h1>
-      <p className="sub">{m.rol}, {m.cmp}</p>
-      <div className="video mt-4" style={{ minHeight: 320 }} role="img" aria-label="Videollamada simulada">
-        <Avatar ini={m.ini} color={m.color} size="xl" />
-        <div className="label" style={{ color: '#fff' }}>{mm}:{ss}</div>
-        <motion.p key={fase} className="cap" style={{ color: 'rgba(255,255,255,.85)', maxWidth: 260, textAlign: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>{textos[fase]}</motion.p>
-        <div className="video__self" aria-hidden="true">Tú</div>
+    <Screen bar={false} fill>
+      <div className="call" role="region" aria-label="Videollamada simulada">
+        <div className="call__glow" aria-hidden="true" />
+        <div className="call__top">
+          <span className="call__timer"><i aria-hidden="true" />{mm}:{ss}</span>
+          <span className="cap" style={{ color: 'rgba(255,255,255,.7)' }}>Teleconsulta simulada</span>
+        </div>
+        <div className="call__body">
+          {!rm && [0, 1, 2].map((k) => (
+            <motion.span key={k} className="call__ring" aria-hidden="true" style={{ width: 116, height: 116, marginLeft: -58, marginTop: -92 }}
+              animate={{ scale: [1, 2.1], opacity: [0.5, 0] }} transition={{ duration: 4, repeat: Infinity, delay: k * 1.3, ease: 'easeOut' }} />
+          ))}
+          <motion.div className="call__avatar" style={{ marginTop: -68 }} animate={rm ? undefined : { scale: [1, 1.03, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>{m.ini}</motion.div>
+          <div className="call__name">{m.nombre}</div>
+          <div className="call__wave" aria-hidden="true">
+            {[0, 1, 2, 3, 4, 5, 6].map((k) => (
+              <motion.i key={k} animate={rm || mute ? { height: 6 } : { height: [6, 18, 8, 22, 6][k % 5] }} transition={{ duration: 0.9 + (k % 3) * 0.2, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut', delay: k * 0.08 }} />
+            ))}
+          </div>
+          <motion.p key={fase} className="call__sub" initial={{ opacity: 0, y: rm ? 0 : 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>{textos[fase]}</motion.p>
+          <div className="call__self" aria-label="Tu cámara">
+            <Face animo={animo} color="#fff" size={56} />
+            <span>Tú</span>
+          </div>
+        </div>
+        <div className="call__controls">
+          <button className={`call__ctl ${mute ? 'call__ctl--muted' : ''}`} aria-pressed={mute} aria-label="Silenciar micrófono" onClick={() => { void haptic('light'); setMute(!mute); }}><Icon name="mic" /></button>
+          <button className="call__ctl call__ctl--end" aria-label="Finalizar consulta" disabled={fase < 2} style={{ opacity: fase < 2 ? 0.45 : 1 }} onClick={() => { void haptic('medium'); setSheetOpen(true); }}><Icon name="phone" /></button>
+          <button className="call__ctl" aria-label="Cámara" onClick={() => void haptic('light')}><Icon name="video" /></button>
+        </div>
       </div>
-      <p className="cap mt-3">Prototipo: la videollamada no es real. Ningún dato sale de tu teléfono.</p>
+      <p className="cap center mt-3" style={{ paddingBottom: 'var(--sa-bottom)' }}>{fase < 2 ? 'La consulta dura unos segundos en el prototipo. Ningún dato sale de tu teléfono.' : 'Cuando quieras, cuelga para recibir tu indicación.'}</p>
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} label="Finalizar consulta">
         <h2 className="h2">¿Terminar la teleconsulta?</h2>
         <p className="sub" style={{ margin: '8px 0 20px' }}>Recibirás la indicación médica por escrito en la siguiente pantalla.</p>
