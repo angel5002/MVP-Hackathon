@@ -38,7 +38,8 @@ interface Ctx {
   // navegación
   stack: ScreenId[];
   current: ScreenId;
-  dir: 1 | -1 | 0;
+  dir: 1 | -1;
+  tabSwitch: boolean;
   go: (id: ScreenId) => void;
   replace: (id: ScreenId) => void;
   back: () => void;
@@ -56,7 +57,8 @@ const AppCtx = createContext<Ctx | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(estadoInicial);
   const [stack, setStack] = useState<ScreenId[]>(['login']);
-  const [dir, setDir] = useState<1 | -1 | 0>(1);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [tabSwitch, setTabSwitch] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [viewerDoc, setViewerDoc] = useState<'cert' | 'aviso' | null>(null);
   const [presenterOpen, setPresenterOpen] = useState(false);
@@ -64,6 +66,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const toastTimer = useRef<number | undefined>(undefined);
 
   const set = useCallback((p: Patch) => setState((s) => ({ ...s, ...(typeof p === 'function' ? p(s) : p) })), []);
+  const stateRef = useRef(state); stateRef.current = state;
   useEffect(() => { setHaptica(state.haptica); }, [state.haptica]);
 
   // Historial del navegador: cada avance empuja un estado; popstate = atrás.
@@ -71,13 +74,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const ignorePop = useRef(false);
 
   const go = useCallback((id: ScreenId) => {
-    setDir(1);
+    setDir(1); setTabSwitch(false);
     setStack((s) => (s[s.length - 1] === id ? s : [...s, id]));
     try { history.pushState({ d: stackRef.current.length + 1 }, ''); } catch { /* file:// */ }
   }, []);
-  const replace = useCallback((id: ScreenId) => { setDir(1); setStack((s) => [...s.slice(0, -1), id]); }, []);
+  const replace = useCallback((id: ScreenId) => { setDir(1); setTabSwitch(false); setStack((s) => [...s.slice(0, -1), id]); }, []);
   const popInterno = useCallback(() => {
-    setDir(-1);
+    setDir(-1); setTabSwitch(false);
     setStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
   }, []);
   const back = useCallback(() => {
@@ -88,12 +91,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     window.setTimeout(() => { if (ignorePop.current) { ignorePop.current = false; popInterno(); } }, 120);
   }, [popInterno]);
   const goTab = useCallback((tab: TabId) => {
-    setDir(0);
+    setDir(TABS.indexOf(tab) >= TABS.indexOf(stateRef.current.tab) ? 1 : -1); setTabSwitch(true);
     set({ tab });
     setStack([tab]);
     try { history.pushState({ d: 1 }, ''); } catch { /* */ }
   }, [set]);
-  const goHome = useCallback(() => { setDir(-1); set({ tab: 'home' }); setStack(['home']); try { history.pushState({ d: 1 }, ''); } catch { /* */ } }, [set]);
+  const goHome = useCallback(() => { setDir(-1); setTabSwitch(false); set({ tab: 'home' }); setStack(['home']); try { history.pushState({ d: 1 }, ''); } catch { /* */ } }, [set]);
 
   useEffect(() => {
     const onPop = () => {
@@ -136,9 +139,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<Ctx>(() => ({
-    state, set, reset, stack, current: stack[stack.length - 1], dir, go, replace, back, goTab, goHome,
+    state, set, reset, stack, current: stack[stack.length - 1], dir, tabSwitch, go, replace, back, goTab, goHome,
     sheetOpen, setSheetOpen, viewerDoc, setViewerDoc, presenterOpen, setPresenterOpen, toast, toastMsg,
-  }), [state, set, reset, stack, dir, go, replace, back, goTab, goHome, sheetOpen, viewerDoc, presenterOpen, toast, toastMsg]);
+  }), [state, set, reset, stack, dir, tabSwitch, go, replace, back, goTab, goHome, sheetOpen, viewerDoc, presenterOpen, toast, toastMsg]);
 
   return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
 }

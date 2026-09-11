@@ -10,6 +10,7 @@ export const PERSONA = {
   edad: 24,
   dni: '72 345 618',
   cargo: 'Analista junior',
+  empresa: 'Grupo Andino S.A.C.',
   plan: 'PAUSA Standard',
   planDesde: 'abril de 2026',
   sesionesAnuales: 6,

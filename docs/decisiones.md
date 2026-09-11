@@ -175,3 +175,9 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - **Qué:** barra inferior fuera de la transición entre pantallas (fundido entre pestañas), carita que recorre la ola en bucle, ilustración animada en el ingreso (referencia: introducción de stoic. en Mobbin, adaptada a los tonos azules de PAUSA), márgenes del ingreso en teléfono y en el marco de escritorio, y redistribución de botones largos como filas. Detalle en `docs/sistema-de-diseno.md` §10.4.
 - **Defecto encontrado y corregido:** la regla `.breath__sea svg { height: 100% }` alcanzaba también al SVG de la carita al envolverla en un contenedor sin alto, dejándola en 0 px durante la exhalación; la regla ahora aplica solo al hijo directo.
 - **Por qué:** pedido del usuario tras revisar el APK y la web publicada.
+
+### D-27 · Tercera revisión visual (11 sep, noche)
+- **Qué:** transición direccional entre pestañas con la barra fija (en lugar del fundido), pasada de rendimiento (sin filtros animados, sombras cortas, tarjeta héroe persistente, capas promovidas), portada del ingreso con el pájaro de PAUSA recreado en SVG, y certificado/aviso con el formato de la maqueta del equipo y QR real. Detalle en `docs/sistema-de-diseno.md` §10.5.
+- **Por qué:** el usuario señaló que la transición de pestañas se había quitado en lugar de arreglarse, que la app se sentía con tirones tras el ingreso, que la ilustración del ingreso debía ser bonita como el pájaro de la referencia, y entregó la maqueta del certificado (sin firma, con QR).
+- **Dependencia nueva:** `qrcode` 1.5.4 (MIT) para generar el QR de validación en el SVG del certificado y del aviso; se usa la API síncrona `QRCode.create` para no cambiar la firma de `certSVG()`.
+- **Marca de Pacífico en el documento:** se compone tipográficamente (onda + "Pacífico Seguros"); no se usa el logotipo oficial.

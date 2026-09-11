@@ -25,19 +25,20 @@ const SCREENS: Record<ScreenId, ComponentType> = {
 
 /** Transición de eje compartido (X): adelante entra desde la derecha, atrás desde la izquierda. */
 function Router() {
-  const { current, dir } = useApp();
+  const { current, dir, tabSwitch } = useApp();
   const rm = useReducedMotion();
   const Comp = SCREENS[current];
-  // d = 1 adelante, -1 atrás (eje compartido X); d = 0 cambio de pestaña (solo fundido, la barra no se mueve)
+  // Eje compartido X. Dentro de un flujo: 48/32 px. Entre pestañas: 24/16 px, más corto y con la barra fija.
+  const amp = tabSwitch ? [24, 16] : [48, 32];
   const variants = {
-    enter: (d: number) => (rm || d === 0 ? { opacity: 0, x: 0 } : { x: d > 0 ? 48 : -48, opacity: 0 }),
+    enter: (d: number) => (rm ? { opacity: 0, x: 0 } : { x: d > 0 ? amp[0] : -amp[0], opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (d: number) => (rm || d === 0 ? { opacity: 0, x: 0 } : { x: d > 0 ? -32 : 32, opacity: 0 }),
+    exit: (d: number) => (rm ? { opacity: 0, x: 0 } : { x: d > 0 ? -amp[1] : amp[1], opacity: 0 }),
   };
   return (
     <AnimatePresence initial={false} custom={dir} mode="popLayout">
       <motion.div key={current} custom={dir} variants={variants} initial="enter" animate="center" exit="exit"
-        transition={{ duration: dir === 0 ? 0.2 : 0.28, ease: [0.2, 0.8, 0.2, 1] }} style={{ position: 'absolute', inset: 0 }}>
+        transition={{ duration: tabSwitch ? 0.24 : 0.3, ease: [0.2, 0.8, 0.2, 1] }} style={{ position: 'absolute', inset: 0, willChange: 'transform, opacity' }}>
         <Comp />
       </motion.div>
     </AnimatePresence>
