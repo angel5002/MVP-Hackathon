@@ -187,3 +187,4 @@ Formato: cada entrada indica **qué** se decidió, **por qué** y **alternativas
 - **Por qué:** el usuario mostró Perfil y Documentos con textos descuadrados (dos sangrías distintas según la fila estuviera o no dentro de una tarjeta) y pantallas saturadas, señaló que el pájaro no se parecía a la referencia y pidió recuperar el fondo de color de la tarjeta superior del ingreso.
 - **Color del pájaro:** en la tarjeta navy va en blanco roto (`#F5F5F2`) porque la silueta negra de la referencia no tendría contraste sobre ese fondo; la forma es la que se conserva fiel.
 - **Ajustes tras revisión:** cola corta recortada por el borde y pies iguales en el pájaro; ondas de la teleconsulta ancladas al avatar y detrás del contenido.
+- **Segunda pasada del pájaro (11 sep):** el usuario señaló que el pecho tenía "panza"; se recalcó el contorno desde la referencia (lomo convexo, pecho recto, vientre en arco amplio, cola recortada, patas como dos palitos sin pies).

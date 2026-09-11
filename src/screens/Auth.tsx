@@ -15,12 +15,12 @@ export function Login() {
       <section className="intro" aria-label="Bienvenida">
         <div className="hero__glow" />
         <motion.div className="intro__text" initial={{ opacity: 0, y: rm ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}>
-          <Icon name="logo" size={28} color="var(--c-acento)" className="intro__logo" />
+          <Icon name="logo" size={24} color="var(--c-acento)" className="intro__logo" />
           <h1 className="intro__h">hola, soy PAUSA.<br />tu compañía para<br />parar a tiempo.</h1>
-          <p className="cap mt-3">por Pacífico Seguros</p>
+          <p className="cap mt-2">por Pacífico Seguros</p>
         </motion.div>
         <motion.div className="intro__bird" initial={{ opacity: 0, x: rm ? 0 : -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.25, ease: [0.2, 0.8, 0.2, 1] }}>
-          <Bird size={180} color="#F5F5F2" eye="#0F2E40" />
+          <Bird size={190} color="#F5F5F2" eye="#0F2E40" />
         </motion.div>
       </section>
 
