@@ -36,7 +36,7 @@ export function Viewer() {
         <motion.div className="viewer" role="dialog" aria-modal="true" aria-label={viewerDoc === 'aviso' ? 'Aviso de ausencia' : 'Certificado de descanso médico'}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
           <motion.div className="viewer__paper" initial={{ y: rm ? 0 : 24 }} animate={{ y: 0 }} transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }} dangerouslySetInnerHTML={{ __html: svg }} />
-          {!state.tramiteListo && <p className="cap center" style={{ color: '#fff', padding: '12px 20px 0' }}>La descarga se habilita al terminar el trámite.</p>}
+          {!state.tramiteListo && <p className="cap center" style={{ padding: '12px 20px 0' }}>La descarga se habilita al terminar el trámite.</p>}
           <div className="viewer__acts">
             <Button variant="tonal" onClick={() => setViewerDoc(null)}>Cerrar</Button>
             <Button variant="primary" disabled={!state.tramiteListo || ocupado} onClick={() => void descargar(viewerDoc)}>

@@ -82,19 +82,30 @@ console.log('tras Descargar:', topShare);
 sh(`monkey -p ${PKG} -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1`); await p.waitForTimeout(1500);
 await click('Avisar a tu empleador'); await shot('empleador');
 await p.getByRole('checkbox').click(); await click('Continuar'); await shot('correo');
-// Botón atrás de la app (barra superior) y navegación de vuelta
-await p.getByRole('button', { name: 'Atrás' }).last().click(); await p.waitForTimeout(600);
-await p.getByRole('button', { name: 'Atrás' }).last().click(); await p.waitForTimeout(600);
+// Botón atrás FÍSICO (keyevent 4): en Correo debe volver a Empleador y luego a Proceso, sin cerrar la app
+const backFisico = (() => { try { sh('input keyevent 4'); return true; } catch { return false; } });
+const atras1 = backFisico(); await p.waitForTimeout(800); await shot('atras-fisico-1');
+const pantallaTrasAtras1 = await p.evaluate(() => document.querySelector('.h1')?.textContent ?? '');
+const atras2 = backFisico(); await p.waitForTimeout(800); await shot('atras-fisico-2');
+const pantallaTrasAtras2 = await p.evaluate(() => document.querySelector('.h1, .display')?.textContent ?? '');
 await click('Volver al inicio'); await p.waitForTimeout(1500); await shot('inicio-en-pausa');
 await tab('Documentos'); await shot('documentos');
 await tab('Citas'); await shot('citas');
 await tab('Perfil'); await shot('perfil');
+await tab('Inicio'); await p.waitForTimeout(800);
+// Atrás físico en la raíz: la app debe minimizarse y seguir viva
+backFisico(); await p.waitForTimeout(1500);
+const topTrasRaiz = sh('dumpsys activity activities | grep -E "ResumedActivity" | head -1').trim();
+const pidTrasRaiz = sh(`pidof ${PKG}`).trim();
+const imagenRaiz = execFileSync(ADB, ['exec-out', 'screencap', '-p'], { maxBuffer: 64 * 1024 * 1024 }); writeFileSync(resolve(out, `${String(n + 1).padStart(2, '0')}-tras-atras-en-raiz.png`), imagenRaiz);
+const pruebaAtras = { inyeccionDisponible: atras1 && atras2, pantallaTrasAtras1, pantallaTrasAtras2, topTrasRaiz, appVivaTrasRaiz: pidTrasRaiz === pid || !!pidTrasRaiz };
+console.log('botón atrás:', JSON.stringify(pruebaAtras));
 
 const log = adb('logcat', '-d', '-v', 'time');
 const filtrado = log.split('\n').filter((l) => /Capacitor|Console|chromium|AndroidRuntime.*(E\/|FATAL)|pe\.pausa|WebView|Share|Haptic/.test(l));
 const logErrores = filtrado.filter((l) => /\bE\//.test(l) && /Capacitor|Console|chromium|pe\.pausa/.test(l));
 writeFileSync(resolve(out, 'logcat.txt'), filtrado.join('\n'));
-const resumen = { dispositivo: `${modelo} · Android ${android}`, webview: p.url(), insets, capturas: informe, erroresJs: errores, erroresLogcat: logErrores.slice(0, 30), actividadTrasDescargar: topShare };
+const resumen = { dispositivo: `${modelo} · Android ${android}`, webview: p.url(), insets, capturas: informe, erroresJs: errores, erroresLogcat: logErrores.slice(0, 30), actividadTrasDescargar: topShare, pruebaAtras };
 writeFileSync(resolve(out, 'resumen.json'), JSON.stringify(resumen, null, 2));
 console.log(JSON.stringify({ erroresJs: errores, erroresLogcat: logErrores.slice(0, 10), actividadTrasDescargar: topShare }, null, 1));
 await b.close();

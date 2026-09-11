@@ -1,23 +1,54 @@
-WebView: https://localhost/ · pid 25828 · 25100RA69G Android 16
-insets {"top":"0px","bottom":"0px","viewport":"384x810","dpr":2.8125,"nativo":true}
-node:internal/modules/run_main:107
-    triggerUncaughtException(
-    ^
-
-page.screenshot: Timeout 30000ms exceeded.
-Call log:
-[2m  - taking page screenshot[22m
-[2m  - waiting for fonts to load...[22m
-[2m  - fonts loaded[22m
-
-    at shot (E:\General_Carpetas\Proyectos Borrables\MVP Hackathon\scripts\qa-dispositivo.mjs:38:11)
-    at async file:///E:/General_Carpetas/Proyectos%20Borrables/MVP%20Hackathon/scripts/qa-dispositivo.mjs:47:1 {
-  log: [
-    '  - taking page screenshot',
-    '  - waiting for fonts to load...',
-    '  - fonts loaded'
-  ],
-  name: 'TimeoutError'
+WebView: https://localhost/ · pid 7649 · 25100RA69G Android 16
+insets {"top":"39px","bottom":"47px","viewport":"384x850","dpr":2.8125,"nativo":true}
+captura 01-ingreso.png
+captura 02-reloj.png
+captura 03-inicio.png
+captura 04-inicio-alerta.png
+captura 05-ayuda.png
+captura 06-loader-inhala.png
+captura 07-loader-exhala.png
+captura 08-medico.png
+captura 09-pre-intro.png
+captura 10-pre-1.png
+captura 11-pre-resultado.png
+captura 12-cita-confirmada.png
+captura 13-sala-espera.png
+captura 14-sala-lista.png
+captura 15-teleconsulta.png
+captura 16-finalizar-sheet.png
+captura 17-evaluacion.png
+captura 18-emitiendo.png
+captura 19-certificado.png
+captura 20-visor.png
+captura 21-tramite.png
+captura 22-proceso.png
+Failed to write while dumping service activity: Broken pipe
+tras Descargar: topResumedActivity=ActivityRecord{67471100 u0 com.android.intentresolver/.ChooserActivity t3500}
+captura 23-empleador.png
+captura 24-correo.png
+captura 25-atras-fisico-1.png
+captura 26-atras-fisico-2.png
+captura 27-inicio-en-pausa.png
+captura 28-documentos.png
+captura 29-citas.png
+captura 30-perfil.png
+Failed to write while dumping service activity: Broken pipe
+botón atrás: {"inyeccionDisponible":true,"pantallaTrasAtras1":"Tu empleador verá esto","pantallaTrasAtras2":"7 días","topTrasRaiz":"topResumedActivity=ActivityRecord{256228483 u0 com.miui.home/.launcher.Launcher t2}","appVivaTrasRaiz":true}
+{
+ "erroresJs": [
+  "{message: Share canceled}"
+ ],
+ "erroresLogcat": [
+  "09-11 01:37:20.783 E/Zygote  ( 7649): process_name_ptr:7649 pe.pausa.hackathon\r",
+  "09-11 01:37:20.783 E/Zygote  ( 7649): SetMemoryProtected process_name_ptr:7649 pe.pausa.hackathon\r",
+  "09-11 01:37:20.809 E/ActivityManagerWrapper( 2698):  mainTaskId=3500   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 01:37:20.892 E/ActivityManagerWrapper( 2698):  mainTaskId=3500   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 01:37:20.923 E/ActivityManagerWrapper( 2698):  mainTaskId=3500   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 01:37:21.728 E/MiuiPreloadClassImpl( 9966): preloadPkgs is null, packageName: com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0\r",
+  "09-11 01:37:22.251 E/ActivityManagerWrapper( 2698):  mainTaskId=3500   userId=0   windowMode=1   isExcludedFromRecents=false   baseIntent=Intent { act=android.intent.action.MAIN flag=270532608 cmp=ComponentInfo{pe.pausa.hackathon/pe.pausa.hackathon.MainActivity} }\r",
+  "09-11 01:37:25.587 E/HyperSentinel( 2241): ->pid:7649,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 307216kb -> 394176kb\r",
+  "09-11 01:39:13.273 E/HyperSentinel( 2241): ->pid:7649,processName:\"pe.pausa.hackathon\",Rss Memory Size Change 394176kb -> 508212kb\r",
+  "09-11 01:39:13.731 E/TransitionChain( 2241):    ChangeInfo{74d0d83 container=Task{ec98a2d #3500 type=standard A=10380:pe.pausa.hackathon} flags=0x0}\r"
+ ],
+ "actividadTrasDescargar": "topResumedActivity=ActivityRecord{67471100 u0 com.android.intentresolver/.ChooserActivity t3500}"
 }
-
-Node.js v24.13.0

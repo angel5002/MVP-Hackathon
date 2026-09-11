@@ -46,7 +46,7 @@ img, svg { display: block; }
   padding: 0 calc(var(--margen) + var(--sa-right)) var(--s-6) calc(var(--margen) + var(--sa-left));
   -webkit-overflow-scrolling: touch;
 }
-.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-4)); }
+.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-6)); scroll-padding-bottom: calc(var(--cta-h) + var(--s-6)); }
 .screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--s-4)); }
 .screen__scroll--cta.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--cta-h) + var(--s-4)); }
 .screen--center .screen__scroll { display: flex; flex-direction: column; justify-content: center; }
@@ -62,7 +62,9 @@ img, svg { display: block; }
   padding: var(--s-3) calc(var(--margen) + var(--sa-right)) calc(var(--s-3) + var(--sa-bottom)) calc(var(--margen) + var(--sa-left));
   background: var(--c-fondo);
   box-shadow: 0 -12px 12px -12px rgba(0, 59, 92, .10);
+  pointer-events: none; /* el contenido que asoma debajo sigue siendo tocable */
 }
+.cta > * { pointer-events: auto; }
 .cta--tabs { bottom: calc(var(--tabbar-h) + var(--sa-bottom)); padding-bottom: var(--s-3); box-shadow: none; }
 
 /* Barra de pestañas */
@@ -200,7 +202,7 @@ img, svg { display: block; }
 .sheet__handle { width: 32px; height: 4px; border-radius: 2px; background: var(--c-contorno); margin: 0 auto var(--s-4); }
 .icon-round { width: 48px; height: 48px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; margin-bottom: var(--s-3); }
 .icon-round svg { width: 24px; height: 24px; }
-.viewer { position: absolute; inset: 0; z-index: 30; background: var(--c-scrim); display: flex; flex-direction: column; padding-top: var(--sa-top); }
+.viewer { position: absolute; inset: 0; z-index: 30; background: var(--c-fondo); display: flex; flex-direction: column; padding-top: var(--sa-top); }
 .viewer__paper { margin: var(--s-4) var(--margen) 0; flex: 1; min-height: 0; background: #fff; border-radius: var(--r-lg); overflow: auto; box-shadow: var(--e-2); }
 .viewer__paper svg { width: 100%; height: auto; display: block; }
 .viewer__acts { display: flex; gap: var(--s-2); padding: var(--s-3) var(--margen) calc(var(--s-4) + var(--sa-bottom)); }
