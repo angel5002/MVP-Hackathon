@@ -31,8 +31,8 @@ img, svg { display: block; }
 /* ---- Marco ---- */
 .app { position: relative; height: 100%; width: 100%; overflow: hidden; background: var(--c-fondo); }
 .screen { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--c-fondo); padding-top: var(--sa-top); }
-.screen__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 calc(var(--margen) + var(--sa-right)) var(--s-6) calc(var(--margen) + var(--sa-left)); -webkit-overflow-scrolling: touch; }
-.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-6)); scroll-padding-bottom: calc(var(--cta-h) + var(--s-6)); }
+.screen__scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 calc(var(--margen) + var(--sa-right)) calc(var(--s-6) + var(--sa-bottom)) calc(var(--margen) + var(--sa-left)); -webkit-overflow-scrolling: touch; }
+.screen__scroll--cta { padding-bottom: calc(var(--cta-h) + var(--s-6) + var(--sa-bottom)); scroll-padding-bottom: calc(var(--cta-h) + var(--s-6) + var(--sa-bottom)); }
 .screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--s-5)); }
 .screen__scroll--cta.screen__scroll--tabs { padding-bottom: calc(var(--tabbar-h) + var(--sa-bottom) + var(--cta-h) + var(--s-4)); }
 .screen--center .screen__scroll { display: flex; flex-direction: column; justify-content: center; }
