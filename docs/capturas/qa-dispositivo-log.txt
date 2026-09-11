@@ -1,0 +1,23 @@
+WebView: https://localhost/ · pid 25828 · 25100RA69G Android 16
+insets {"top":"0px","bottom":"0px","viewport":"384x810","dpr":2.8125,"nativo":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.screenshot: Timeout 30000ms exceeded.
+Call log:
+[2m  - taking page screenshot[22m
+[2m  - waiting for fonts to load...[22m
+[2m  - fonts loaded[22m
+
+    at shot (E:\General_Carpetas\Proyectos Borrables\MVP Hackathon\scripts\qa-dispositivo.mjs:38:11)
+    at async file:///E:/General_Carpetas/Proyectos%20Borrables/MVP%20Hackathon/scripts/qa-dispositivo.mjs:47:1 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.13.0
